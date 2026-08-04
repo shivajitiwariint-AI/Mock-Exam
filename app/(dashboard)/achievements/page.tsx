@@ -1,0 +1,16 @@
+function ComingSoon({ icon, title, description }: { icon: string; title: string; description: string }) {
+  return (
+    <div className="flex flex-col items-center justify-center py-20 text-center">
+      <span className="text-6xl mb-4">{icon}</span>
+      <h2 className="text-2xl font-bold text-slate-800 mb-2">{title}</h2>
+      <p className="text-slate-500 max-w-md">{description}</p>
+      <span className="mt-4 inline-flex items-center rounded-full bg-amber-100 px-3 py-1 text-sm font-medium text-amber-800">
+        Coming Soon
+      </span>
+    </div>
+  )
+}
+
+export default function AchievementsPage() {
+  return <ComingSoon icon="🌟" title="Achievements" description="Earn badges, hit milestones, level up. Coming in Phase 7." />
+}
