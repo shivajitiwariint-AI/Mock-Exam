@@ -26,15 +26,18 @@ export default function HealthLogForm({ existingLog, defaultDate, onSaved }: Pro
     setSaving(true)
     setError('')
     try {
-      const body: Record<string, unknown> = { date }
+      const url = existingLog ? `/api/health/logs/${existingLog.id}` : '/api/health/logs'
+      const method = existingLog ? 'PUT' : 'POST'
+      // For PUT, omit the date since updateHealthLogSchema doesn't accept date
+      const body: Record<string, unknown> = existingLog ? {} : { date }
       if (exerciseMins !== '') body.exerciseMins = parseInt(exerciseMins, 10)
       if (sleepHours !== '') body.sleepHours = parseFloat(sleepHours)
       if (waterGlasses !== '') body.waterGlasses = parseInt(waterGlasses, 10)
       if (weightKg !== '') body.weightKg = parseFloat(weightKg)
       if (notes.trim()) body.notes = notes.trim()
 
-      const res = await fetch('/api/health/logs', {
-        method: 'POST',
+      const res = await fetch(url, {
+        method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       })

@@ -142,11 +142,11 @@ export default function MeditationPage() {
           )}
 
           {/* Recent History */}
-          {logs.length > 0 && (
+          {logs.filter((l) => l.date.split('T')[0] !== today).length > 0 && (
             <section>
-              <h2 className="font-semibold text-slate-800 mb-3">Recent Sessions (7 days)</h2>
+              <h2 className="font-semibold text-slate-800 mb-3">Earlier Sessions</h2>
               <div className="space-y-3">
-                {logs.slice(0, 10).map((log) => (
+                {logs.filter((l) => l.date.split('T')[0] !== today).slice(0, 10).map((log) => (
                   <MeditationLogCard
                     key={log.id}
                     log={log}
