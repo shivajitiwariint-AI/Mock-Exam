@@ -214,3 +214,37 @@ export type ExperienceWithRounds = ExperienceData & {
   rounds: RoundData[]
   company: { id: number; name: string } | null
 }
+
+// ─── Goals ─────────────────────────────────────────────────────────────────────
+
+export type GoalData = {
+  id: number
+  userId: number
+  parentId: number | null
+  type: 'LIFE' | 'ANNUAL' | 'MONTHLY' | 'WEEKLY' | 'DAILY'
+  title: string
+  description: string | null
+  targetDate: string | null
+  status: 'ACTIVE' | 'COMPLETED' | 'ARCHIVED'
+  order: number
+  createdAt: string
+  updatedAt: string
+}
+
+export type GoalWithChildren = GoalData & {
+  children: GoalData[]
+}
+
+export type GoalProgressData = {
+  id: number
+  goalId: number
+  userId: number
+  date: string
+  completed: boolean
+  notes: string | null
+  createdAt: string
+}
+
+export type DailyGoalWithProgress = GoalData & {
+  progress: GoalProgressData | null
+}
