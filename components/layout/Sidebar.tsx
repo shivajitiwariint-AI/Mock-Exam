@@ -13,6 +13,7 @@ const navItems = [
   { href: '/meditation', label: 'Meditation', icon: '🧘' },
   { href: '/analytics', label: 'Analytics', icon: '📊' },
   { href: '/achievements', label: 'Achievements', icon: '🌟' },
+  { href: '/coach', label: 'AI Coach', icon: '🤖' },
 ]
 
 type SidebarProps = {
