@@ -1,27 +1,29 @@
 import { prisma } from '@/lib/prisma'
 
 export async function calculateEducationScore(userId: number): Promise<number> {
-  const results = await prisma.examResult.findMany({
-    where: { userId },
-    select: { score: true },
-  })
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  const sevenDaysAgo = new Date(today)
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6)
 
-  const examScore =
-    results.length > 0
-      ? results.reduce((sum, r) => sum + r.score, 0) / results.length
-      : 0
+  const [examStats, studySessions] = await Promise.all([
+    prisma.examResult.aggregate({
+      where: { userId },
+      _avg: { score: true },
+    }),
+    prisma.studySession.findMany({
+      where: { userId, createdAt: { gte: sevenDaysAgo } },
+      select: { createdAt: true },
+    }),
+  ])
 
-  const sevenDaysAgo = new Date()
-  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
+  const avgExamScore = examStats._avg.score ?? 0
 
-  const recentSessions = await prisma.studySession.findMany({
-    where: { userId, createdAt: { gte: sevenDaysAgo } },
-    select: { durationMins: true },
-  })
+  const studyDays = new Set(
+    studySessions.map((s) => s.createdAt.toISOString().split('T')[0])
+  ).size
+  const studyConsistency = studyDays / 7
 
-  const totalStudyMins = recentSessions.reduce((sum, s) => sum + s.durationMins, 0)
-  const studyScore = Math.min((totalStudyMins / 1200) * 100, 100)
-
-  const final = Math.round(examScore * 0.6 + studyScore * 0.4)
+  const final = Math.round(avgExamScore * 0.7 + studyConsistency * 100 * 0.3)
   return Math.max(0, Math.min(100, final))
 }

@@ -275,3 +275,14 @@ export type MeditationLogData = {
   createdAt: string
   updatedAt: string
 }
+
+// ─── Growth Score ─────────────────────────────────────────────────────────────
+
+export type GrowthScoreBreakdown = {
+  total: number
+  education: number
+  career: number
+  interviewReadiness: number
+  health: number
+  meditation: number
+}
