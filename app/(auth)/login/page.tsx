@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -14,7 +14,7 @@ import type { ToastType } from '@/types'
 
 type ToastState = { message: string; type: ToastType } | null
 
-export default function LoginPage() {
+function LoginContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const fetchUser = useUserStore((s) => s.fetchUser)
@@ -88,5 +88,13 @@ export default function LoginPage() {
         </p>
       </div>
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="w-full max-w-sm"><div className="rounded-2xl bg-white p-8 shadow-xl animate-pulse h-80" /></div>}>
+      <LoginContent />
+    </Suspense>
   )
 }

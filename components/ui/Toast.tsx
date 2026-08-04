@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import type { ToastType } from '@/types'
 
 type ToastProps = {
@@ -23,20 +23,19 @@ const typeIcons: Record<ToastType, string> = {
 }
 
 export default function Toast({ message, type, onDismiss, duration = 3000 }: ToastProps) {
+  const dismissRef = useRef(onDismiss)
+  dismissRef.current = onDismiss
+
   useEffect(() => {
-    const timer = setTimeout(onDismiss, duration)
+    const timer = setTimeout(() => dismissRef.current(), duration)
     return () => clearTimeout(timer)
-  }, [onDismiss, duration])
+  }, [duration])
 
   return (
-    <div
-      className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 rounded-lg px-4 py-3 shadow-lg ${typeClasses[type]}`}
-    >
+    <div className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 rounded-lg px-4 py-3 shadow-lg ${typeClasses[type]}`}>
       <span className="text-sm font-semibold">{typeIcons[type]}</span>
       <span className="text-sm">{message}</span>
-      <button onClick={onDismiss} className="ml-2 text-sm opacity-75 hover:opacity-100">
-        ✕
-      </button>
+      <button onClick={onDismiss} className="ml-2 text-sm opacity-75 hover:opacity-100">✕</button>
     </div>
   )
 }
