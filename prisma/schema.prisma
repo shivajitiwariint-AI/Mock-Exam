@@ -84,6 +84,8 @@ model User {
   interviewExperiences InterviewExperience[]
   goals        Goal[]
   goalProgress GoalProgress[]
+  healthLogs      HealthLog[]
+  meditationLogs  MeditationLog[]
 }
 
 model UserProfile {
@@ -385,4 +387,39 @@ model GoalProgress {
   @@index([userId])
   @@index([goalId])
   @@map("goal_progress")
+}
+
+model HealthLog {
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  date         DateTime @db.Date
+  exerciseMins Int?
+  sleepHours   Float?
+  waterGlasses Int?
+  weightKg     Float?
+  notes        String?  @db.Text
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date])
+  @@index([userId])
+  @@map("health_logs")
+}
+
+model MeditationLog {
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  date         DateTime @db.Date
+  durationMins Int
+  reflection   String?  @db.Text
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([date])
+  @@map("meditation_logs")
 }
