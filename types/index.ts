@@ -248,3 +248,30 @@ export type GoalProgressData = {
 export type DailyGoalWithProgress = GoalData & {
   progress: GoalProgressData | null
 }
+
+// ─── Health ───────────────────────────────────────────────────────────────────
+
+export type HealthLogData = {
+  id: number
+  userId: number
+  date: string
+  exerciseMins: number | null
+  sleepHours: number | null
+  waterGlasses: number | null
+  weightKg: number | null
+  notes: string | null
+  createdAt: string
+  updatedAt: string
+}
+
+// ─── Meditation ────────────────────────────────────────────────────────────────
+
+export type MeditationLogData = {
+  id: number
+  userId: number
+  date: string
+  durationMins: number
+  reflection: string | null
+  createdAt: string
+  updatedAt: string
+}
