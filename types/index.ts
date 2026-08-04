@@ -140,3 +140,77 @@ export type StudySessionData = {
   notes: string | null
   createdAt: string
 }
+
+// ─── Interview ─────────────────────────────────────────────────────────────────
+
+export type CompanyData = {
+  id: number
+  userId: number
+  name: string
+  website: string | null
+  industry: string | null
+  notes: string | null
+  createdAt: string
+  updatedAt: string
+}
+
+export type CompanyWithCounts = CompanyData & {
+  _count: { jobDescs: number; questions: number; experiences: number }
+}
+
+export type JobDescriptionData = {
+  id: number
+  companyId: number
+  role: string
+  jdText: string
+  requiredSkills: string[]
+  createdAt: string
+  updatedAt: string
+}
+
+export type JobDescriptionWithQuestionCount = JobDescriptionData & {
+  _count: { questions: number }
+}
+
+export type InterviewQuestionData = {
+  id: number
+  userId: number
+  companyId: number | null
+  jdId: number | null
+  source: 'MANUAL' | 'AI_JD' | 'EXPERIENCE'
+  category: 'TECHNICAL' | 'BEHAVIORAL' | 'SYSTEM_DESIGN' | 'CODING' | 'HR'
+  question: string
+  answer: string | null
+  difficulty: 'EASY' | 'MEDIUM' | 'HARD'
+  whyAsked: string | null
+  practiced: boolean
+  createdAt: string
+  updatedAt: string
+}
+
+export type ExperienceData = {
+  id: number
+  userId: number
+  companyId: number | null
+  role: string
+  date: string
+  status: 'APPLIED' | 'SCREENING' | 'INTERVIEWING' | 'OFFER' | 'REJECTED' | 'WITHDRAWN'
+  notes: string | null
+  createdAt: string
+  updatedAt: string
+}
+
+export type RoundData = {
+  id: number
+  experienceId: number
+  type: 'HR' | 'TECHNICAL' | 'SYSTEM_DESIGN' | 'CODING' | 'BEHAVIORAL' | 'CASE_STUDY'
+  roundNumber: number
+  notes: string | null
+  outcome: string | null
+  createdAt: string
+}
+
+export type ExperienceWithRounds = ExperienceData & {
+  rounds: RoundData[]
+  company: { id: number; name: string } | null
+}
