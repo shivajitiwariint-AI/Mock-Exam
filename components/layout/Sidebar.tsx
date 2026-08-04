@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 
 const navItems = [
@@ -59,7 +60,7 @@ export default function Sidebar({ userName, userAvatar, growthScore }: SidebarPr
         <div className="flex items-center gap-3 mb-3">
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-accent/20 text-accent font-semibold text-sm">
             {userAvatar ? (
-              <img src={userAvatar} alt={userName} className="h-8 w-8 rounded-full object-cover" />
+              <Image src={userAvatar} alt={userName} width={32} height={32} className="rounded-full object-cover" />
             ) : (
               userName.charAt(0).toUpperCase()
             )}
