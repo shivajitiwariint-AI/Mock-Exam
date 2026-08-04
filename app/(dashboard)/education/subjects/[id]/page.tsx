@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
-import type { SubjectData, TopicWithCounts, StudySessionData } from '@/types'
+import type { SubjectData, TopicWithCounts } from '@/types'
 import TopicRow from '@/components/education/TopicRow'
 import SubjectModal from '@/components/education/SubjectModal'
 import StudySessionModal from '@/components/education/StudySessionModal'
@@ -71,7 +71,7 @@ export default function SubjectDetailPage() {
     router.push('/education')
   }
 
-  const handleSessionSaved = (_session: StudySessionData) => {
+  const handleSessionSaved = () => {
     // no-op: session saved, no state update needed here
   }
 

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import type { SubjectWithCounts, SubjectData, StudySessionData } from '@/types'
+import type { SubjectWithCounts, SubjectData } from '@/types'
 import SubjectCard from '@/components/education/SubjectCard'
 import SubjectModal from '@/components/education/SubjectModal'
 import StudySessionModal from '@/components/education/StudySessionModal'
@@ -62,7 +62,7 @@ export default function EducationPage() {
     setShowSubjectModal(true)
   }
 
-  const handleSessionSaved = (_session: StudySessionData) => {
+  const handleSessionSaved = () => {
     void loadSubjects()
   }
 
