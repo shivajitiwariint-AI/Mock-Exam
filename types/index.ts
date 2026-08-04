@@ -286,3 +286,15 @@ export type GrowthScoreBreakdown = {
   health: number
   meditation: number
 }
+
+// ─── Achievements ─────────────────────────────────────────────────────────────
+
+export type AchievementData = {
+  key: string
+  label: string
+  description: string
+  category: 'education' | 'goals' | 'health' | 'meditation' | 'interview' | 'growth'
+  icon: string
+  earned: boolean
+  earnedAt: string | null
+}

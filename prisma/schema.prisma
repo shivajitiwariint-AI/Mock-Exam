@@ -86,6 +86,7 @@ model User {
   goalProgress GoalProgress[]
   healthLogs      HealthLog[]
   meditationLogs  MeditationLog[]
+  userAchievements UserAchievement[]
 }
 
 model UserProfile {
@@ -422,4 +423,16 @@ model MeditationLog {
   @@index([userId])
   @@index([date])
   @@map("meditation_logs")
+}
+
+model UserAchievement {
+  id       Int      @id @default(autoincrement())
+  userId   Int
+  key      String   @db.VarChar(50)
+  earnedAt DateTime @default(now())
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, key])
+  @@index([userId])
+  @@map("user_achievements")
 }
