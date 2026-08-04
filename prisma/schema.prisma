@@ -19,6 +19,38 @@ enum Difficulty {
   HARD
 }
 
+enum InterviewQuestionSource {
+  MANUAL
+  AI_JD
+  EXPERIENCE
+}
+
+enum InterviewQuestionCategory {
+  TECHNICAL
+  BEHAVIORAL
+  SYSTEM_DESIGN
+  CODING
+  HR
+}
+
+enum InterviewRoundType {
+  HR
+  TECHNICAL
+  SYSTEM_DESIGN
+  CODING
+  BEHAVIORAL
+  CASE_STUDY
+}
+
+enum ExperienceStatus {
+  APPLIED
+  SCREENING
+  INTERVIEWING
+  OFFER
+  REJECTED
+  WITHDRAWN
+}
+
 model User {
   id            Int            @id @default(autoincrement())
   email         String         @unique
@@ -32,7 +64,10 @@ model User {
   questions     Question[]
   exams         Exam[]
   examResults   ExamResult[]
-  studySessions StudySession[]
+  studySessions        StudySession[]
+  interviewCompanies   InterviewCompany[]
+  interviewQuestions   InterviewQuestion[]
+  interviewExperiences InterviewExperience[]
 }
 
 model UserProfile {
@@ -209,4 +244,88 @@ model StudySession {
 
   @@index([userId])
   @@map("study_sessions")
+}
+
+model InterviewCompany {
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  name         String   @db.VarChar(150)
+  website      String?  @db.VarChar(255)
+  industry     String?  @db.VarChar(100)
+  notes        String?  @db.Text
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobDescs     JobDescription[]
+  questions    InterviewQuestion[]
+  experiences  InterviewExperience[]
+  @@index([userId])
+  @@map("interview_companies")
+}
+
+model JobDescription {
+  id             Int      @id @default(autoincrement())
+  companyId      Int
+  role           String   @db.VarChar(150)
+  jdText         String   @db.LongText
+  requiredSkills Json
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  company        InterviewCompany    @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  questions      InterviewQuestion[]
+  @@index([companyId])
+  @@map("job_descriptions")
+}
+
+model InterviewQuestion {
+  id         Int                        @id @default(autoincrement())
+  userId     Int
+  companyId  Int?
+  jdId       Int?
+  source     InterviewQuestionSource    @default(MANUAL)
+  category   InterviewQuestionCategory  @default(TECHNICAL)
+  question   String                     @db.Text
+  answer     String?                    @db.LongText
+  difficulty Difficulty
+  whyAsked   String?                    @db.Text
+  practiced  Boolean                    @default(false)
+  createdAt  DateTime                   @default(now())
+  updatedAt  DateTime                   @updatedAt
+  user       User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company    InterviewCompany? @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  jd         JobDescription?   @relation(fields: [jdId], references: [id], onDelete: SetNull)
+  @@index([userId])
+  @@index([companyId])
+  @@index([jdId])
+  @@map("interview_questions")
+}
+
+model InterviewExperience {
+  id        Int              @id @default(autoincrement())
+  userId    Int
+  companyId Int?
+  role      String           @db.VarChar(150)
+  date      DateTime         @db.Date
+  status    ExperienceStatus @default(INTERVIEWING)
+  notes     String?          @db.Text
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company   InterviewCompany? @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  rounds    InterviewRound[]
+  @@index([userId])
+  @@map("interview_experiences")
+}
+
+model InterviewRound {
+  id           Int                @id @default(autoincrement())
+  experienceId Int
+  type         InterviewRoundType @default(TECHNICAL)
+  roundNumber  Int                @default(1)
+  notes        String?            @db.Text
+  outcome      String?            @db.VarChar(50)
+  createdAt    DateTime           @default(now())
+  experience   InterviewExperience @relation(fields: [experienceId], references: [id], onDelete: Cascade)
+  @@index([experienceId])
+  @@map("interview_rounds")
 }
