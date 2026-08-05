@@ -3,12 +3,12 @@ import { z } from 'zod'
 const optionalDateStr = z.preprocess(
   (v) => (v === '' || v === null || v === undefined ? undefined : v),
   z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date must be YYYY-MM-DD').optional()
-)
+) as z.ZodType<string | undefined>
 
 const optionalPosInt = z.preprocess(
   (v) => (v === null || v === undefined || v === '' || (typeof v === 'number' && isNaN(v))) ? undefined : Number(v),
   z.number().int().positive().optional()
-)
+) as z.ZodType<number | undefined>
 
 export const createGoalSchema = z.object({
   type: z.enum(['LIFE', 'ANNUAL', 'MONTHLY', 'WEEKLY', 'DAILY']),

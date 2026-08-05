@@ -3,7 +3,7 @@ import { z } from 'zod'
 const optionalPosInt = z.preprocess(
   (v) => (v === null || v === undefined || v === '' || (typeof v === 'number' && isNaN(v))) ? undefined : Number(v),
   z.number().int().positive().optional()
-)
+) as z.ZodType<number | undefined>
 
 export const createSubjectSchema = z.object({
   name: z.string().min(1).max(100),

@@ -24,7 +24,8 @@ export default function GoalModal({ goal, defaultType, defaultParentId, onClose,
 
   const { register, handleSubmit, formState: { errors, isSubmitting } } =
     useForm<FormData>({
-      resolver: zodResolver(createGoalSchema),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      resolver: zodResolver(createGoalSchema) as any,
       defaultValues: {
         type: goal?.type ?? defaultType ?? 'DAILY',
         title: goal?.title ?? '',

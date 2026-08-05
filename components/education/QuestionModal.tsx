@@ -25,7 +25,8 @@ export default function QuestionModal({ topicId, subtopicId, question, onClose, 
 
   const { register, handleSubmit, watch, setValue, control, formState: { errors, isSubmitting } } =
     useForm<FormData>({
-      resolver: zodResolver(createQuestionSchema),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      resolver: zodResolver(createQuestionSchema) as any,
       defaultValues: {
         topicId,
         subtopicId,

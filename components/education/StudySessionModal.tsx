@@ -29,7 +29,8 @@ export default function StudySessionModal({ subjectId, topicId, onClose, onSave 
     watch,
     formState: { errors, isSubmitting },
   } = useForm<FormData>({
-    resolver: zodResolver(createStudySessionSchema),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: zodResolver(createStudySessionSchema) as any,
     defaultValues: {
       subjectId,
       topicId,
