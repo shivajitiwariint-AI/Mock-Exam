@@ -89,3 +89,12 @@ export const GoalStatus = {
 } as const
 
 export type GoalStatus = (typeof GoalStatus)[keyof typeof GoalStatus]
+
+
+export const ScheduleStatus = {
+  DONE: 'DONE',
+  SKIPPED: 'SKIPPED',
+  PARTIAL: 'PARTIAL'
+} as const
+
+export type ScheduleStatus = (typeof ScheduleStatus)[keyof typeof ScheduleStatus]

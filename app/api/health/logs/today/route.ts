@@ -7,8 +7,9 @@ import { getUserFromRequest } from '@/lib/auth'
 export async function GET(request: NextRequest) {
   const user = await getUserFromRequest(request)
 
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
+  const now = new Date()
+  const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
+  const today = new Date(dateStr)
 
   const log = await prisma.healthLog.findUnique({
     where: { userId_date: { userId: user.userId, date: today } },

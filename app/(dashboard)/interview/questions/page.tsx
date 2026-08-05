@@ -17,6 +17,8 @@ function QuestionsContent() {
   const [companies, setCompanies] = useState<CompanyData[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [showAddModal, setShowAddModal] = useState(false)
+  const [typeFilter, setTypeFilter] = useState<'all' | 'general' | 'company'>('all')
+  const [companyFilter, setCompanyFilter] = useState('')
 
   // Add question form state
   const [qText, setQText] = useState('')
@@ -86,6 +88,16 @@ function QuestionsContent() {
 
   const practicedCount = questions.filter((q) => q.practiced).length
 
+  const filteredQuestions = questions.filter((q) => {
+    if (typeFilter === 'general') return !q.companyId
+    if (typeFilter === 'company') {
+      if (companyFilter) return String(q.companyId) === companyFilter
+      return !!q.companyId
+    }
+    if (companyFilter) return String(q.companyId) === companyFilter
+    return true
+  })
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -99,9 +111,35 @@ function QuestionsContent() {
         <Button onClick={() => setShowAddModal(true)}>+ Add Question</Button>
       </div>
 
+      {/* Filter Bar */}
+      <div className="flex flex-wrap items-center gap-3">
+        <div className="flex gap-1 bg-slate-100 rounded-xl p-1">
+          {(['all', 'general', 'company'] as const).map((t) => (
+            <button
+              key={t}
+              onClick={() => { setTypeFilter(t); if (t !== 'company') setCompanyFilter('') }}
+              className={`px-3 py-1 rounded-lg text-xs font-medium transition-colors ${typeFilter === t ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+            >
+              {t === 'all' ? 'All' : t === 'general' ? '🌐 General' : '🏢 By Company'}
+            </button>
+          ))}
+        </div>
+        {(typeFilter === 'company' || typeFilter === 'all') && companies.length > 0 && (
+          <select
+            value={companyFilter}
+            onChange={(e) => { setCompanyFilter(e.target.value); if (e.target.value) setTypeFilter('company') }}
+            className="rounded-lg border border-slate-300 px-3 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            <option value="">All Companies</option>
+            {companies.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+          </select>
+        )}
+        <span className="text-xs text-slate-500 ml-auto">{filteredQuestions.length} question{filteredQuestions.length !== 1 ? 's' : ''}</span>
+      </div>
+
       {isLoading ? (
         <div className="space-y-3">{Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} height="80px" />)}</div>
-      ) : questions.length === 0 ? (
+      ) : filteredQuestions.length === 0 ? (
         <div className="text-center py-16 rounded-xl border border-dashed border-slate-300 bg-slate-50">
           <span className="text-5xl mb-4 block">❓</span>
           <h3 className="text-lg font-semibold text-slate-700 mb-1">No questions yet</h3>
@@ -110,7 +148,7 @@ function QuestionsContent() {
         </div>
       ) : (
         <div className="space-y-3">
-          {questions.map((q) => (
+          {filteredQuestions.map((q) => (
             <QuestionItem
               key={q.id}
               question={q}

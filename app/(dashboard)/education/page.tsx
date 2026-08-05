@@ -26,10 +26,10 @@ export default function EducationPage() {
         fetch('/api/education/questions'),
       ])
       const subjData = await subjRes.json() as { subjects: SubjectWithCounts[] }
-      const sessionData = await sessionRes.json() as { totalMins: number }
+      const sessionData = await sessionRes.json() as { totalMins: number; weeklyMins: number }
       const qData = await qRes.json() as { questions: unknown[] }
       setSubjects(subjData.subjects ?? [])
-      setWeeklyMins(sessionData.totalMins ?? 0)
+      setWeeklyMins(sessionData.weeklyMins ?? 0)
       setTotalQuestions(qData.questions?.length ?? 0)
     } catch {
       // ignore fetch errors

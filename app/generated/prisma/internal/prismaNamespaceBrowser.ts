@@ -72,7 +72,10 @@ export const ModelName = {
   Goal: 'Goal',
   GoalProgress: 'GoalProgress',
   HealthLog: 'HealthLog',
-  MeditationLog: 'MeditationLog'
+  MeditationLog: 'MeditationLog',
+  UserAchievement: 'UserAchievement',
+  ScheduleBlock: 'ScheduleBlock',
+  ScheduleLog: 'ScheduleLog'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -95,6 +98,7 @@ export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
   password: 'password',
+  isAdmin: 'isAdmin',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -386,6 +390,45 @@ export const MeditationLogScalarFieldEnum = {
 export type MeditationLogScalarFieldEnum = (typeof MeditationLogScalarFieldEnum)[keyof typeof MeditationLogScalarFieldEnum]
 
 
+export const UserAchievementScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  key: 'key',
+  earnedAt: 'earnedAt'
+} as const
+
+export type UserAchievementScalarFieldEnum = (typeof UserAchievementScalarFieldEnum)[keyof typeof UserAchievementScalarFieldEnum]
+
+
+export const ScheduleBlockScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  label: 'label',
+  category: 'category',
+  color: 'color',
+  order: 'order',
+  createdAt: 'createdAt'
+} as const
+
+export type ScheduleBlockScalarFieldEnum = (typeof ScheduleBlockScalarFieldEnum)[keyof typeof ScheduleBlockScalarFieldEnum]
+
+
+export const ScheduleLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  blockId: 'blockId',
+  date: 'date',
+  status: 'status',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ScheduleLogScalarFieldEnum = (typeof ScheduleLogScalarFieldEnum)[keyof typeof ScheduleLogScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -591,4 +634,29 @@ export const MeditationLogOrderByRelevanceFieldEnum = {
 } as const
 
 export type MeditationLogOrderByRelevanceFieldEnum = (typeof MeditationLogOrderByRelevanceFieldEnum)[keyof typeof MeditationLogOrderByRelevanceFieldEnum]
+
+
+export const UserAchievementOrderByRelevanceFieldEnum = {
+  key: 'key'
+} as const
+
+export type UserAchievementOrderByRelevanceFieldEnum = (typeof UserAchievementOrderByRelevanceFieldEnum)[keyof typeof UserAchievementOrderByRelevanceFieldEnum]
+
+
+export const ScheduleBlockOrderByRelevanceFieldEnum = {
+  startTime: 'startTime',
+  endTime: 'endTime',
+  label: 'label',
+  category: 'category',
+  color: 'color'
+} as const
+
+export type ScheduleBlockOrderByRelevanceFieldEnum = (typeof ScheduleBlockOrderByRelevanceFieldEnum)[keyof typeof ScheduleBlockOrderByRelevanceFieldEnum]
+
+
+export const ScheduleLogOrderByRelevanceFieldEnum = {
+  note: 'note'
+} as const
+
+export type ScheduleLogOrderByRelevanceFieldEnum = (typeof ScheduleLogOrderByRelevanceFieldEnum)[keyof typeof ScheduleLogOrderByRelevanceFieldEnum]
 

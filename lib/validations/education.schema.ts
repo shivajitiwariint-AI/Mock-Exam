@@ -1,5 +1,10 @@
 import { z } from 'zod'
 
+const optionalPosInt = z.preprocess(
+  (v) => (v === null || v === undefined || v === '' || (typeof v === 'number' && isNaN(v))) ? undefined : Number(v),
+  z.number().int().positive().optional()
+)
+
 export const createSubjectSchema = z.object({
   name: z.string().min(1).max(100),
   description: z.string().max(500).optional(),
@@ -41,8 +46,8 @@ const answerSchema = z.object({
 })
 
 export const createQuestionSchema = z.object({
-  topicId: z.number().int().positive().optional(),
-  subtopicId: z.number().int().positive().optional(),
+  topicId: optionalPosInt,
+  subtopicId: optionalPosInt,
   type: z.enum(['MCQ', 'TRUE_FALSE', 'SHORT_ANSWER']),
   content: z.string().min(1),
   explanation: z.string().optional(),
@@ -54,8 +59,8 @@ export const updateQuestionSchema = createQuestionSchema
 
 export const createExamSchema = z.object({
   title: z.string().min(1).max(150),
-  subjectId: z.number().int().positive().optional(),
-  topicId: z.number().int().positive().optional(),
+  subjectId: optionalPosInt,
+  topicId: optionalPosInt,
   timeLimitMins: z.number().int().min(1).max(180).optional(),
   questionIds: z.array(z.number().int().positive()).min(1),
 })
@@ -66,8 +71,8 @@ export const submitExamSchema = z.object({
 })
 
 export const createStudySessionSchema = z.object({
-  subjectId: z.number().int().positive().optional(),
-  topicId: z.number().int().positive().optional(),
+  subjectId: optionalPosInt,
+  topicId: optionalPosInt,
   durationMins: z.number().int().min(1).max(720),
   notes: z.string().max(1000).optional(),
 })

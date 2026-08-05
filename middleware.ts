@@ -6,7 +6,8 @@ const secret = new TextEncoder().encode(
   process.env.JWT_SECRET ?? 'fallback-secret-not-for-production'
 )
 
-const protectedPaths = [
+// Routes only regular users can access (admins get redirected to /admin)
+const userOnlyPaths = [
   '/dashboard',
   '/education',
   '/interview',
@@ -15,22 +16,39 @@ const protectedPaths = [
   '/meditation',
   '/achievements',
   '/analytics',
+  '/coach',
+  '/schedule',
 ]
+
+// Routes only admins can access (non-admins get redirected to /dashboard)
+const adminOnlyPaths = ['/admin']
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
-  const isProtected = protectedPaths.some((p) => pathname.startsWith(p))
+  const isUserOnly = userOnlyPaths.some((p) => pathname.startsWith(p))
+  const isAdminOnly = adminOnlyPaths.some((p) => pathname.startsWith(p))
 
-  if (!isProtected) return NextResponse.next()
+  if (!isUserOnly && !isAdminOnly) return NextResponse.next()
 
   const token = request.cookies.get(COOKIE_NAME)?.value
-
   if (!token) {
     return NextResponse.redirect(new URL('/login?reason=session_expired', request.url))
   }
 
   try {
-    await jwtVerify(token, secret)
+    const { payload } = await jwtVerify(token, secret)
+    const isAdmin = payload.isAdmin === true
+
+    // Admin visiting a user-only page → send to /admin
+    if (isUserOnly && isAdmin) {
+      return NextResponse.redirect(new URL('/admin', request.url))
+    }
+
+    // Regular user visiting an admin-only page → send to /dashboard
+    if (isAdminOnly && !isAdmin) {
+      return NextResponse.redirect(new URL('/dashboard', request.url))
+    }
+
     return NextResponse.next()
   } catch {
     return NextResponse.redirect(new URL('/login?reason=session_expired', request.url))
@@ -47,5 +65,8 @@ export const config = {
     '/meditation/:path*',
     '/achievements/:path*',
     '/analytics/:path*',
+    '/coach/:path*',
+    '/schedule/:path*',
+    '/admin/:path*',
   ],
 }

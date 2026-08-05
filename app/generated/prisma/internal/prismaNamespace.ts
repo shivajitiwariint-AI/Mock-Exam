@@ -418,7 +418,10 @@ export const ModelName = {
   Goal: 'Goal',
   GoalProgress: 'GoalProgress',
   HealthLog: 'HealthLog',
-  MeditationLog: 'MeditationLog'
+  MeditationLog: 'MeditationLog',
+  UserAchievement: 'UserAchievement',
+  ScheduleBlock: 'ScheduleBlock',
+  ScheduleLog: 'ScheduleLog'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -434,7 +437,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "userProfile" | "activityLog" | "notification" | "subject" | "topic" | "subtopic" | "question" | "questionAnswer" | "exam" | "examQuestion" | "examResult" | "studySession" | "interviewCompany" | "jobDescription" | "interviewQuestion" | "interviewExperience" | "interviewRound" | "goal" | "goalProgress" | "healthLog" | "meditationLog"
+    modelProps: "user" | "userProfile" | "activityLog" | "notification" | "subject" | "topic" | "subtopic" | "question" | "questionAnswer" | "exam" | "examQuestion" | "examResult" | "studySession" | "interviewCompany" | "jobDescription" | "interviewQuestion" | "interviewExperience" | "interviewRound" | "goal" | "goalProgress" | "healthLog" | "meditationLog" | "userAchievement" | "scheduleBlock" | "scheduleLog"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1890,6 +1893,204 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    UserAchievement: {
+      payload: Prisma.$UserAchievementPayload<ExtArgs>
+      fields: Prisma.UserAchievementFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UserAchievementFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserAchievementPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UserAchievementFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserAchievementPayload>
+        }
+        findFirst: {
+          args: Prisma.UserAchievementFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserAchievementPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UserAchievementFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserAchievementPayload>
+        }
+        findMany: {
+          args: Prisma.UserAchievementFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserAchievementPayload>[]
+        }
+        create: {
+          args: Prisma.UserAchievementCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserAchievementPayload>
+        }
+        createMany: {
+          args: Prisma.UserAchievementCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.UserAchievementDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserAchievementPayload>
+        }
+        update: {
+          args: Prisma.UserAchievementUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserAchievementPayload>
+        }
+        deleteMany: {
+          args: Prisma.UserAchievementDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UserAchievementUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.UserAchievementUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserAchievementPayload>
+        }
+        aggregate: {
+          args: Prisma.UserAchievementAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUserAchievement>
+        }
+        groupBy: {
+          args: Prisma.UserAchievementGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserAchievementGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UserAchievementCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserAchievementCountAggregateOutputType> | number
+        }
+      }
+    }
+    ScheduleBlock: {
+      payload: Prisma.$ScheduleBlockPayload<ExtArgs>
+      fields: Prisma.ScheduleBlockFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ScheduleBlockFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleBlockPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ScheduleBlockFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleBlockPayload>
+        }
+        findFirst: {
+          args: Prisma.ScheduleBlockFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleBlockPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ScheduleBlockFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleBlockPayload>
+        }
+        findMany: {
+          args: Prisma.ScheduleBlockFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleBlockPayload>[]
+        }
+        create: {
+          args: Prisma.ScheduleBlockCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleBlockPayload>
+        }
+        createMany: {
+          args: Prisma.ScheduleBlockCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.ScheduleBlockDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleBlockPayload>
+        }
+        update: {
+          args: Prisma.ScheduleBlockUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleBlockPayload>
+        }
+        deleteMany: {
+          args: Prisma.ScheduleBlockDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ScheduleBlockUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.ScheduleBlockUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleBlockPayload>
+        }
+        aggregate: {
+          args: Prisma.ScheduleBlockAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateScheduleBlock>
+        }
+        groupBy: {
+          args: Prisma.ScheduleBlockGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ScheduleBlockGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ScheduleBlockCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ScheduleBlockCountAggregateOutputType> | number
+        }
+      }
+    }
+    ScheduleLog: {
+      payload: Prisma.$ScheduleLogPayload<ExtArgs>
+      fields: Prisma.ScheduleLogFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ScheduleLogFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleLogPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ScheduleLogFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleLogPayload>
+        }
+        findFirst: {
+          args: Prisma.ScheduleLogFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleLogPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ScheduleLogFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleLogPayload>
+        }
+        findMany: {
+          args: Prisma.ScheduleLogFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleLogPayload>[]
+        }
+        create: {
+          args: Prisma.ScheduleLogCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleLogPayload>
+        }
+        createMany: {
+          args: Prisma.ScheduleLogCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.ScheduleLogDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleLogPayload>
+        }
+        update: {
+          args: Prisma.ScheduleLogUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleLogPayload>
+        }
+        deleteMany: {
+          args: Prisma.ScheduleLogDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ScheduleLogUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.ScheduleLogUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScheduleLogPayload>
+        }
+        aggregate: {
+          args: Prisma.ScheduleLogAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateScheduleLog>
+        }
+        groupBy: {
+          args: Prisma.ScheduleLogGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ScheduleLogGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ScheduleLogCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ScheduleLogCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1933,6 +2134,7 @@ export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
   password: 'password',
+  isAdmin: 'isAdmin',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -2224,6 +2426,45 @@ export const MeditationLogScalarFieldEnum = {
 export type MeditationLogScalarFieldEnum = (typeof MeditationLogScalarFieldEnum)[keyof typeof MeditationLogScalarFieldEnum]
 
 
+export const UserAchievementScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  key: 'key',
+  earnedAt: 'earnedAt'
+} as const
+
+export type UserAchievementScalarFieldEnum = (typeof UserAchievementScalarFieldEnum)[keyof typeof UserAchievementScalarFieldEnum]
+
+
+export const ScheduleBlockScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  label: 'label',
+  category: 'category',
+  color: 'color',
+  order: 'order',
+  createdAt: 'createdAt'
+} as const
+
+export type ScheduleBlockScalarFieldEnum = (typeof ScheduleBlockScalarFieldEnum)[keyof typeof ScheduleBlockScalarFieldEnum]
+
+
+export const ScheduleLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  blockId: 'blockId',
+  date: 'date',
+  status: 'status',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ScheduleLogScalarFieldEnum = (typeof ScheduleLogScalarFieldEnum)[keyof typeof ScheduleLogScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2431,6 +2672,31 @@ export const MeditationLogOrderByRelevanceFieldEnum = {
 export type MeditationLogOrderByRelevanceFieldEnum = (typeof MeditationLogOrderByRelevanceFieldEnum)[keyof typeof MeditationLogOrderByRelevanceFieldEnum]
 
 
+export const UserAchievementOrderByRelevanceFieldEnum = {
+  key: 'key'
+} as const
+
+export type UserAchievementOrderByRelevanceFieldEnum = (typeof UserAchievementOrderByRelevanceFieldEnum)[keyof typeof UserAchievementOrderByRelevanceFieldEnum]
+
+
+export const ScheduleBlockOrderByRelevanceFieldEnum = {
+  startTime: 'startTime',
+  endTime: 'endTime',
+  label: 'label',
+  category: 'category',
+  color: 'color'
+} as const
+
+export type ScheduleBlockOrderByRelevanceFieldEnum = (typeof ScheduleBlockOrderByRelevanceFieldEnum)[keyof typeof ScheduleBlockOrderByRelevanceFieldEnum]
+
+
+export const ScheduleLogOrderByRelevanceFieldEnum = {
+  note: 'note'
+} as const
+
+export type ScheduleLogOrderByRelevanceFieldEnum = (typeof ScheduleLogOrderByRelevanceFieldEnum)[keyof typeof ScheduleLogOrderByRelevanceFieldEnum]
+
+
 
 /**
  * Field references
@@ -2452,6 +2718,13 @@ export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 
 
 
 /**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
  * Reference to a field of type 'DateTime'
  */
 export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -2469,13 +2742,6 @@ export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'J
  * Reference to a field of type 'QueryMode'
  */
 export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
-    
-
-
-/**
- * Reference to a field of type 'Boolean'
- */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -2539,6 +2805,13 @@ export type EnumGoalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Prism
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+/**
+ * Reference to a field of type 'ScheduleStatus'
+ */
+export type EnumScheduleStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ScheduleStatus'>
     
 
 /**
@@ -2714,6 +2987,9 @@ export type GlobalOmitConfig = {
   goalProgress?: Prisma.GoalProgressOmit
   healthLog?: Prisma.HealthLogOmit
   meditationLog?: Prisma.MeditationLogOmit
+  userAchievement?: Prisma.UserAchievementOmit
+  scheduleBlock?: Prisma.ScheduleBlockOmit
+  scheduleLog?: Prisma.ScheduleLogOmit
 }
 
 /* Types for Logging */

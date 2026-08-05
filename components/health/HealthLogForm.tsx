@@ -11,7 +11,8 @@ type Props = {
 }
 
 export default function HealthLogForm({ existingLog, defaultDate, onSaved }: Props) {
-  const today = defaultDate ?? new Date().toISOString().split('T')[0]
+  const _now = new Date()
+  const today = defaultDate ?? `${_now.getFullYear()}-${String(_now.getMonth() + 1).padStart(2, '0')}-${String(_now.getDate()).padStart(2, '0')}`
   const [date, setDate] = useState(existingLog ? existingLog.date.split('T')[0] : today)
   const [exerciseMins, setExerciseMins] = useState(existingLog?.exerciseMins?.toString() ?? '')
   const [sleepHours, setSleepHours] = useState(existingLog?.sleepHours?.toString() ?? '')

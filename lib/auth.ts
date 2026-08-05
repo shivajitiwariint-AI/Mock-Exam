@@ -17,7 +17,7 @@ export async function signJWT(payload: AuthUser): Promise<string> {
 
 export async function verifyJWT(token: string): Promise<AuthUser> {
   const { payload } = await jwtVerify(token, secret)
-  return { userId: payload.userId as number, email: payload.email as string }
+  return { userId: payload.userId as number, email: payload.email as string, isAdmin: payload.isAdmin as boolean | undefined }
 }
 
 export async function getUserFromRequest(request: Request): Promise<AuthUser> {
@@ -40,6 +40,17 @@ export async function getUserFromRequest(request: Request): Promise<AuthUser> {
       headers: { 'Content-Type': 'application/json' },
     })
   }
+}
+
+export async function getAdminFromRequest(request: Request): Promise<AuthUser> {
+  const user = await getUserFromRequest(request)
+  if (!user.isAdmin) {
+    throw new Response(JSON.stringify({ error: 'Forbidden' }), {
+      status: 403,
+      headers: { 'Content-Type': 'application/json' },
+    })
+  }
+  return user
 }
 
 export function setAuthCookie(response: NextResponse, token: string): void {

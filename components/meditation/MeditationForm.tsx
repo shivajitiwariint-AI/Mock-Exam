@@ -12,7 +12,8 @@ type Props = {
 }
 
 export default function MeditationForm({ existing, onClose, onSaved }: Props) {
-  const today = new Date().toISOString().split('T')[0]
+  const _now = new Date()
+  const today = `${_now.getFullYear()}-${String(_now.getMonth() + 1).padStart(2, '0')}-${String(_now.getDate()).padStart(2, '0')}`
   const [date, setDate] = useState(existing ? existing.date.split('T')[0] : today)
   const [durationMins, setDurationMins] = useState(existing?.durationMins.toString() ?? '')
   const [reflection, setReflection] = useState(existing?.reflection ?? '')

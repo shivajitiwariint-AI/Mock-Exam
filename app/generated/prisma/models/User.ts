@@ -38,6 +38,7 @@ export type UserMinAggregateOutputType = {
   id: number | null
   email: string | null
   password: string | null
+  isAdmin: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -46,6 +47,7 @@ export type UserMaxAggregateOutputType = {
   id: number | null
   email: string | null
   password: string | null
+  isAdmin: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -54,6 +56,7 @@ export type UserCountAggregateOutputType = {
   id: number
   email: number
   password: number
+  isAdmin: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -72,6 +75,7 @@ export type UserMinAggregateInputType = {
   id?: true
   email?: true
   password?: true
+  isAdmin?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -80,6 +84,7 @@ export type UserMaxAggregateInputType = {
   id?: true
   email?: true
   password?: true
+  isAdmin?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -88,6 +93,7 @@ export type UserCountAggregateInputType = {
   id?: true
   email?: true
   password?: true
+  isAdmin?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -183,6 +189,7 @@ export type UserGroupByOutputType = {
   id: number
   email: string
   password: string
+  isAdmin: boolean
   createdAt: Date
   updatedAt: Date
   _count: UserCountAggregateOutputType | null
@@ -214,6 +221,7 @@ export type UserWhereInput = {
   id?: Prisma.IntFilter<"User"> | number
   email?: Prisma.StringFilter<"User"> | string
   password?: Prisma.StringFilter<"User"> | string
+  isAdmin?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   profile?: Prisma.XOR<Prisma.UserProfileNullableScalarRelationFilter, Prisma.UserProfileWhereInput> | null
@@ -231,12 +239,16 @@ export type UserWhereInput = {
   goalProgress?: Prisma.GoalProgressListRelationFilter
   healthLogs?: Prisma.HealthLogListRelationFilter
   meditationLogs?: Prisma.MeditationLogListRelationFilter
+  userAchievements?: Prisma.UserAchievementListRelationFilter
+  scheduleBlocks?: Prisma.ScheduleBlockListRelationFilter
+  scheduleLogs?: Prisma.ScheduleLogListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  isAdmin?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   profile?: Prisma.UserProfileOrderByWithRelationInput
@@ -254,6 +266,9 @@ export type UserOrderByWithRelationInput = {
   goalProgress?: Prisma.GoalProgressOrderByRelationAggregateInput
   healthLogs?: Prisma.HealthLogOrderByRelationAggregateInput
   meditationLogs?: Prisma.MeditationLogOrderByRelationAggregateInput
+  userAchievements?: Prisma.UserAchievementOrderByRelationAggregateInput
+  scheduleBlocks?: Prisma.ScheduleBlockOrderByRelationAggregateInput
+  scheduleLogs?: Prisma.ScheduleLogOrderByRelationAggregateInput
   _relevance?: Prisma.UserOrderByRelevanceInput
 }
 
@@ -264,6 +279,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   password?: Prisma.StringFilter<"User"> | string
+  isAdmin?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   profile?: Prisma.XOR<Prisma.UserProfileNullableScalarRelationFilter, Prisma.UserProfileWhereInput> | null
@@ -281,12 +297,16 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   goalProgress?: Prisma.GoalProgressListRelationFilter
   healthLogs?: Prisma.HealthLogListRelationFilter
   meditationLogs?: Prisma.MeditationLogListRelationFilter
+  userAchievements?: Prisma.UserAchievementListRelationFilter
+  scheduleBlocks?: Prisma.ScheduleBlockListRelationFilter
+  scheduleLogs?: Prisma.ScheduleLogListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  isAdmin?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
@@ -303,6 +323,7 @@ export type UserScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"User"> | number
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
   password?: Prisma.StringWithAggregatesFilter<"User"> | string
+  isAdmin?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
@@ -310,6 +331,7 @@ export type UserScalarWhereWithAggregatesInput = {
 export type UserCreateInput = {
   email: string
   password: string
+  isAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
@@ -327,12 +349,16 @@ export type UserCreateInput = {
   goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
   id?: number
   email: string
   password: string
+  isAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
@@ -350,11 +376,15 @@ export type UserUncheckedCreateInput = {
   goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
@@ -372,12 +402,16 @@ export type UserUpdateInput = {
   goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
@@ -395,12 +429,16 @@ export type UserUncheckedUpdateInput = {
   goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
   id?: number
   email: string
   password: string
+  isAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -408,6 +446,7 @@ export type UserCreateManyInput = {
 export type UserUpdateManyMutationInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -416,6 +455,7 @@ export type UserUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -430,6 +470,7 @@ export type UserCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  isAdmin?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -442,6 +483,7 @@ export type UserMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  isAdmin?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -450,6 +492,7 @@ export type UserMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  isAdmin?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -465,6 +508,10 @@ export type UserScalarRelationFilter = {
 
 export type StringFieldUpdateOperationsInput = {
   set?: string
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -689,9 +736,52 @@ export type UserUpdateOneRequiredWithoutMeditationLogsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutMeditationLogsInput, Prisma.UserUpdateWithoutMeditationLogsInput>, Prisma.UserUncheckedUpdateWithoutMeditationLogsInput>
 }
 
+export type UserCreateNestedOneWithoutUserAchievementsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutUserAchievementsInput, Prisma.UserUncheckedCreateWithoutUserAchievementsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUserAchievementsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutUserAchievementsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutUserAchievementsInput, Prisma.UserUncheckedCreateWithoutUserAchievementsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUserAchievementsInput
+  upsert?: Prisma.UserUpsertWithoutUserAchievementsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutUserAchievementsInput, Prisma.UserUpdateWithoutUserAchievementsInput>, Prisma.UserUncheckedUpdateWithoutUserAchievementsInput>
+}
+
+export type UserCreateNestedOneWithoutScheduleBlocksInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutScheduleBlocksInput, Prisma.UserUncheckedCreateWithoutScheduleBlocksInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutScheduleBlocksInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutScheduleBlocksNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutScheduleBlocksInput, Prisma.UserUncheckedCreateWithoutScheduleBlocksInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutScheduleBlocksInput
+  upsert?: Prisma.UserUpsertWithoutScheduleBlocksInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutScheduleBlocksInput, Prisma.UserUpdateWithoutScheduleBlocksInput>, Prisma.UserUncheckedUpdateWithoutScheduleBlocksInput>
+}
+
+export type UserCreateNestedOneWithoutScheduleLogsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutScheduleLogsInput, Prisma.UserUncheckedCreateWithoutScheduleLogsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutScheduleLogsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutScheduleLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutScheduleLogsInput, Prisma.UserUncheckedCreateWithoutScheduleLogsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutScheduleLogsInput
+  upsert?: Prisma.UserUpsertWithoutScheduleLogsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutScheduleLogsInput, Prisma.UserUpdateWithoutScheduleLogsInput>, Prisma.UserUncheckedUpdateWithoutScheduleLogsInput>
+}
+
 export type UserCreateWithoutProfileInput = {
   email: string
   password: string
+  isAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
@@ -708,12 +798,16 @@ export type UserCreateWithoutProfileInput = {
   goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutProfileInput = {
   id?: number
   email: string
   password: string
+  isAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
@@ -730,6 +824,9 @@ export type UserUncheckedCreateWithoutProfileInput = {
   goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutProfileInput = {
@@ -751,6 +848,7 @@ export type UserUpdateToOneWithWhereWithoutProfileInput = {
 export type UserUpdateWithoutProfileInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
@@ -767,12 +865,16 @@ export type UserUpdateWithoutProfileInput = {
   goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProfileInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
@@ -789,11 +891,15 @@ export type UserUncheckedUpdateWithoutProfileInput = {
   goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutActivityLogsInput = {
   email: string
   password: string
+  isAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
@@ -810,12 +916,16 @@ export type UserCreateWithoutActivityLogsInput = {
   goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutActivityLogsInput = {
   id?: number
   email: string
   password: string
+  isAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
@@ -832,6 +942,9 @@ export type UserUncheckedCreateWithoutActivityLogsInput = {
   goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutActivityLogsInput = {
@@ -853,6 +966,7 @@ export type UserUpdateToOneWithWhereWithoutActivityLogsInput = {
 export type UserUpdateWithoutActivityLogsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
@@ -869,12 +983,16 @@ export type UserUpdateWithoutActivityLogsInput = {
   goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutActivityLogsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
@@ -891,11 +1009,15 @@ export type UserUncheckedUpdateWithoutActivityLogsInput = {
   goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutNotificationsInput = {
   email: string
   password: string
+  isAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
@@ -912,12 +1034,16 @@ export type UserCreateWithoutNotificationsInput = {
   goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
   id?: number
   email: string
   password: string
+  isAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
@@ -934,6 +1060,9 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -955,6 +1084,7 @@ export type UserUpdateToOneWithWhereWithoutNotificationsInput = {
 export type UserUpdateWithoutNotificationsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
@@ -971,12 +1101,16 @@ export type UserUpdateWithoutNotificationsInput = {
   goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
@@ -993,11 +1127,15 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSubjectsInput = {
   email: string
   password: string
+  isAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
@@ -1014,12 +1152,16 @@ export type UserCreateWithoutSubjectsInput = {
   goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSubjectsInput = {
   id?: number
   email: string
   password: string
+  isAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
@@ -1036,6 +1178,9 @@ export type UserUncheckedCreateWithoutSubjectsInput = {
   goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSubjectsInput = {
@@ -1057,6 +1202,7 @@ export type UserUpdateToOneWithWhereWithoutSubjectsInput = {
 export type UserUpdateWithoutSubjectsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
@@ -1073,12 +1219,16 @@ export type UserUpdateWithoutSubjectsInput = {
   goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSubjectsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
@@ -1095,11 +1245,15 @@ export type UserUncheckedUpdateWithoutSubjectsInput = {
   goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutQuestionsInput = {
   email: string
   password: string
+  isAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
@@ -1116,12 +1270,16 @@ export type UserCreateWithoutQuestionsInput = {
   goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutQuestionsInput = {
   id?: number
   email: string
   password: string
+  isAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
@@ -1138,6 +1296,9 @@ export type UserUncheckedCreateWithoutQuestionsInput = {
   goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutQuestionsInput = {
@@ -1159,6 +1320,7 @@ export type UserUpdateToOneWithWhereWithoutQuestionsInput = {
 export type UserUpdateWithoutQuestionsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
@@ -1175,12 +1337,16 @@ export type UserUpdateWithoutQuestionsInput = {
   goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutQuestionsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
@@ -1197,11 +1363,15 @@ export type UserUncheckedUpdateWithoutQuestionsInput = {
   goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutExamsInput = {
   email: string
   password: string
+  isAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
@@ -1218,12 +1388,16 @@ export type UserCreateWithoutExamsInput = {
   goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutExamsInput = {
   id?: number
   email: string
   password: string
+  isAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
@@ -1240,6 +1414,9 @@ export type UserUncheckedCreateWithoutExamsInput = {
   goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutExamsInput = {
@@ -1261,6 +1438,7 @@ export type UserUpdateToOneWithWhereWithoutExamsInput = {
 export type UserUpdateWithoutExamsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
@@ -1277,12 +1455,16 @@ export type UserUpdateWithoutExamsInput = {
   goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutExamsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
@@ -1299,11 +1481,15 @@ export type UserUncheckedUpdateWithoutExamsInput = {
   goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutExamResultsInput = {
   email: string
   password: string
+  isAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
@@ -1320,12 +1506,16 @@ export type UserCreateWithoutExamResultsInput = {
   goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutExamResultsInput = {
   id?: number
   email: string
   password: string
+  isAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
@@ -1342,6 +1532,9 @@ export type UserUncheckedCreateWithoutExamResultsInput = {
   goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutExamResultsInput = {
@@ -1363,6 +1556,7 @@ export type UserUpdateToOneWithWhereWithoutExamResultsInput = {
 export type UserUpdateWithoutExamResultsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
@@ -1379,12 +1573,16 @@ export type UserUpdateWithoutExamResultsInput = {
   goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutExamResultsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
@@ -1401,11 +1599,15 @@ export type UserUncheckedUpdateWithoutExamResultsInput = {
   goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutStudySessionsInput = {
   email: string
   password: string
+  isAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
@@ -1422,12 +1624,16 @@ export type UserCreateWithoutStudySessionsInput = {
   goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutStudySessionsInput = {
   id?: number
   email: string
   password: string
+  isAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
@@ -1444,6 +1650,9 @@ export type UserUncheckedCreateWithoutStudySessionsInput = {
   goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutStudySessionsInput = {
@@ -1465,6 +1674,7 @@ export type UserUpdateToOneWithWhereWithoutStudySessionsInput = {
 export type UserUpdateWithoutStudySessionsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
@@ -1481,12 +1691,16 @@ export type UserUpdateWithoutStudySessionsInput = {
   goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStudySessionsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
@@ -1503,11 +1717,15 @@ export type UserUncheckedUpdateWithoutStudySessionsInput = {
   goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutInterviewCompaniesInput = {
   email: string
   password: string
+  isAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
@@ -1524,12 +1742,16 @@ export type UserCreateWithoutInterviewCompaniesInput = {
   goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutInterviewCompaniesInput = {
   id?: number
   email: string
   password: string
+  isAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
@@ -1546,6 +1768,9 @@ export type UserUncheckedCreateWithoutInterviewCompaniesInput = {
   goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutInterviewCompaniesInput = {
@@ -1567,6 +1792,7 @@ export type UserUpdateToOneWithWhereWithoutInterviewCompaniesInput = {
 export type UserUpdateWithoutInterviewCompaniesInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
@@ -1583,12 +1809,16 @@ export type UserUpdateWithoutInterviewCompaniesInput = {
   goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutInterviewCompaniesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
@@ -1605,11 +1835,15 @@ export type UserUncheckedUpdateWithoutInterviewCompaniesInput = {
   goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutInterviewQuestionsInput = {
   email: string
   password: string
+  isAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
@@ -1626,12 +1860,16 @@ export type UserCreateWithoutInterviewQuestionsInput = {
   goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutInterviewQuestionsInput = {
   id?: number
   email: string
   password: string
+  isAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
@@ -1648,6 +1886,9 @@ export type UserUncheckedCreateWithoutInterviewQuestionsInput = {
   goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutInterviewQuestionsInput = {
@@ -1669,6 +1910,7 @@ export type UserUpdateToOneWithWhereWithoutInterviewQuestionsInput = {
 export type UserUpdateWithoutInterviewQuestionsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
@@ -1685,12 +1927,16 @@ export type UserUpdateWithoutInterviewQuestionsInput = {
   goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutInterviewQuestionsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
@@ -1707,11 +1953,15 @@ export type UserUncheckedUpdateWithoutInterviewQuestionsInput = {
   goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutInterviewExperiencesInput = {
   email: string
   password: string
+  isAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
@@ -1728,12 +1978,16 @@ export type UserCreateWithoutInterviewExperiencesInput = {
   goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutInterviewExperiencesInput = {
   id?: number
   email: string
   password: string
+  isAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
@@ -1750,6 +2004,9 @@ export type UserUncheckedCreateWithoutInterviewExperiencesInput = {
   goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutInterviewExperiencesInput = {
@@ -1771,6 +2028,7 @@ export type UserUpdateToOneWithWhereWithoutInterviewExperiencesInput = {
 export type UserUpdateWithoutInterviewExperiencesInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
@@ -1787,12 +2045,16 @@ export type UserUpdateWithoutInterviewExperiencesInput = {
   goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutInterviewExperiencesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
@@ -1809,11 +2071,15 @@ export type UserUncheckedUpdateWithoutInterviewExperiencesInput = {
   goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutGoalsInput = {
   email: string
   password: string
+  isAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
@@ -1830,12 +2096,16 @@ export type UserCreateWithoutGoalsInput = {
   goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutGoalsInput = {
   id?: number
   email: string
   password: string
+  isAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
@@ -1852,6 +2122,9 @@ export type UserUncheckedCreateWithoutGoalsInput = {
   goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutGoalsInput = {
@@ -1873,6 +2146,7 @@ export type UserUpdateToOneWithWhereWithoutGoalsInput = {
 export type UserUpdateWithoutGoalsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
@@ -1889,12 +2163,16 @@ export type UserUpdateWithoutGoalsInput = {
   goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGoalsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
@@ -1911,11 +2189,15 @@ export type UserUncheckedUpdateWithoutGoalsInput = {
   goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutGoalProgressInput = {
   email: string
   password: string
+  isAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
@@ -1932,12 +2214,16 @@ export type UserCreateWithoutGoalProgressInput = {
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutGoalProgressInput = {
   id?: number
   email: string
   password: string
+  isAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
@@ -1954,6 +2240,9 @@ export type UserUncheckedCreateWithoutGoalProgressInput = {
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutGoalProgressInput = {
@@ -1975,6 +2264,7 @@ export type UserUpdateToOneWithWhereWithoutGoalProgressInput = {
 export type UserUpdateWithoutGoalProgressInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
@@ -1991,12 +2281,16 @@ export type UserUpdateWithoutGoalProgressInput = {
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGoalProgressInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
@@ -2013,11 +2307,15 @@ export type UserUncheckedUpdateWithoutGoalProgressInput = {
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutHealthLogsInput = {
   email: string
   password: string
+  isAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
@@ -2034,12 +2332,16 @@ export type UserCreateWithoutHealthLogsInput = {
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutHealthLogsInput = {
   id?: number
   email: string
   password: string
+  isAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
@@ -2056,6 +2358,9 @@ export type UserUncheckedCreateWithoutHealthLogsInput = {
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutHealthLogsInput = {
@@ -2077,6 +2382,7 @@ export type UserUpdateToOneWithWhereWithoutHealthLogsInput = {
 export type UserUpdateWithoutHealthLogsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
@@ -2093,12 +2399,16 @@ export type UserUpdateWithoutHealthLogsInput = {
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutHealthLogsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
@@ -2115,11 +2425,15 @@ export type UserUncheckedUpdateWithoutHealthLogsInput = {
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutMeditationLogsInput = {
   email: string
   password: string
+  isAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
@@ -2136,12 +2450,16 @@ export type UserCreateWithoutMeditationLogsInput = {
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutMeditationLogsInput = {
   id?: number
   email: string
   password: string
+  isAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
@@ -2158,6 +2476,9 @@ export type UserUncheckedCreateWithoutMeditationLogsInput = {
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutMeditationLogsInput = {
@@ -2179,6 +2500,7 @@ export type UserUpdateToOneWithWhereWithoutMeditationLogsInput = {
 export type UserUpdateWithoutMeditationLogsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
@@ -2195,12 +2517,16 @@ export type UserUpdateWithoutMeditationLogsInput = {
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMeditationLogsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
@@ -2217,6 +2543,363 @@ export type UserUncheckedUpdateWithoutMeditationLogsInput = {
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutUserAchievementsInput = {
+  email: string
+  password: string
+  isAdmin?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
+  questions?: Prisma.QuestionCreateNestedManyWithoutUserInput
+  exams?: Prisma.ExamCreateNestedManyWithoutUserInput
+  examResults?: Prisma.ExamResultCreateNestedManyWithoutUserInput
+  studySessions?: Prisma.StudySessionCreateNestedManyWithoutUserInput
+  interviewCompanies?: Prisma.InterviewCompanyCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewQuestionCreateNestedManyWithoutUserInput
+  interviewExperiences?: Prisma.InterviewExperienceCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
+  healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
+  meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutUserAchievementsInput = {
+  id?: number
+  email: string
+  password: string
+  isAdmin?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
+  questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutUserInput
+  exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
+  examResults?: Prisma.ExamResultUncheckedCreateNestedManyWithoutUserInput
+  studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutUserInput
+  interviewCompanies?: Prisma.InterviewCompanyUncheckedCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewQuestionUncheckedCreateNestedManyWithoutUserInput
+  interviewExperiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
+  healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
+  meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutUserAchievementsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutUserAchievementsInput, Prisma.UserUncheckedCreateWithoutUserAchievementsInput>
+}
+
+export type UserUpsertWithoutUserAchievementsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutUserAchievementsInput, Prisma.UserUncheckedUpdateWithoutUserAchievementsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutUserAchievementsInput, Prisma.UserUncheckedCreateWithoutUserAchievementsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutUserAchievementsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutUserAchievementsInput, Prisma.UserUncheckedUpdateWithoutUserAchievementsInput>
+}
+
+export type UserUpdateWithoutUserAchievementsInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
+  questions?: Prisma.QuestionUpdateManyWithoutUserNestedInput
+  exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
+  examResults?: Prisma.ExamResultUpdateManyWithoutUserNestedInput
+  studySessions?: Prisma.StudySessionUpdateManyWithoutUserNestedInput
+  interviewCompanies?: Prisma.InterviewCompanyUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewQuestionUpdateManyWithoutUserNestedInput
+  interviewExperiences?: Prisma.InterviewExperienceUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
+  healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
+  meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutUserAchievementsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
+  questions?: Prisma.QuestionUncheckedUpdateManyWithoutUserNestedInput
+  exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
+  examResults?: Prisma.ExamResultUncheckedUpdateManyWithoutUserNestedInput
+  studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewCompanies?: Prisma.InterviewCompanyUncheckedUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewQuestionUncheckedUpdateManyWithoutUserNestedInput
+  interviewExperiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
+  healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
+  meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutScheduleBlocksInput = {
+  email: string
+  password: string
+  isAdmin?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
+  questions?: Prisma.QuestionCreateNestedManyWithoutUserInput
+  exams?: Prisma.ExamCreateNestedManyWithoutUserInput
+  examResults?: Prisma.ExamResultCreateNestedManyWithoutUserInput
+  studySessions?: Prisma.StudySessionCreateNestedManyWithoutUserInput
+  interviewCompanies?: Prisma.InterviewCompanyCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewQuestionCreateNestedManyWithoutUserInput
+  interviewExperiences?: Prisma.InterviewExperienceCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
+  healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
+  meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutScheduleBlocksInput = {
+  id?: number
+  email: string
+  password: string
+  isAdmin?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
+  questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutUserInput
+  exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
+  examResults?: Prisma.ExamResultUncheckedCreateNestedManyWithoutUserInput
+  studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutUserInput
+  interviewCompanies?: Prisma.InterviewCompanyUncheckedCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewQuestionUncheckedCreateNestedManyWithoutUserInput
+  interviewExperiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
+  healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
+  meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutScheduleBlocksInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutScheduleBlocksInput, Prisma.UserUncheckedCreateWithoutScheduleBlocksInput>
+}
+
+export type UserUpsertWithoutScheduleBlocksInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutScheduleBlocksInput, Prisma.UserUncheckedUpdateWithoutScheduleBlocksInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutScheduleBlocksInput, Prisma.UserUncheckedCreateWithoutScheduleBlocksInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutScheduleBlocksInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutScheduleBlocksInput, Prisma.UserUncheckedUpdateWithoutScheduleBlocksInput>
+}
+
+export type UserUpdateWithoutScheduleBlocksInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
+  questions?: Prisma.QuestionUpdateManyWithoutUserNestedInput
+  exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
+  examResults?: Prisma.ExamResultUpdateManyWithoutUserNestedInput
+  studySessions?: Prisma.StudySessionUpdateManyWithoutUserNestedInput
+  interviewCompanies?: Prisma.InterviewCompanyUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewQuestionUpdateManyWithoutUserNestedInput
+  interviewExperiences?: Prisma.InterviewExperienceUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
+  healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
+  meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutScheduleBlocksInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
+  questions?: Prisma.QuestionUncheckedUpdateManyWithoutUserNestedInput
+  exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
+  examResults?: Prisma.ExamResultUncheckedUpdateManyWithoutUserNestedInput
+  studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewCompanies?: Prisma.InterviewCompanyUncheckedUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewQuestionUncheckedUpdateManyWithoutUserNestedInput
+  interviewExperiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
+  healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
+  meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutScheduleLogsInput = {
+  email: string
+  password: string
+  isAdmin?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
+  questions?: Prisma.QuestionCreateNestedManyWithoutUserInput
+  exams?: Prisma.ExamCreateNestedManyWithoutUserInput
+  examResults?: Prisma.ExamResultCreateNestedManyWithoutUserInput
+  studySessions?: Prisma.StudySessionCreateNestedManyWithoutUserInput
+  interviewCompanies?: Prisma.InterviewCompanyCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewQuestionCreateNestedManyWithoutUserInput
+  interviewExperiences?: Prisma.InterviewExperienceCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
+  healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
+  meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutScheduleLogsInput = {
+  id?: number
+  email: string
+  password: string
+  isAdmin?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
+  questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutUserInput
+  exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
+  examResults?: Prisma.ExamResultUncheckedCreateNestedManyWithoutUserInput
+  studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutUserInput
+  interviewCompanies?: Prisma.InterviewCompanyUncheckedCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewQuestionUncheckedCreateNestedManyWithoutUserInput
+  interviewExperiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
+  healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
+  meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutScheduleLogsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutScheduleLogsInput, Prisma.UserUncheckedCreateWithoutScheduleLogsInput>
+}
+
+export type UserUpsertWithoutScheduleLogsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutScheduleLogsInput, Prisma.UserUncheckedUpdateWithoutScheduleLogsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutScheduleLogsInput, Prisma.UserUncheckedCreateWithoutScheduleLogsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutScheduleLogsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutScheduleLogsInput, Prisma.UserUncheckedUpdateWithoutScheduleLogsInput>
+}
+
+export type UserUpdateWithoutScheduleLogsInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
+  questions?: Prisma.QuestionUpdateManyWithoutUserNestedInput
+  exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
+  examResults?: Prisma.ExamResultUpdateManyWithoutUserNestedInput
+  studySessions?: Prisma.StudySessionUpdateManyWithoutUserNestedInput
+  interviewCompanies?: Prisma.InterviewCompanyUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewQuestionUpdateManyWithoutUserNestedInput
+  interviewExperiences?: Prisma.InterviewExperienceUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
+  healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
+  meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutScheduleLogsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
+  questions?: Prisma.QuestionUncheckedUpdateManyWithoutUserNestedInput
+  exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
+  examResults?: Prisma.ExamResultUncheckedUpdateManyWithoutUserNestedInput
+  studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewCompanies?: Prisma.InterviewCompanyUncheckedUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewQuestionUncheckedUpdateManyWithoutUserNestedInput
+  interviewExperiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
+  healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
+  meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -2239,6 +2922,9 @@ export type UserCountOutputType = {
   goalProgress: number
   healthLogs: number
   meditationLogs: number
+  userAchievements: number
+  scheduleBlocks: number
+  scheduleLogs: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2256,6 +2942,9 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   goalProgress?: boolean | UserCountOutputTypeCountGoalProgressArgs
   healthLogs?: boolean | UserCountOutputTypeCountHealthLogsArgs
   meditationLogs?: boolean | UserCountOutputTypeCountMeditationLogsArgs
+  userAchievements?: boolean | UserCountOutputTypeCountUserAchievementsArgs
+  scheduleBlocks?: boolean | UserCountOutputTypeCountScheduleBlocksArgs
+  scheduleLogs?: boolean | UserCountOutputTypeCountScheduleLogsArgs
 }
 
 /**
@@ -2366,11 +3055,33 @@ export type UserCountOutputTypeCountMeditationLogsArgs<ExtArgs extends runtime.T
   where?: Prisma.MeditationLogWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountUserAchievementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserAchievementWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountScheduleBlocksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ScheduleBlockWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountScheduleLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ScheduleLogWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   email?: boolean
   password?: boolean
+  isAdmin?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   profile?: boolean | Prisma.User$profileArgs<ExtArgs>
@@ -2388,6 +3099,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   goalProgress?: boolean | Prisma.User$goalProgressArgs<ExtArgs>
   healthLogs?: boolean | Prisma.User$healthLogsArgs<ExtArgs>
   meditationLogs?: boolean | Prisma.User$meditationLogsArgs<ExtArgs>
+  userAchievements?: boolean | Prisma.User$userAchievementsArgs<ExtArgs>
+  scheduleBlocks?: boolean | Prisma.User$scheduleBlocksArgs<ExtArgs>
+  scheduleLogs?: boolean | Prisma.User$scheduleLogsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -2397,11 +3111,12 @@ export type UserSelectScalar = {
   id?: boolean
   email?: boolean
   password?: boolean
+  isAdmin?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "isAdmin" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   profile?: boolean | Prisma.User$profileArgs<ExtArgs>
   activityLogs?: boolean | Prisma.User$activityLogsArgs<ExtArgs>
@@ -2418,6 +3133,9 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   goalProgress?: boolean | Prisma.User$goalProgressArgs<ExtArgs>
   healthLogs?: boolean | Prisma.User$healthLogsArgs<ExtArgs>
   meditationLogs?: boolean | Prisma.User$meditationLogsArgs<ExtArgs>
+  userAchievements?: boolean | Prisma.User$userAchievementsArgs<ExtArgs>
+  scheduleBlocks?: boolean | Prisma.User$scheduleBlocksArgs<ExtArgs>
+  scheduleLogs?: boolean | Prisma.User$scheduleLogsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 
@@ -2439,11 +3157,15 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     goalProgress: Prisma.$GoalProgressPayload<ExtArgs>[]
     healthLogs: Prisma.$HealthLogPayload<ExtArgs>[]
     meditationLogs: Prisma.$MeditationLogPayload<ExtArgs>[]
+    userAchievements: Prisma.$UserAchievementPayload<ExtArgs>[]
+    scheduleBlocks: Prisma.$ScheduleBlockPayload<ExtArgs>[]
+    scheduleLogs: Prisma.$ScheduleLogPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     email: string
     password: string
+    isAdmin: boolean
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["user"]>
@@ -2801,6 +3523,9 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   goalProgress<T extends Prisma.User$goalProgressArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$goalProgressArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GoalProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   healthLogs<T extends Prisma.User$healthLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$healthLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HealthLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   meditationLogs<T extends Prisma.User$meditationLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$meditationLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MeditationLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  userAchievements<T extends Prisma.User$userAchievementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$userAchievementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserAchievementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  scheduleBlocks<T extends Prisma.User$scheduleBlocksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$scheduleBlocksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ScheduleBlockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  scheduleLogs<T extends Prisma.User$scheduleLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$scheduleLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ScheduleLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2833,6 +3558,7 @@ export interface UserFieldRefs {
   readonly id: Prisma.FieldRef<"User", 'Int'>
   readonly email: Prisma.FieldRef<"User", 'String'>
   readonly password: Prisma.FieldRef<"User", 'String'>
+  readonly isAdmin: Prisma.FieldRef<"User", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
 }
@@ -3535,6 +4261,78 @@ export type User$meditationLogsArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.MeditationLogScalarFieldEnum | Prisma.MeditationLogScalarFieldEnum[]
+}
+
+/**
+ * User.userAchievements
+ */
+export type User$userAchievementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserAchievement
+   */
+  select?: Prisma.UserAchievementSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserAchievement
+   */
+  omit?: Prisma.UserAchievementOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserAchievementInclude<ExtArgs> | null
+  where?: Prisma.UserAchievementWhereInput
+  orderBy?: Prisma.UserAchievementOrderByWithRelationInput | Prisma.UserAchievementOrderByWithRelationInput[]
+  cursor?: Prisma.UserAchievementWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserAchievementScalarFieldEnum | Prisma.UserAchievementScalarFieldEnum[]
+}
+
+/**
+ * User.scheduleBlocks
+ */
+export type User$scheduleBlocksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ScheduleBlock
+   */
+  select?: Prisma.ScheduleBlockSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ScheduleBlock
+   */
+  omit?: Prisma.ScheduleBlockOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ScheduleBlockInclude<ExtArgs> | null
+  where?: Prisma.ScheduleBlockWhereInput
+  orderBy?: Prisma.ScheduleBlockOrderByWithRelationInput | Prisma.ScheduleBlockOrderByWithRelationInput[]
+  cursor?: Prisma.ScheduleBlockWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ScheduleBlockScalarFieldEnum | Prisma.ScheduleBlockScalarFieldEnum[]
+}
+
+/**
+ * User.scheduleLogs
+ */
+export type User$scheduleLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ScheduleLog
+   */
+  select?: Prisma.ScheduleLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ScheduleLog
+   */
+  omit?: Prisma.ScheduleLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ScheduleLogInclude<ExtArgs> | null
+  where?: Prisma.ScheduleLogWhereInput
+  orderBy?: Prisma.ScheduleLogOrderByWithRelationInput | Prisma.ScheduleLogOrderByWithRelationInput[]
+  cursor?: Prisma.ScheduleLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ScheduleLogScalarFieldEnum | Prisma.ScheduleLogScalarFieldEnum[]
 }
 
 /**

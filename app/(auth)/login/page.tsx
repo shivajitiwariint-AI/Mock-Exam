@@ -44,7 +44,8 @@ function LoginContent() {
     }
 
     await fetchUser()
-    router.push('/dashboard')
+    const me = await fetch('/api/auth/me').then((r) => r.ok ? r.json() : null)
+    router.push(me?.isAdmin ? '/admin' : '/dashboard')
   }
 
   return (

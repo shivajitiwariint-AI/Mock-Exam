@@ -1,6 +1,7 @@
 export type AuthUser = {
   userId: number
   email: string
+  isAdmin?: boolean
 }
 
 export type UserProfileData = {
@@ -13,6 +14,7 @@ export type UserProfileData = {
 export type CurrentUser = {
   id: number
   email: string
+  isAdmin: boolean
   profile: UserProfileData | null
 }
 

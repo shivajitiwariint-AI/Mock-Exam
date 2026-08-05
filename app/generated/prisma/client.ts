@@ -151,3 +151,18 @@ export type HealthLog = Prisma.HealthLogModel
  * 
  */
 export type MeditationLog = Prisma.MeditationLogModel
+/**
+ * Model UserAchievement
+ * 
+ */
+export type UserAchievement = Prisma.UserAchievementModel
+/**
+ * Model ScheduleBlock
+ * 
+ */
+export type ScheduleBlock = Prisma.ScheduleBlockModel
+/**
+ * Model ScheduleLog
+ * 
+ */
+export type ScheduleLog = Prisma.ScheduleLogModel

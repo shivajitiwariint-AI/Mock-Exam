@@ -10,9 +10,13 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   const { searchParams } = new URL(request.url)
   const subjectId = searchParams.get('subjectId') ? parseInt(searchParams.get('subjectId')!, 10) : undefined
 
+  const sevenDaysAgo = new Date()
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
+
   const sessions = await prisma.studySession.findMany({
     where: {
       userId: user.userId,
+      subjectId: { not: null },
       ...(subjectId ? { subjectId } : {}),
     },
     include: {
@@ -22,9 +26,12 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     orderBy: { createdAt: 'desc' },
   })
 
+  const weeklyMins = sessions
+    .filter((s) => s.createdAt >= sevenDaysAgo)
+    .reduce((sum, s) => sum + s.durationMins, 0)
   const totalMins = sessions.reduce((sum, s) => sum + s.durationMins, 0)
 
-  return NextResponse.json({ sessions, totalMins })
+  return NextResponse.json({ sessions, totalMins, weeklyMins })
 }
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
