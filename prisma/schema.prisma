@@ -1,0 +1,615 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  SUPER_ADMIN
+  SUBJECT_ADMIN
+  STUDENT
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  DISABLED
+}
+
+enum SubjectStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum DocumentStatus {
+  UPLOADED
+  PROCESSING
+  PROCESSED
+  FAILED
+}
+
+enum QuestionStatus {
+  DRAFT
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
+  ARCHIVED
+}
+
+enum QuestionType {
+  MCQ
+  SUBJECTIVE
+}
+
+enum QuestionSource {
+  MANUAL
+  IMPORTED
+  AI
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum ExamStatus {
+  DRAFT
+  PUBLISHED
+  UNPUBLISHED
+  ARCHIVED
+}
+
+enum ReviewPolicy {
+  AFTER_SUBMIT
+  AFTER_WINDOW_CLOSE
+  NEVER
+}
+
+enum AttemptStatus {
+  IN_PROGRESS
+  SUBMITTED
+  EXPIRED
+}
+
+enum JobType {
+  DOCUMENT_PROCESSING
+  QUESTION_GENERATION
+}
+
+enum JobStatus {
+  QUEUED
+  RUNNING
+  COMPLETED
+  FAILED
+}
+
+enum QuestionGenerationStatus {
+  IDLE
+  RUNNING
+  COMPLETED
+  FAILED
+}
+
+enum InterviewPrepStatus {
+  PROCESSING
+  READY
+  FAILED
+}
+
+enum InterviewQuestionCategory {
+  TECHNICAL
+  BEHAVIORAL
+  SITUATIONAL
+  ROLE_SPECIFIC
+}
+
+enum InterviewSessionStatus {
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum InterviewProctorEventType {
+  SCREEN_SHARE_STARTED
+  SCREEN_SHARE_STOPPED
+  CAMERA_STARTED
+  CAMERA_STOPPED
+  TAB_HIDDEN
+  TAB_VISIBLE
+  WINDOW_BLURRED
+  WINDOW_FOCUSED
+  FULLSCREEN_EXITED
+  MIC_USED
+}
+
+model User {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  name         String
+  passwordHash String
+  role         Role       @default(STUDENT)
+  status       UserStatus @default(ACTIVE)
+  lastLoginAt  DateTime?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  subjectAssignments     SubjectAdmin[]          @relation("SubjectAdminUser")
+  assignedSubjectAdmins  SubjectAdmin[]          @relation("SubjectAdminAssigner")
+  documents              Document[]
+  authoredQuestions      Question[]              @relation("QuestionCreator")
+  reviewedQuestions      Question[]              @relation("QuestionReviewer")
+  exams                  Exam[]
+  attempts               ExamAttempt[]
+  auditLogs              AuditLog[]
+  interviewPreps         InterviewPrep[]
+  interviewSessions      InterviewSession[]
+  interviewProctorEvents InterviewProctorEvent[]
+
+  @@index([role, status])
+  @@map("users")
+}
+
+model Subject {
+  id          String        @id @default(cuid())
+  name        String
+  slug        String        @unique
+  description String?
+  status      SubjectStatus @default(ACTIVE)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  topics    Topic[]
+  admins    SubjectAdmin[]
+  documents Document[]
+  chunks    DocumentChunk[]
+  questions Question[]
+  exams     Exam[]
+
+  @@index([status])
+  @@map("subjects")
+}
+
+model SubjectAdmin {
+  id           String   @id @default(cuid())
+  subjectId    String
+  userId       String
+  assignedById String?
+  createdAt    DateTime @default(now())
+
+  subject    Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  user       User    @relation("SubjectAdminUser", fields: [userId], references: [id], onDelete: Cascade)
+  assignedBy User?   @relation("SubjectAdminAssigner", fields: [assignedById], references: [id], onDelete: SetNull)
+
+  @@unique([subjectId, userId])
+  @@index([userId])
+  @@map("subject_admins")
+}
+
+model Topic {
+  id          String   @id @default(cuid())
+  subjectId   String
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  subject   Subject    @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  questions Question[]
+  exams     Exam[]
+  documents Document[]
+
+  @@unique([subjectId, name])
+  @@index([subjectId])
+  @@map("topics")
+}
+
+model Document {
+  id                            String                   @id @default(cuid())
+  subjectId                     String
+  topicId                       String?
+  uploaderId                    String
+  originalFilename              String
+  storageKey                    String                   @unique
+  mimeType                      String
+  sizeBytes                     Int
+  checksum                      String
+  status                        DocumentStatus           @default(UPLOADED)
+  processingMessage             String?
+  errorMessage                  String?
+  pageCount                     Int?
+  chunkCount                    Int                      @default(0)
+  processedAt                   DateTime?
+  questionGenerationStatus      QuestionGenerationStatus @default(IDLE)
+  questionGenerationProgress    Int                      @default(0)
+  questionGenerationMessage     String?
+  generatedQuestionCount        Int                      @default(0)
+  questionGenerationCompletedAt DateTime?
+  createdAt                     DateTime                 @default(now())
+  updatedAt                     DateTime                 @updatedAt
+
+  subject   Subject         @relation(fields: [subjectId], references: [id], onDelete: Restrict)
+  topic     Topic?          @relation(fields: [topicId], references: [id], onDelete: SetNull)
+  uploader  User            @relation(fields: [uploaderId], references: [id], onDelete: Restrict)
+  chunks    DocumentChunk[]
+  questions Question[]
+
+  @@unique([subjectId, checksum])
+  @@index([subjectId, status])
+  @@index([uploaderId])
+  @@index([topicId])
+  @@map("documents")
+}
+
+model DocumentChunk {
+  id         String   @id @default(cuid())
+  documentId String
+  subjectId  String
+  chunkIndex Int
+  content    String
+  charCount  Int
+  embedding  Json?
+  createdAt  DateTime @default(now())
+
+  document  Document   @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  subject   Subject    @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  questions Question[]
+
+  @@unique([documentId, chunkIndex])
+  @@index([subjectId, documentId])
+  @@map("document_chunks")
+}
+
+model Question {
+  id               String         @id @default(cuid())
+  subjectId        String
+  topicId          String?
+  sourceDocumentId String?
+  sourceChunkId    String?
+  type             QuestionType   @default(MCQ)
+  questionText     String         @db.Text
+  options          Json?
+  correctOption    String?
+  explanation      String?        @db.Text
+  difficulty       Difficulty     @default(MEDIUM)
+  status           QuestionStatus @default(DRAFT)
+  source           QuestionSource @default(MANUAL)
+  contentHash      String
+  aiModel          String?
+  createdById      String
+  reviewedById     String?
+  reviewedAt       DateTime?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  subject          Subject               @relation(fields: [subjectId], references: [id], onDelete: Restrict)
+  topic            Topic?                @relation(fields: [topicId], references: [id], onDelete: SetNull)
+  sourceDocument   Document?             @relation(fields: [sourceDocumentId], references: [id], onDelete: SetNull)
+  sourceChunk      DocumentChunk?        @relation(fields: [sourceChunkId], references: [id], onDelete: SetNull)
+  createdBy        User                  @relation("QuestionCreator", fields: [createdById], references: [id], onDelete: Restrict)
+  reviewedBy       User?                 @relation("QuestionReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+  examQuestions    ExamQuestion[]
+  attemptQuestions ExamAttemptQuestion[]
+
+  @@index([subjectId, status])
+  @@index([subjectId, contentHash])
+  @@index([topicId])
+  @@index([createdById])
+  @@map("questions")
+}
+
+model Exam {
+  id                String       @id @default(cuid())
+  subjectId         String
+  topicId           String?
+  createdById       String
+  title             String
+  description       String?
+  durationMinutes   Int
+  passPercentage    Int          @default(50)
+  marksPerQuestion  Int          @default(1)
+  negativeMarks     Int          @default(0)
+  maxAttempts       Int          @default(1)
+  shuffleQuestions  Boolean      @default(false)
+  shuffleOptions    Boolean      @default(false)
+  reviewPolicy      ReviewPolicy @default(AFTER_SUBMIT)
+  status            ExamStatus   @default(DRAFT)
+  availabilityStart DateTime
+  availabilityEnd   DateTime
+  publishedAt       DateTime?
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+
+  subject   Subject        @relation(fields: [subjectId], references: [id], onDelete: Restrict)
+  topic     Topic?         @relation(fields: [topicId], references: [id], onDelete: SetNull)
+  createdBy User           @relation(fields: [createdById], references: [id], onDelete: Restrict)
+  questions ExamQuestion[]
+  attempts  ExamAttempt[]
+
+  @@index([subjectId, status, availabilityStart])
+  @@index([createdById])
+  @@map("exams")
+}
+
+model ExamQuestion {
+  id         String @id @default(cuid())
+  examId     String
+  questionId String
+  order      Int
+  marks      Int    @default(1)
+
+  exam     Exam     @relation(fields: [examId], references: [id], onDelete: Cascade)
+  question Question @relation(fields: [questionId], references: [id], onDelete: Restrict)
+
+  @@unique([examId, questionId])
+  @@unique([examId, order])
+  @@index([questionId])
+  @@map("exam_questions")
+}
+
+model ExamAttempt {
+  id            String        @id @default(cuid())
+  examId        String
+  studentId     String
+  attemptNumber Int
+  status        AttemptStatus @default(IN_PROGRESS)
+  startedAt     DateTime      @default(now())
+  expiresAt     DateTime
+  submittedAt   DateTime?
+  lastSavedAt   DateTime?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  exam      Exam                  @relation(fields: [examId], references: [id], onDelete: Restrict)
+  student   User                  @relation(fields: [studentId], references: [id], onDelete: Restrict)
+  questions ExamAttemptQuestion[]
+  answers   StudentAnswer[]
+  result    ExamResult?
+
+  @@unique([examId, studentId, attemptNumber])
+  @@index([studentId, status])
+  @@index([examId, status])
+  @@map("exam_attempts")
+}
+
+model ExamAttemptQuestion {
+  id         String   @id @default(cuid())
+  attemptId  String
+  questionId String?
+  order      Int
+  marks      Int      @default(1)
+  snapshot   Json
+  createdAt  DateTime @default(now())
+
+  attempt  ExamAttempt     @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  question Question?       @relation(fields: [questionId], references: [id], onDelete: SetNull)
+  answers  StudentAnswer[]
+
+  @@unique([attemptId, order])
+  @@index([attemptId])
+  @@index([questionId])
+  @@map("exam_attempt_questions")
+}
+
+model StudentAnswer {
+  id                String   @id @default(cuid())
+  attemptId         String
+  attemptQuestionId String
+  selectedOption    String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  attempt         ExamAttempt         @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  attemptQuestion ExamAttemptQuestion @relation(fields: [attemptQuestionId], references: [id], onDelete: Cascade)
+
+  @@unique([attemptId, attemptQuestionId])
+  @@index([attemptId])
+  @@map("student_answers")
+}
+
+model ExamResult {
+  id               String   @id @default(cuid())
+  attemptId        String   @unique
+  score            Int
+  maxScore         Int
+  percentage       Decimal  @db.Decimal(5, 2)
+  correctCount     Int
+  incorrectCount   Int
+  unansweredCount  Int
+  passed           Boolean
+  timeTakenSeconds Int
+  computedAt       DateTime @default(now())
+
+  attempt ExamAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+
+  @@index([computedAt])
+  @@map("exam_results")
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorId    String?
+  action     String
+  entityType String
+  entityId   String?
+  metadata   Json?
+  ipAddress  String?
+  createdAt  DateTime @default(now())
+
+  actor User? @relation(fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([entityType, entityId])
+  @@index([actorId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+model ProcessingJob {
+  id              String    @id @default(cuid())
+  type            JobType
+  status          JobStatus @default(QUEUED)
+  payload         Json
+  attempts        Int       @default(0)
+  maxAttempts     Int       @default(3)
+  progress        Int       @default(0)
+  progressMessage String?
+  runAt           DateTime  @default(now())
+  lockedAt        DateTime?
+  lastError       String?
+  result          Json?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([status, runAt])
+  @@index([createdAt])
+  @@map("processing_jobs")
+}
+
+model RateLimitBucket {
+  key         String   @id
+  count       Int      @default(0)
+  windowStart DateTime @default(now())
+  expiresAt   DateTime
+  updatedAt   DateTime @updatedAt
+
+  @@index([expiresAt])
+  @@map("rate_limit_buckets")
+}
+
+model InterviewPrep {
+  id                        String              @id @default(cuid())
+  userId                    String
+  title                     String
+  company                   String?
+  role                      String?
+  resumeFilename            String?
+  resumeStorageKey          String?
+  jdFilename                String?
+  jdStorageKey              String?
+  resumeText                String?             @db.LongText
+  jdText                    String?             @db.LongText
+  interviewDate             DateTime?
+  actualQuestionsText       String?             @db.LongText
+  actualQuestionsFilename   String?
+  actualQuestionsStorageKey String?
+  targetQuestionCount       Int                 @default(8)
+  status                    InterviewPrepStatus @default(PROCESSING)
+  errorMessage              String?             @db.Text
+  aiModel                   String?
+  proctorEventCount         Int                 @default(0)
+  proctorFlagCount          Int                 @default(0)
+  createdAt                 DateTime            @default(now())
+  updatedAt                 DateTime            @updatedAt
+
+  user          User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  questions     InterviewQuestion[]
+  sessions      InterviewSession[]
+  proctorEvents InterviewProctorEvent[]
+
+  @@index([userId, createdAt])
+  @@index([status])
+  @@map("interview_preps")
+}
+
+model InterviewQuestion {
+  id             String                    @id @default(cuid())
+  prepId         String
+  order          Int
+  questionText   String                    @db.Text
+  category       InterviewQuestionCategory @default(TECHNICAL)
+  difficulty     Difficulty                @default(MEDIUM)
+  expectedAnswer String?                   @db.LongText
+  createdAt      DateTime                  @default(now())
+
+  prep             InterviewPrep              @relation(fields: [prepId], references: [id], onDelete: Cascade)
+  answers          InterviewAnswer[]
+  sessionQuestions InterviewSessionQuestion[]
+
+  @@unique([prepId, order])
+  @@index([prepId])
+  @@map("interview_questions")
+}
+
+model InterviewSession {
+  id                  String                 @id @default(cuid())
+  prepId              String
+  userId              String
+  status              InterviewSessionStatus @default(IN_PROGRESS)
+  startedAt           DateTime               @default(now())
+  completedAt         DateTime?
+  overallScore        Int?
+  summary             String?                @db.Text
+  strengths           Json?
+  improvementAreas    Json?
+  recommendedPractice Json?
+  createdAt           DateTime               @default(now())
+  updatedAt           DateTime               @updatedAt
+
+  prep             InterviewPrep              @relation(fields: [prepId], references: [id], onDelete: Cascade)
+  user             User                       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  answers          InterviewAnswer[]
+  sessionQuestions InterviewSessionQuestion[]
+  proctorEvents    InterviewProctorEvent[]
+
+  @@index([userId, startedAt])
+  @@index([prepId])
+  @@map("interview_sessions")
+}
+
+model InterviewProctorEvent {
+  id         String                    @id @default(cuid())
+  sessionId  String
+  prepId     String
+  userId     String
+  type       InterviewProctorEventType
+  flagged    Boolean                   @default(false)
+  occurredAt DateTime                  @default(now())
+  metadata   Json?
+  createdAt  DateTime                  @default(now())
+
+  session InterviewSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  prep    InterviewPrep    @relation(fields: [prepId], references: [id], onDelete: Cascade)
+  user    User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([prepId, flagged])
+  @@index([sessionId, occurredAt])
+  @@map("interview_proctor_events")
+}
+
+model InterviewSessionQuestion {
+  id         String   @id @default(cuid())
+  sessionId  String
+  questionId String
+  order      Int
+  createdAt  DateTime @default(now())
+
+  session  InterviewSession  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  question InterviewQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, order])
+  @@unique([sessionId, questionId])
+  @@index([questionId])
+  @@map("interview_session_questions")
+}
+
+model InterviewAnswer {
+  id          String   @id @default(cuid())
+  sessionId   String
+  questionId  String
+  answerText  String   @db.LongText
+  score       Int?
+  feedback    String?  @db.Text
+  idealAnswer String?  @db.LongText
+  improvement String?  @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  session  InterviewSession  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  question InterviewQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, questionId])
+  @@index([sessionId])
+  @@map("interview_answers")
+}
