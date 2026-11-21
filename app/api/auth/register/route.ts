@@ -43,12 +43,18 @@ export async function POST(request: NextRequest) {
   const hashed = await hashPassword(password)
 
   const user = await prisma.$transaction(async (tx) => {
-    const newUser = await tx.user.create({ data: { email, password: hashed } })
+    const newUser = await tx.user.create({ data: { email, password: hashed, name } })
     await tx.userProfile.create({ data: { userId: newUser.id, name } })
     return newUser
   })
 
-  const token = await signJWT({ userId: user.id, email: user.email })
+  const token = await signJWT({
+    userId: user.id,
+    email: user.email,
+    isAdmin: user.isAdmin,
+    role: user.role,
+    status: user.status,
+  })
   const response = NextResponse.json({ success: true }, { status: 201 })
   setAuthCookie(response, token)
   return response

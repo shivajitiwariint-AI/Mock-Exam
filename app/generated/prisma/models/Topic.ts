@@ -245,6 +245,7 @@ export type TopicWhereInput = {
   questions?: Prisma.QuestionListRelationFilter
   exams?: Prisma.ExamListRelationFilter
   studySessions?: Prisma.StudySessionListRelationFilter
+  documents?: Prisma.DocumentListRelationFilter
 }
 
 export type TopicOrderByWithRelationInput = {
@@ -260,11 +261,13 @@ export type TopicOrderByWithRelationInput = {
   questions?: Prisma.QuestionOrderByRelationAggregateInput
   exams?: Prisma.ExamOrderByRelationAggregateInput
   studySessions?: Prisma.StudySessionOrderByRelationAggregateInput
+  documents?: Prisma.DocumentOrderByRelationAggregateInput
   _relevance?: Prisma.TopicOrderByRelevanceInput
 }
 
 export type TopicWhereUniqueInput = Prisma.AtLeast<{
   id?: number
+  subjectId_name?: Prisma.TopicSubjectIdNameCompoundUniqueInput
   AND?: Prisma.TopicWhereInput | Prisma.TopicWhereInput[]
   OR?: Prisma.TopicWhereInput[]
   NOT?: Prisma.TopicWhereInput | Prisma.TopicWhereInput[]
@@ -279,7 +282,8 @@ export type TopicWhereUniqueInput = Prisma.AtLeast<{
   questions?: Prisma.QuestionListRelationFilter
   exams?: Prisma.ExamListRelationFilter
   studySessions?: Prisma.StudySessionListRelationFilter
-}, "id">
+  documents?: Prisma.DocumentListRelationFilter
+}, "id" | "subjectId_name">
 
 export type TopicOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -320,6 +324,7 @@ export type TopicCreateInput = {
   questions?: Prisma.QuestionCreateNestedManyWithoutTopicInput
   exams?: Prisma.ExamCreateNestedManyWithoutTopicInput
   studySessions?: Prisma.StudySessionCreateNestedManyWithoutTopicInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutTopicInput
 }
 
 export type TopicUncheckedCreateInput = {
@@ -334,6 +339,7 @@ export type TopicUncheckedCreateInput = {
   questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutTopicInput
   exams?: Prisma.ExamUncheckedCreateNestedManyWithoutTopicInput
   studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutTopicInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutTopicInput
 }
 
 export type TopicUpdateInput = {
@@ -347,6 +353,7 @@ export type TopicUpdateInput = {
   questions?: Prisma.QuestionUpdateManyWithoutTopicNestedInput
   exams?: Prisma.ExamUpdateManyWithoutTopicNestedInput
   studySessions?: Prisma.StudySessionUpdateManyWithoutTopicNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutTopicNestedInput
 }
 
 export type TopicUncheckedUpdateInput = {
@@ -361,6 +368,7 @@ export type TopicUncheckedUpdateInput = {
   questions?: Prisma.QuestionUncheckedUpdateManyWithoutTopicNestedInput
   exams?: Prisma.ExamUncheckedUpdateManyWithoutTopicNestedInput
   studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutTopicNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutTopicNestedInput
 }
 
 export type TopicCreateManyInput = {
@@ -405,6 +413,11 @@ export type TopicOrderByRelevanceInput = {
   fields: Prisma.TopicOrderByRelevanceFieldEnum | Prisma.TopicOrderByRelevanceFieldEnum[]
   sort: Prisma.SortOrder
   search: string
+}
+
+export type TopicSubjectIdNameCompoundUniqueInput = {
+  subjectId: number
+  name: string
 }
 
 export type TopicCountOrderByAggregateInput = {
@@ -515,6 +528,22 @@ export type TopicUpdateOneRequiredWithoutSubtopicsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TopicUpdateToOneWithWhereWithoutSubtopicsInput, Prisma.TopicUpdateWithoutSubtopicsInput>, Prisma.TopicUncheckedUpdateWithoutSubtopicsInput>
 }
 
+export type TopicCreateNestedOneWithoutDocumentsInput = {
+  create?: Prisma.XOR<Prisma.TopicCreateWithoutDocumentsInput, Prisma.TopicUncheckedCreateWithoutDocumentsInput>
+  connectOrCreate?: Prisma.TopicCreateOrConnectWithoutDocumentsInput
+  connect?: Prisma.TopicWhereUniqueInput
+}
+
+export type TopicUpdateOneWithoutDocumentsNestedInput = {
+  create?: Prisma.XOR<Prisma.TopicCreateWithoutDocumentsInput, Prisma.TopicUncheckedCreateWithoutDocumentsInput>
+  connectOrCreate?: Prisma.TopicCreateOrConnectWithoutDocumentsInput
+  upsert?: Prisma.TopicUpsertWithoutDocumentsInput
+  disconnect?: Prisma.TopicWhereInput | boolean
+  delete?: Prisma.TopicWhereInput | boolean
+  connect?: Prisma.TopicWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TopicUpdateToOneWithWhereWithoutDocumentsInput, Prisma.TopicUpdateWithoutDocumentsInput>, Prisma.TopicUncheckedUpdateWithoutDocumentsInput>
+}
+
 export type TopicCreateNestedOneWithoutQuestionsInput = {
   create?: Prisma.XOR<Prisma.TopicCreateWithoutQuestionsInput, Prisma.TopicUncheckedCreateWithoutQuestionsInput>
   connectOrCreate?: Prisma.TopicCreateOrConnectWithoutQuestionsInput
@@ -573,6 +602,7 @@ export type TopicCreateWithoutSubjectInput = {
   questions?: Prisma.QuestionCreateNestedManyWithoutTopicInput
   exams?: Prisma.ExamCreateNestedManyWithoutTopicInput
   studySessions?: Prisma.StudySessionCreateNestedManyWithoutTopicInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutTopicInput
 }
 
 export type TopicUncheckedCreateWithoutSubjectInput = {
@@ -586,6 +616,7 @@ export type TopicUncheckedCreateWithoutSubjectInput = {
   questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutTopicInput
   exams?: Prisma.ExamUncheckedCreateNestedManyWithoutTopicInput
   studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutTopicInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutTopicInput
 }
 
 export type TopicCreateOrConnectWithoutSubjectInput = {
@@ -637,6 +668,7 @@ export type TopicCreateWithoutSubtopicsInput = {
   questions?: Prisma.QuestionCreateNestedManyWithoutTopicInput
   exams?: Prisma.ExamCreateNestedManyWithoutTopicInput
   studySessions?: Prisma.StudySessionCreateNestedManyWithoutTopicInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutTopicInput
 }
 
 export type TopicUncheckedCreateWithoutSubtopicsInput = {
@@ -650,6 +682,7 @@ export type TopicUncheckedCreateWithoutSubtopicsInput = {
   questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutTopicInput
   exams?: Prisma.ExamUncheckedCreateNestedManyWithoutTopicInput
   studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutTopicInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutTopicInput
 }
 
 export type TopicCreateOrConnectWithoutSubtopicsInput = {
@@ -678,6 +711,7 @@ export type TopicUpdateWithoutSubtopicsInput = {
   questions?: Prisma.QuestionUpdateManyWithoutTopicNestedInput
   exams?: Prisma.ExamUpdateManyWithoutTopicNestedInput
   studySessions?: Prisma.StudySessionUpdateManyWithoutTopicNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutTopicNestedInput
 }
 
 export type TopicUncheckedUpdateWithoutSubtopicsInput = {
@@ -688,6 +722,77 @@ export type TopicUncheckedUpdateWithoutSubtopicsInput = {
   order?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  questions?: Prisma.QuestionUncheckedUpdateManyWithoutTopicNestedInput
+  exams?: Prisma.ExamUncheckedUpdateManyWithoutTopicNestedInput
+  studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutTopicNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutTopicNestedInput
+}
+
+export type TopicCreateWithoutDocumentsInput = {
+  name: string
+  description?: string | null
+  order?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  subject: Prisma.SubjectCreateNestedOneWithoutTopicsInput
+  subtopics?: Prisma.SubtopicCreateNestedManyWithoutTopicInput
+  questions?: Prisma.QuestionCreateNestedManyWithoutTopicInput
+  exams?: Prisma.ExamCreateNestedManyWithoutTopicInput
+  studySessions?: Prisma.StudySessionCreateNestedManyWithoutTopicInput
+}
+
+export type TopicUncheckedCreateWithoutDocumentsInput = {
+  id?: number
+  subjectId: number
+  name: string
+  description?: string | null
+  order?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  subtopics?: Prisma.SubtopicUncheckedCreateNestedManyWithoutTopicInput
+  questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutTopicInput
+  exams?: Prisma.ExamUncheckedCreateNestedManyWithoutTopicInput
+  studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutTopicInput
+}
+
+export type TopicCreateOrConnectWithoutDocumentsInput = {
+  where: Prisma.TopicWhereUniqueInput
+  create: Prisma.XOR<Prisma.TopicCreateWithoutDocumentsInput, Prisma.TopicUncheckedCreateWithoutDocumentsInput>
+}
+
+export type TopicUpsertWithoutDocumentsInput = {
+  update: Prisma.XOR<Prisma.TopicUpdateWithoutDocumentsInput, Prisma.TopicUncheckedUpdateWithoutDocumentsInput>
+  create: Prisma.XOR<Prisma.TopicCreateWithoutDocumentsInput, Prisma.TopicUncheckedCreateWithoutDocumentsInput>
+  where?: Prisma.TopicWhereInput
+}
+
+export type TopicUpdateToOneWithWhereWithoutDocumentsInput = {
+  where?: Prisma.TopicWhereInput
+  data: Prisma.XOR<Prisma.TopicUpdateWithoutDocumentsInput, Prisma.TopicUncheckedUpdateWithoutDocumentsInput>
+}
+
+export type TopicUpdateWithoutDocumentsInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  subject?: Prisma.SubjectUpdateOneRequiredWithoutTopicsNestedInput
+  subtopics?: Prisma.SubtopicUpdateManyWithoutTopicNestedInput
+  questions?: Prisma.QuestionUpdateManyWithoutTopicNestedInput
+  exams?: Prisma.ExamUpdateManyWithoutTopicNestedInput
+  studySessions?: Prisma.StudySessionUpdateManyWithoutTopicNestedInput
+}
+
+export type TopicUncheckedUpdateWithoutDocumentsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  subjectId?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  subtopics?: Prisma.SubtopicUncheckedUpdateManyWithoutTopicNestedInput
   questions?: Prisma.QuestionUncheckedUpdateManyWithoutTopicNestedInput
   exams?: Prisma.ExamUncheckedUpdateManyWithoutTopicNestedInput
   studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutTopicNestedInput
@@ -703,6 +808,7 @@ export type TopicCreateWithoutQuestionsInput = {
   subtopics?: Prisma.SubtopicCreateNestedManyWithoutTopicInput
   exams?: Prisma.ExamCreateNestedManyWithoutTopicInput
   studySessions?: Prisma.StudySessionCreateNestedManyWithoutTopicInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutTopicInput
 }
 
 export type TopicUncheckedCreateWithoutQuestionsInput = {
@@ -716,6 +822,7 @@ export type TopicUncheckedCreateWithoutQuestionsInput = {
   subtopics?: Prisma.SubtopicUncheckedCreateNestedManyWithoutTopicInput
   exams?: Prisma.ExamUncheckedCreateNestedManyWithoutTopicInput
   studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutTopicInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutTopicInput
 }
 
 export type TopicCreateOrConnectWithoutQuestionsInput = {
@@ -744,6 +851,7 @@ export type TopicUpdateWithoutQuestionsInput = {
   subtopics?: Prisma.SubtopicUpdateManyWithoutTopicNestedInput
   exams?: Prisma.ExamUpdateManyWithoutTopicNestedInput
   studySessions?: Prisma.StudySessionUpdateManyWithoutTopicNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutTopicNestedInput
 }
 
 export type TopicUncheckedUpdateWithoutQuestionsInput = {
@@ -757,6 +865,7 @@ export type TopicUncheckedUpdateWithoutQuestionsInput = {
   subtopics?: Prisma.SubtopicUncheckedUpdateManyWithoutTopicNestedInput
   exams?: Prisma.ExamUncheckedUpdateManyWithoutTopicNestedInput
   studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutTopicNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutTopicNestedInput
 }
 
 export type TopicCreateWithoutExamsInput = {
@@ -769,6 +878,7 @@ export type TopicCreateWithoutExamsInput = {
   subtopics?: Prisma.SubtopicCreateNestedManyWithoutTopicInput
   questions?: Prisma.QuestionCreateNestedManyWithoutTopicInput
   studySessions?: Prisma.StudySessionCreateNestedManyWithoutTopicInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutTopicInput
 }
 
 export type TopicUncheckedCreateWithoutExamsInput = {
@@ -782,6 +892,7 @@ export type TopicUncheckedCreateWithoutExamsInput = {
   subtopics?: Prisma.SubtopicUncheckedCreateNestedManyWithoutTopicInput
   questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutTopicInput
   studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutTopicInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutTopicInput
 }
 
 export type TopicCreateOrConnectWithoutExamsInput = {
@@ -810,6 +921,7 @@ export type TopicUpdateWithoutExamsInput = {
   subtopics?: Prisma.SubtopicUpdateManyWithoutTopicNestedInput
   questions?: Prisma.QuestionUpdateManyWithoutTopicNestedInput
   studySessions?: Prisma.StudySessionUpdateManyWithoutTopicNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutTopicNestedInput
 }
 
 export type TopicUncheckedUpdateWithoutExamsInput = {
@@ -823,6 +935,7 @@ export type TopicUncheckedUpdateWithoutExamsInput = {
   subtopics?: Prisma.SubtopicUncheckedUpdateManyWithoutTopicNestedInput
   questions?: Prisma.QuestionUncheckedUpdateManyWithoutTopicNestedInput
   studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutTopicNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutTopicNestedInput
 }
 
 export type TopicCreateWithoutStudySessionsInput = {
@@ -835,6 +948,7 @@ export type TopicCreateWithoutStudySessionsInput = {
   subtopics?: Prisma.SubtopicCreateNestedManyWithoutTopicInput
   questions?: Prisma.QuestionCreateNestedManyWithoutTopicInput
   exams?: Prisma.ExamCreateNestedManyWithoutTopicInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutTopicInput
 }
 
 export type TopicUncheckedCreateWithoutStudySessionsInput = {
@@ -848,6 +962,7 @@ export type TopicUncheckedCreateWithoutStudySessionsInput = {
   subtopics?: Prisma.SubtopicUncheckedCreateNestedManyWithoutTopicInput
   questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutTopicInput
   exams?: Prisma.ExamUncheckedCreateNestedManyWithoutTopicInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutTopicInput
 }
 
 export type TopicCreateOrConnectWithoutStudySessionsInput = {
@@ -876,6 +991,7 @@ export type TopicUpdateWithoutStudySessionsInput = {
   subtopics?: Prisma.SubtopicUpdateManyWithoutTopicNestedInput
   questions?: Prisma.QuestionUpdateManyWithoutTopicNestedInput
   exams?: Prisma.ExamUpdateManyWithoutTopicNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutTopicNestedInput
 }
 
 export type TopicUncheckedUpdateWithoutStudySessionsInput = {
@@ -889,6 +1005,7 @@ export type TopicUncheckedUpdateWithoutStudySessionsInput = {
   subtopics?: Prisma.SubtopicUncheckedUpdateManyWithoutTopicNestedInput
   questions?: Prisma.QuestionUncheckedUpdateManyWithoutTopicNestedInput
   exams?: Prisma.ExamUncheckedUpdateManyWithoutTopicNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutTopicNestedInput
 }
 
 export type TopicCreateManySubjectInput = {
@@ -910,6 +1027,7 @@ export type TopicUpdateWithoutSubjectInput = {
   questions?: Prisma.QuestionUpdateManyWithoutTopicNestedInput
   exams?: Prisma.ExamUpdateManyWithoutTopicNestedInput
   studySessions?: Prisma.StudySessionUpdateManyWithoutTopicNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutTopicNestedInput
 }
 
 export type TopicUncheckedUpdateWithoutSubjectInput = {
@@ -923,6 +1041,7 @@ export type TopicUncheckedUpdateWithoutSubjectInput = {
   questions?: Prisma.QuestionUncheckedUpdateManyWithoutTopicNestedInput
   exams?: Prisma.ExamUncheckedUpdateManyWithoutTopicNestedInput
   studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutTopicNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutTopicNestedInput
 }
 
 export type TopicUncheckedUpdateManyWithoutSubjectInput = {
@@ -944,6 +1063,7 @@ export type TopicCountOutputType = {
   questions: number
   exams: number
   studySessions: number
+  documents: number
 }
 
 export type TopicCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -951,6 +1071,7 @@ export type TopicCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.
   questions?: boolean | TopicCountOutputTypeCountQuestionsArgs
   exams?: boolean | TopicCountOutputTypeCountExamsArgs
   studySessions?: boolean | TopicCountOutputTypeCountStudySessionsArgs
+  documents?: boolean | TopicCountOutputTypeCountDocumentsArgs
 }
 
 /**
@@ -991,6 +1112,13 @@ export type TopicCountOutputTypeCountStudySessionsArgs<ExtArgs extends runtime.T
   where?: Prisma.StudySessionWhereInput
 }
 
+/**
+ * TopicCountOutputType without action
+ */
+export type TopicCountOutputTypeCountDocumentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DocumentWhereInput
+}
+
 
 export type TopicSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1005,6 +1133,7 @@ export type TopicSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   questions?: boolean | Prisma.Topic$questionsArgs<ExtArgs>
   exams?: boolean | Prisma.Topic$examsArgs<ExtArgs>
   studySessions?: boolean | Prisma.Topic$studySessionsArgs<ExtArgs>
+  documents?: boolean | Prisma.Topic$documentsArgs<ExtArgs>
   _count?: boolean | Prisma.TopicCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["topic"]>
 
@@ -1027,6 +1156,7 @@ export type TopicInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   questions?: boolean | Prisma.Topic$questionsArgs<ExtArgs>
   exams?: boolean | Prisma.Topic$examsArgs<ExtArgs>
   studySessions?: boolean | Prisma.Topic$studySessionsArgs<ExtArgs>
+  documents?: boolean | Prisma.Topic$documentsArgs<ExtArgs>
   _count?: boolean | Prisma.TopicCountOutputTypeDefaultArgs<ExtArgs>
 }
 
@@ -1038,6 +1168,7 @@ export type $TopicPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     questions: Prisma.$QuestionPayload<ExtArgs>[]
     exams: Prisma.$ExamPayload<ExtArgs>[]
     studySessions: Prisma.$StudySessionPayload<ExtArgs>[]
+    documents: Prisma.$DocumentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1392,6 +1523,7 @@ export interface Prisma__TopicClient<T, Null = never, ExtArgs extends runtime.Ty
   questions<T extends Prisma.Topic$questionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Topic$questionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QuestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   exams<T extends Prisma.Topic$examsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Topic$examsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExamPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   studySessions<T extends Prisma.Topic$studySessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Topic$studySessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudySessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  documents<T extends Prisma.Topic$documentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Topic$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1869,6 +2001,30 @@ export type Topic$studySessionsArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.StudySessionScalarFieldEnum | Prisma.StudySessionScalarFieldEnum[]
+}
+
+/**
+ * Topic.documents
+ */
+export type Topic$documentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Document
+   */
+  select?: Prisma.DocumentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Document
+   */
+  omit?: Prisma.DocumentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DocumentInclude<ExtArgs> | null
+  where?: Prisma.DocumentWhereInput
+  orderBy?: Prisma.DocumentOrderByWithRelationInput | Prisma.DocumentOrderByWithRelationInput[]
+  cursor?: Prisma.DocumentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DocumentScalarFieldEnum | Prisma.DocumentScalarFieldEnum[]
 }
 
 /**

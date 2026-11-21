@@ -28,53 +28,92 @@ export type AggregateQuestion = {
 
 export type QuestionAvgAggregateOutputType = {
   id: number | null
-  userId: number | null
+  subjectId: number | null
   topicId: number | null
   subtopicId: number | null
+  userId: number | null
+  sourceDocumentId: number | null
+  sourceChunkId: number | null
+  reviewedById: number | null
 }
 
 export type QuestionSumAggregateOutputType = {
   id: number | null
-  userId: number | null
+  subjectId: number | null
   topicId: number | null
   subtopicId: number | null
+  userId: number | null
+  sourceDocumentId: number | null
+  sourceChunkId: number | null
+  reviewedById: number | null
 }
 
 export type QuestionMinAggregateOutputType = {
   id: number | null
-  userId: number | null
+  subjectId: number | null
   topicId: number | null
   subtopicId: number | null
+  userId: number | null
+  sourceDocumentId: number | null
+  sourceChunkId: number | null
   type: $Enums.QuestionType | null
-  content: string | null
+  questionText: string | null
+  correctOption: string | null
   explanation: string | null
   difficulty: $Enums.Difficulty | null
+  status: $Enums.QuestionStatus | null
+  source: $Enums.QuestionSource | null
+  contentHash: string | null
+  aiModel: string | null
+  reviewedById: number | null
+  reviewedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
 export type QuestionMaxAggregateOutputType = {
   id: number | null
-  userId: number | null
+  subjectId: number | null
   topicId: number | null
   subtopicId: number | null
+  userId: number | null
+  sourceDocumentId: number | null
+  sourceChunkId: number | null
   type: $Enums.QuestionType | null
-  content: string | null
+  questionText: string | null
+  correctOption: string | null
   explanation: string | null
   difficulty: $Enums.Difficulty | null
+  status: $Enums.QuestionStatus | null
+  source: $Enums.QuestionSource | null
+  contentHash: string | null
+  aiModel: string | null
+  reviewedById: number | null
+  reviewedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
 export type QuestionCountAggregateOutputType = {
   id: number
-  userId: number
+  subjectId: number
   topicId: number
   subtopicId: number
+  userId: number
+  sourceDocumentId: number
+  sourceChunkId: number
   type: number
-  content: number
+  questionText: number
+  options: number
+  correctOption: number
   explanation: number
   difficulty: number
+  status: number
+  source: number
+  contentHash: number
+  aiModel: number
+  reviewedById: number
+  reviewedAt: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -83,53 +122,92 @@ export type QuestionCountAggregateOutputType = {
 
 export type QuestionAvgAggregateInputType = {
   id?: true
-  userId?: true
+  subjectId?: true
   topicId?: true
   subtopicId?: true
+  userId?: true
+  sourceDocumentId?: true
+  sourceChunkId?: true
+  reviewedById?: true
 }
 
 export type QuestionSumAggregateInputType = {
   id?: true
-  userId?: true
+  subjectId?: true
   topicId?: true
   subtopicId?: true
+  userId?: true
+  sourceDocumentId?: true
+  sourceChunkId?: true
+  reviewedById?: true
 }
 
 export type QuestionMinAggregateInputType = {
   id?: true
-  userId?: true
+  subjectId?: true
   topicId?: true
   subtopicId?: true
+  userId?: true
+  sourceDocumentId?: true
+  sourceChunkId?: true
   type?: true
-  content?: true
+  questionText?: true
+  correctOption?: true
   explanation?: true
   difficulty?: true
+  status?: true
+  source?: true
+  contentHash?: true
+  aiModel?: true
+  reviewedById?: true
+  reviewedAt?: true
   createdAt?: true
   updatedAt?: true
 }
 
 export type QuestionMaxAggregateInputType = {
   id?: true
-  userId?: true
+  subjectId?: true
   topicId?: true
   subtopicId?: true
+  userId?: true
+  sourceDocumentId?: true
+  sourceChunkId?: true
   type?: true
-  content?: true
+  questionText?: true
+  correctOption?: true
   explanation?: true
   difficulty?: true
+  status?: true
+  source?: true
+  contentHash?: true
+  aiModel?: true
+  reviewedById?: true
+  reviewedAt?: true
   createdAt?: true
   updatedAt?: true
 }
 
 export type QuestionCountAggregateInputType = {
   id?: true
-  userId?: true
+  subjectId?: true
   topicId?: true
   subtopicId?: true
+  userId?: true
+  sourceDocumentId?: true
+  sourceChunkId?: true
   type?: true
-  content?: true
+  questionText?: true
+  options?: true
+  correctOption?: true
   explanation?: true
   difficulty?: true
+  status?: true
+  source?: true
+  contentHash?: true
+  aiModel?: true
+  reviewedById?: true
+  reviewedAt?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -223,13 +301,24 @@ export type QuestionGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 
 export type QuestionGroupByOutputType = {
   id: number
-  userId: number
+  subjectId: number | null
   topicId: number | null
   subtopicId: number | null
+  userId: number | null
+  sourceDocumentId: number | null
+  sourceChunkId: number | null
   type: $Enums.QuestionType
-  content: string
+  questionText: string
+  options: runtime.JsonValue | null
+  correctOption: string | null
   explanation: string | null
   difficulty: $Enums.Difficulty
+  status: $Enums.QuestionStatus
+  source: $Enums.QuestionSource
+  contentHash: string | null
+  aiModel: string | null
+  reviewedById: number | null
+  reviewedAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: QuestionCountAggregateOutputType | null
@@ -259,38 +348,70 @@ export type QuestionWhereInput = {
   OR?: Prisma.QuestionWhereInput[]
   NOT?: Prisma.QuestionWhereInput | Prisma.QuestionWhereInput[]
   id?: Prisma.IntFilter<"Question"> | number
-  userId?: Prisma.IntFilter<"Question"> | number
+  subjectId?: Prisma.IntNullableFilter<"Question"> | number | null
   topicId?: Prisma.IntNullableFilter<"Question"> | number | null
   subtopicId?: Prisma.IntNullableFilter<"Question"> | number | null
+  userId?: Prisma.IntNullableFilter<"Question"> | number | null
+  sourceDocumentId?: Prisma.IntNullableFilter<"Question"> | number | null
+  sourceChunkId?: Prisma.IntNullableFilter<"Question"> | number | null
   type?: Prisma.EnumQuestionTypeFilter<"Question"> | $Enums.QuestionType
-  content?: Prisma.StringFilter<"Question"> | string
+  questionText?: Prisma.StringFilter<"Question"> | string
+  options?: Prisma.JsonNullableFilter<"Question">
+  correctOption?: Prisma.StringNullableFilter<"Question"> | string | null
   explanation?: Prisma.StringNullableFilter<"Question"> | string | null
   difficulty?: Prisma.EnumDifficultyFilter<"Question"> | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFilter<"Question"> | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFilter<"Question"> | $Enums.QuestionSource
+  contentHash?: Prisma.StringNullableFilter<"Question"> | string | null
+  aiModel?: Prisma.StringNullableFilter<"Question"> | string | null
+  reviewedById?: Prisma.IntNullableFilter<"Question"> | number | null
+  reviewedAt?: Prisma.DateTimeNullableFilter<"Question"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Question"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Question"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  subject?: Prisma.XOR<Prisma.SubjectNullableScalarRelationFilter, Prisma.SubjectWhereInput> | null
   topic?: Prisma.XOR<Prisma.TopicNullableScalarRelationFilter, Prisma.TopicWhereInput> | null
   subtopic?: Prisma.XOR<Prisma.SubtopicNullableScalarRelationFilter, Prisma.SubtopicWhereInput> | null
+  sourceDocument?: Prisma.XOR<Prisma.DocumentNullableScalarRelationFilter, Prisma.DocumentWhereInput> | null
+  sourceChunk?: Prisma.XOR<Prisma.DocumentChunkNullableScalarRelationFilter, Prisma.DocumentChunkWhereInput> | null
+  createdBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  reviewedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   answers?: Prisma.QuestionAnswerListRelationFilter
   examQuestions?: Prisma.ExamQuestionListRelationFilter
+  attemptQuestions?: Prisma.ExamAttemptQuestionListRelationFilter
 }
 
 export type QuestionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  subjectId?: Prisma.SortOrderInput | Prisma.SortOrder
   topicId?: Prisma.SortOrderInput | Prisma.SortOrder
   subtopicId?: Prisma.SortOrderInput | Prisma.SortOrder
+  userId?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceDocumentId?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceChunkId?: Prisma.SortOrderInput | Prisma.SortOrder
   type?: Prisma.SortOrder
-  content?: Prisma.SortOrder
+  questionText?: Prisma.SortOrder
+  options?: Prisma.SortOrderInput | Prisma.SortOrder
+  correctOption?: Prisma.SortOrderInput | Prisma.SortOrder
   explanation?: Prisma.SortOrderInput | Prisma.SortOrder
   difficulty?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  source?: Prisma.SortOrder
+  contentHash?: Prisma.SortOrderInput | Prisma.SortOrder
+  aiModel?: Prisma.SortOrderInput | Prisma.SortOrder
+  reviewedById?: Prisma.SortOrderInput | Prisma.SortOrder
+  reviewedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  user?: Prisma.UserOrderByWithRelationInput
+  subject?: Prisma.SubjectOrderByWithRelationInput
   topic?: Prisma.TopicOrderByWithRelationInput
   subtopic?: Prisma.SubtopicOrderByWithRelationInput
+  sourceDocument?: Prisma.DocumentOrderByWithRelationInput
+  sourceChunk?: Prisma.DocumentChunkOrderByWithRelationInput
+  createdBy?: Prisma.UserOrderByWithRelationInput
+  reviewedBy?: Prisma.UserOrderByWithRelationInput
   answers?: Prisma.QuestionAnswerOrderByRelationAggregateInput
   examQuestions?: Prisma.ExamQuestionOrderByRelationAggregateInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionOrderByRelationAggregateInput
   _relevance?: Prisma.QuestionOrderByRelevanceInput
 }
 
@@ -299,31 +420,58 @@ export type QuestionWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.QuestionWhereInput | Prisma.QuestionWhereInput[]
   OR?: Prisma.QuestionWhereInput[]
   NOT?: Prisma.QuestionWhereInput | Prisma.QuestionWhereInput[]
-  userId?: Prisma.IntFilter<"Question"> | number
+  subjectId?: Prisma.IntNullableFilter<"Question"> | number | null
   topicId?: Prisma.IntNullableFilter<"Question"> | number | null
   subtopicId?: Prisma.IntNullableFilter<"Question"> | number | null
+  userId?: Prisma.IntNullableFilter<"Question"> | number | null
+  sourceDocumentId?: Prisma.IntNullableFilter<"Question"> | number | null
+  sourceChunkId?: Prisma.IntNullableFilter<"Question"> | number | null
   type?: Prisma.EnumQuestionTypeFilter<"Question"> | $Enums.QuestionType
-  content?: Prisma.StringFilter<"Question"> | string
+  questionText?: Prisma.StringFilter<"Question"> | string
+  options?: Prisma.JsonNullableFilter<"Question">
+  correctOption?: Prisma.StringNullableFilter<"Question"> | string | null
   explanation?: Prisma.StringNullableFilter<"Question"> | string | null
   difficulty?: Prisma.EnumDifficultyFilter<"Question"> | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFilter<"Question"> | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFilter<"Question"> | $Enums.QuestionSource
+  contentHash?: Prisma.StringNullableFilter<"Question"> | string | null
+  aiModel?: Prisma.StringNullableFilter<"Question"> | string | null
+  reviewedById?: Prisma.IntNullableFilter<"Question"> | number | null
+  reviewedAt?: Prisma.DateTimeNullableFilter<"Question"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Question"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Question"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  subject?: Prisma.XOR<Prisma.SubjectNullableScalarRelationFilter, Prisma.SubjectWhereInput> | null
   topic?: Prisma.XOR<Prisma.TopicNullableScalarRelationFilter, Prisma.TopicWhereInput> | null
   subtopic?: Prisma.XOR<Prisma.SubtopicNullableScalarRelationFilter, Prisma.SubtopicWhereInput> | null
+  sourceDocument?: Prisma.XOR<Prisma.DocumentNullableScalarRelationFilter, Prisma.DocumentWhereInput> | null
+  sourceChunk?: Prisma.XOR<Prisma.DocumentChunkNullableScalarRelationFilter, Prisma.DocumentChunkWhereInput> | null
+  createdBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  reviewedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   answers?: Prisma.QuestionAnswerListRelationFilter
   examQuestions?: Prisma.ExamQuestionListRelationFilter
+  attemptQuestions?: Prisma.ExamAttemptQuestionListRelationFilter
 }, "id">
 
 export type QuestionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  subjectId?: Prisma.SortOrderInput | Prisma.SortOrder
   topicId?: Prisma.SortOrderInput | Prisma.SortOrder
   subtopicId?: Prisma.SortOrderInput | Prisma.SortOrder
+  userId?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceDocumentId?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceChunkId?: Prisma.SortOrderInput | Prisma.SortOrder
   type?: Prisma.SortOrder
-  content?: Prisma.SortOrder
+  questionText?: Prisma.SortOrder
+  options?: Prisma.SortOrderInput | Prisma.SortOrder
+  correctOption?: Prisma.SortOrderInput | Prisma.SortOrder
   explanation?: Prisma.SortOrderInput | Prisma.SortOrder
   difficulty?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  source?: Prisma.SortOrder
+  contentHash?: Prisma.SortOrderInput | Prisma.SortOrder
+  aiModel?: Prisma.SortOrderInput | Prisma.SortOrder
+  reviewedById?: Prisma.SortOrderInput | Prisma.SortOrder
+  reviewedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.QuestionCountOrderByAggregateInput
@@ -338,106 +486,194 @@ export type QuestionScalarWhereWithAggregatesInput = {
   OR?: Prisma.QuestionScalarWhereWithAggregatesInput[]
   NOT?: Prisma.QuestionScalarWhereWithAggregatesInput | Prisma.QuestionScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Question"> | number
-  userId?: Prisma.IntWithAggregatesFilter<"Question"> | number
+  subjectId?: Prisma.IntNullableWithAggregatesFilter<"Question"> | number | null
   topicId?: Prisma.IntNullableWithAggregatesFilter<"Question"> | number | null
   subtopicId?: Prisma.IntNullableWithAggregatesFilter<"Question"> | number | null
+  userId?: Prisma.IntNullableWithAggregatesFilter<"Question"> | number | null
+  sourceDocumentId?: Prisma.IntNullableWithAggregatesFilter<"Question"> | number | null
+  sourceChunkId?: Prisma.IntNullableWithAggregatesFilter<"Question"> | number | null
   type?: Prisma.EnumQuestionTypeWithAggregatesFilter<"Question"> | $Enums.QuestionType
-  content?: Prisma.StringWithAggregatesFilter<"Question"> | string
+  questionText?: Prisma.StringWithAggregatesFilter<"Question"> | string
+  options?: Prisma.JsonNullableWithAggregatesFilter<"Question">
+  correctOption?: Prisma.StringNullableWithAggregatesFilter<"Question"> | string | null
   explanation?: Prisma.StringNullableWithAggregatesFilter<"Question"> | string | null
   difficulty?: Prisma.EnumDifficultyWithAggregatesFilter<"Question"> | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusWithAggregatesFilter<"Question"> | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceWithAggregatesFilter<"Question"> | $Enums.QuestionSource
+  contentHash?: Prisma.StringNullableWithAggregatesFilter<"Question"> | string | null
+  aiModel?: Prisma.StringNullableWithAggregatesFilter<"Question"> | string | null
+  reviewedById?: Prisma.IntNullableWithAggregatesFilter<"Question"> | number | null
+  reviewedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Question"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Question"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Question"> | Date | string
 }
 
 export type QuestionCreateInput = {
   type?: $Enums.QuestionType
-  content: string
+  questionText: string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: string | null
   explanation?: string | null
   difficulty?: $Enums.Difficulty
+  status?: $Enums.QuestionStatus
+  source?: $Enums.QuestionSource
+  contentHash?: string | null
+  aiModel?: string | null
+  reviewedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutQuestionsInput
+  subject?: Prisma.SubjectCreateNestedOneWithoutQuestionsInput
   topic?: Prisma.TopicCreateNestedOneWithoutQuestionsInput
   subtopic?: Prisma.SubtopicCreateNestedOneWithoutQuestionsInput
+  sourceDocument?: Prisma.DocumentCreateNestedOneWithoutQuestionsInput
+  sourceChunk?: Prisma.DocumentChunkCreateNestedOneWithoutQuestionsInput
+  createdBy?: Prisma.UserCreateNestedOneWithoutAuthoredQuestionsInput
+  reviewedBy?: Prisma.UserCreateNestedOneWithoutReviewedQuestionsInput
   answers?: Prisma.QuestionAnswerCreateNestedManyWithoutQuestionInput
   examQuestions?: Prisma.ExamQuestionCreateNestedManyWithoutQuestionInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionCreateNestedManyWithoutQuestionInput
 }
 
 export type QuestionUncheckedCreateInput = {
   id?: number
-  userId: number
+  subjectId?: number | null
   topicId?: number | null
   subtopicId?: number | null
+  userId?: number | null
+  sourceDocumentId?: number | null
+  sourceChunkId?: number | null
   type?: $Enums.QuestionType
-  content: string
+  questionText: string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: string | null
   explanation?: string | null
   difficulty?: $Enums.Difficulty
+  status?: $Enums.QuestionStatus
+  source?: $Enums.QuestionSource
+  contentHash?: string | null
+  aiModel?: string | null
+  reviewedById?: number | null
+  reviewedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   answers?: Prisma.QuestionAnswerUncheckedCreateNestedManyWithoutQuestionInput
   examQuestions?: Prisma.ExamQuestionUncheckedCreateNestedManyWithoutQuestionInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionUncheckedCreateNestedManyWithoutQuestionInput
 }
 
 export type QuestionUpdateInput = {
   type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
-  content?: Prisma.StringFieldUpdateOperationsInput | string
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFieldUpdateOperationsInput | $Enums.QuestionSource
+  contentHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutQuestionsNestedInput
+  subject?: Prisma.SubjectUpdateOneWithoutQuestionsNestedInput
   topic?: Prisma.TopicUpdateOneWithoutQuestionsNestedInput
   subtopic?: Prisma.SubtopicUpdateOneWithoutQuestionsNestedInput
+  sourceDocument?: Prisma.DocumentUpdateOneWithoutQuestionsNestedInput
+  sourceChunk?: Prisma.DocumentChunkUpdateOneWithoutQuestionsNestedInput
+  createdBy?: Prisma.UserUpdateOneWithoutAuthoredQuestionsNestedInput
+  reviewedBy?: Prisma.UserUpdateOneWithoutReviewedQuestionsNestedInput
   answers?: Prisma.QuestionAnswerUpdateManyWithoutQuestionNestedInput
   examQuestions?: Prisma.ExamQuestionUpdateManyWithoutQuestionNestedInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionUpdateManyWithoutQuestionNestedInput
 }
 
 export type QuestionUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  subjectId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   topicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subtopicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  userId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceDocumentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceChunkId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
-  content?: Prisma.StringFieldUpdateOperationsInput | string
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFieldUpdateOperationsInput | $Enums.QuestionSource
+  contentHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   answers?: Prisma.QuestionAnswerUncheckedUpdateManyWithoutQuestionNestedInput
   examQuestions?: Prisma.ExamQuestionUncheckedUpdateManyWithoutQuestionNestedInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionUncheckedUpdateManyWithoutQuestionNestedInput
 }
 
 export type QuestionCreateManyInput = {
   id?: number
-  userId: number
+  subjectId?: number | null
   topicId?: number | null
   subtopicId?: number | null
+  userId?: number | null
+  sourceDocumentId?: number | null
+  sourceChunkId?: number | null
   type?: $Enums.QuestionType
-  content: string
+  questionText: string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: string | null
   explanation?: string | null
   difficulty?: $Enums.Difficulty
+  status?: $Enums.QuestionStatus
+  source?: $Enums.QuestionSource
+  contentHash?: string | null
+  aiModel?: string | null
+  reviewedById?: number | null
+  reviewedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type QuestionUpdateManyMutationInput = {
   type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
-  content?: Prisma.StringFieldUpdateOperationsInput | string
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFieldUpdateOperationsInput | $Enums.QuestionSource
+  contentHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type QuestionUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  subjectId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   topicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subtopicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  userId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceDocumentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceChunkId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
-  content?: Prisma.StringFieldUpdateOperationsInput | string
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFieldUpdateOperationsInput | $Enums.QuestionSource
+  contentHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -460,55 +696,94 @@ export type QuestionOrderByRelevanceInput = {
 
 export type QuestionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  subjectId?: Prisma.SortOrder
   topicId?: Prisma.SortOrder
   subtopicId?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  sourceDocumentId?: Prisma.SortOrder
+  sourceChunkId?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  content?: Prisma.SortOrder
+  questionText?: Prisma.SortOrder
+  options?: Prisma.SortOrder
+  correctOption?: Prisma.SortOrder
   explanation?: Prisma.SortOrder
   difficulty?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  source?: Prisma.SortOrder
+  contentHash?: Prisma.SortOrder
+  aiModel?: Prisma.SortOrder
+  reviewedById?: Prisma.SortOrder
+  reviewedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type QuestionAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  subjectId?: Prisma.SortOrder
   topicId?: Prisma.SortOrder
   subtopicId?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  sourceDocumentId?: Prisma.SortOrder
+  sourceChunkId?: Prisma.SortOrder
+  reviewedById?: Prisma.SortOrder
 }
 
 export type QuestionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  subjectId?: Prisma.SortOrder
   topicId?: Prisma.SortOrder
   subtopicId?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  sourceDocumentId?: Prisma.SortOrder
+  sourceChunkId?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  content?: Prisma.SortOrder
+  questionText?: Prisma.SortOrder
+  correctOption?: Prisma.SortOrder
   explanation?: Prisma.SortOrder
   difficulty?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  source?: Prisma.SortOrder
+  contentHash?: Prisma.SortOrder
+  aiModel?: Prisma.SortOrder
+  reviewedById?: Prisma.SortOrder
+  reviewedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type QuestionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  subjectId?: Prisma.SortOrder
   topicId?: Prisma.SortOrder
   subtopicId?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  sourceDocumentId?: Prisma.SortOrder
+  sourceChunkId?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  content?: Prisma.SortOrder
+  questionText?: Prisma.SortOrder
+  correctOption?: Prisma.SortOrder
   explanation?: Prisma.SortOrder
   difficulty?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  source?: Prisma.SortOrder
+  contentHash?: Prisma.SortOrder
+  aiModel?: Prisma.SortOrder
+  reviewedById?: Prisma.SortOrder
+  reviewedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type QuestionSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  subjectId?: Prisma.SortOrder
   topicId?: Prisma.SortOrder
   subtopicId?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  sourceDocumentId?: Prisma.SortOrder
+  sourceChunkId?: Prisma.SortOrder
+  reviewedById?: Prisma.SortOrder
 }
 
 export type QuestionScalarRelationFilter = {
@@ -516,45 +791,134 @@ export type QuestionScalarRelationFilter = {
   isNot?: Prisma.QuestionWhereInput
 }
 
-export type QuestionCreateNestedManyWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.QuestionCreateWithoutUserInput, Prisma.QuestionUncheckedCreateWithoutUserInput> | Prisma.QuestionCreateWithoutUserInput[] | Prisma.QuestionUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.QuestionCreateOrConnectWithoutUserInput | Prisma.QuestionCreateOrConnectWithoutUserInput[]
-  createMany?: Prisma.QuestionCreateManyUserInputEnvelope
+export type QuestionNullableScalarRelationFilter = {
+  is?: Prisma.QuestionWhereInput | null
+  isNot?: Prisma.QuestionWhereInput | null
+}
+
+export type QuestionCreateNestedManyWithoutCreatedByInput = {
+  create?: Prisma.XOR<Prisma.QuestionCreateWithoutCreatedByInput, Prisma.QuestionUncheckedCreateWithoutCreatedByInput> | Prisma.QuestionCreateWithoutCreatedByInput[] | Prisma.QuestionUncheckedCreateWithoutCreatedByInput[]
+  connectOrCreate?: Prisma.QuestionCreateOrConnectWithoutCreatedByInput | Prisma.QuestionCreateOrConnectWithoutCreatedByInput[]
+  createMany?: Prisma.QuestionCreateManyCreatedByInputEnvelope
   connect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
 }
 
-export type QuestionUncheckedCreateNestedManyWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.QuestionCreateWithoutUserInput, Prisma.QuestionUncheckedCreateWithoutUserInput> | Prisma.QuestionCreateWithoutUserInput[] | Prisma.QuestionUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.QuestionCreateOrConnectWithoutUserInput | Prisma.QuestionCreateOrConnectWithoutUserInput[]
-  createMany?: Prisma.QuestionCreateManyUserInputEnvelope
+export type QuestionCreateNestedManyWithoutReviewedByInput = {
+  create?: Prisma.XOR<Prisma.QuestionCreateWithoutReviewedByInput, Prisma.QuestionUncheckedCreateWithoutReviewedByInput> | Prisma.QuestionCreateWithoutReviewedByInput[] | Prisma.QuestionUncheckedCreateWithoutReviewedByInput[]
+  connectOrCreate?: Prisma.QuestionCreateOrConnectWithoutReviewedByInput | Prisma.QuestionCreateOrConnectWithoutReviewedByInput[]
+  createMany?: Prisma.QuestionCreateManyReviewedByInputEnvelope
   connect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
 }
 
-export type QuestionUpdateManyWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.QuestionCreateWithoutUserInput, Prisma.QuestionUncheckedCreateWithoutUserInput> | Prisma.QuestionCreateWithoutUserInput[] | Prisma.QuestionUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.QuestionCreateOrConnectWithoutUserInput | Prisma.QuestionCreateOrConnectWithoutUserInput[]
-  upsert?: Prisma.QuestionUpsertWithWhereUniqueWithoutUserInput | Prisma.QuestionUpsertWithWhereUniqueWithoutUserInput[]
-  createMany?: Prisma.QuestionCreateManyUserInputEnvelope
+export type QuestionUncheckedCreateNestedManyWithoutCreatedByInput = {
+  create?: Prisma.XOR<Prisma.QuestionCreateWithoutCreatedByInput, Prisma.QuestionUncheckedCreateWithoutCreatedByInput> | Prisma.QuestionCreateWithoutCreatedByInput[] | Prisma.QuestionUncheckedCreateWithoutCreatedByInput[]
+  connectOrCreate?: Prisma.QuestionCreateOrConnectWithoutCreatedByInput | Prisma.QuestionCreateOrConnectWithoutCreatedByInput[]
+  createMany?: Prisma.QuestionCreateManyCreatedByInputEnvelope
+  connect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+}
+
+export type QuestionUncheckedCreateNestedManyWithoutReviewedByInput = {
+  create?: Prisma.XOR<Prisma.QuestionCreateWithoutReviewedByInput, Prisma.QuestionUncheckedCreateWithoutReviewedByInput> | Prisma.QuestionCreateWithoutReviewedByInput[] | Prisma.QuestionUncheckedCreateWithoutReviewedByInput[]
+  connectOrCreate?: Prisma.QuestionCreateOrConnectWithoutReviewedByInput | Prisma.QuestionCreateOrConnectWithoutReviewedByInput[]
+  createMany?: Prisma.QuestionCreateManyReviewedByInputEnvelope
+  connect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+}
+
+export type QuestionUpdateManyWithoutCreatedByNestedInput = {
+  create?: Prisma.XOR<Prisma.QuestionCreateWithoutCreatedByInput, Prisma.QuestionUncheckedCreateWithoutCreatedByInput> | Prisma.QuestionCreateWithoutCreatedByInput[] | Prisma.QuestionUncheckedCreateWithoutCreatedByInput[]
+  connectOrCreate?: Prisma.QuestionCreateOrConnectWithoutCreatedByInput | Prisma.QuestionCreateOrConnectWithoutCreatedByInput[]
+  upsert?: Prisma.QuestionUpsertWithWhereUniqueWithoutCreatedByInput | Prisma.QuestionUpsertWithWhereUniqueWithoutCreatedByInput[]
+  createMany?: Prisma.QuestionCreateManyCreatedByInputEnvelope
   set?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
   disconnect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
   delete?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
   connect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
-  update?: Prisma.QuestionUpdateWithWhereUniqueWithoutUserInput | Prisma.QuestionUpdateWithWhereUniqueWithoutUserInput[]
-  updateMany?: Prisma.QuestionUpdateManyWithWhereWithoutUserInput | Prisma.QuestionUpdateManyWithWhereWithoutUserInput[]
+  update?: Prisma.QuestionUpdateWithWhereUniqueWithoutCreatedByInput | Prisma.QuestionUpdateWithWhereUniqueWithoutCreatedByInput[]
+  updateMany?: Prisma.QuestionUpdateManyWithWhereWithoutCreatedByInput | Prisma.QuestionUpdateManyWithWhereWithoutCreatedByInput[]
   deleteMany?: Prisma.QuestionScalarWhereInput | Prisma.QuestionScalarWhereInput[]
 }
 
-export type QuestionUncheckedUpdateManyWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.QuestionCreateWithoutUserInput, Prisma.QuestionUncheckedCreateWithoutUserInput> | Prisma.QuestionCreateWithoutUserInput[] | Prisma.QuestionUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.QuestionCreateOrConnectWithoutUserInput | Prisma.QuestionCreateOrConnectWithoutUserInput[]
-  upsert?: Prisma.QuestionUpsertWithWhereUniqueWithoutUserInput | Prisma.QuestionUpsertWithWhereUniqueWithoutUserInput[]
-  createMany?: Prisma.QuestionCreateManyUserInputEnvelope
+export type QuestionUpdateManyWithoutReviewedByNestedInput = {
+  create?: Prisma.XOR<Prisma.QuestionCreateWithoutReviewedByInput, Prisma.QuestionUncheckedCreateWithoutReviewedByInput> | Prisma.QuestionCreateWithoutReviewedByInput[] | Prisma.QuestionUncheckedCreateWithoutReviewedByInput[]
+  connectOrCreate?: Prisma.QuestionCreateOrConnectWithoutReviewedByInput | Prisma.QuestionCreateOrConnectWithoutReviewedByInput[]
+  upsert?: Prisma.QuestionUpsertWithWhereUniqueWithoutReviewedByInput | Prisma.QuestionUpsertWithWhereUniqueWithoutReviewedByInput[]
+  createMany?: Prisma.QuestionCreateManyReviewedByInputEnvelope
   set?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
   disconnect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
   delete?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
   connect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
-  update?: Prisma.QuestionUpdateWithWhereUniqueWithoutUserInput | Prisma.QuestionUpdateWithWhereUniqueWithoutUserInput[]
-  updateMany?: Prisma.QuestionUpdateManyWithWhereWithoutUserInput | Prisma.QuestionUpdateManyWithWhereWithoutUserInput[]
+  update?: Prisma.QuestionUpdateWithWhereUniqueWithoutReviewedByInput | Prisma.QuestionUpdateWithWhereUniqueWithoutReviewedByInput[]
+  updateMany?: Prisma.QuestionUpdateManyWithWhereWithoutReviewedByInput | Prisma.QuestionUpdateManyWithWhereWithoutReviewedByInput[]
+  deleteMany?: Prisma.QuestionScalarWhereInput | Prisma.QuestionScalarWhereInput[]
+}
+
+export type QuestionUncheckedUpdateManyWithoutCreatedByNestedInput = {
+  create?: Prisma.XOR<Prisma.QuestionCreateWithoutCreatedByInput, Prisma.QuestionUncheckedCreateWithoutCreatedByInput> | Prisma.QuestionCreateWithoutCreatedByInput[] | Prisma.QuestionUncheckedCreateWithoutCreatedByInput[]
+  connectOrCreate?: Prisma.QuestionCreateOrConnectWithoutCreatedByInput | Prisma.QuestionCreateOrConnectWithoutCreatedByInput[]
+  upsert?: Prisma.QuestionUpsertWithWhereUniqueWithoutCreatedByInput | Prisma.QuestionUpsertWithWhereUniqueWithoutCreatedByInput[]
+  createMany?: Prisma.QuestionCreateManyCreatedByInputEnvelope
+  set?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+  disconnect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+  delete?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+  connect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+  update?: Prisma.QuestionUpdateWithWhereUniqueWithoutCreatedByInput | Prisma.QuestionUpdateWithWhereUniqueWithoutCreatedByInput[]
+  updateMany?: Prisma.QuestionUpdateManyWithWhereWithoutCreatedByInput | Prisma.QuestionUpdateManyWithWhereWithoutCreatedByInput[]
+  deleteMany?: Prisma.QuestionScalarWhereInput | Prisma.QuestionScalarWhereInput[]
+}
+
+export type QuestionUncheckedUpdateManyWithoutReviewedByNestedInput = {
+  create?: Prisma.XOR<Prisma.QuestionCreateWithoutReviewedByInput, Prisma.QuestionUncheckedCreateWithoutReviewedByInput> | Prisma.QuestionCreateWithoutReviewedByInput[] | Prisma.QuestionUncheckedCreateWithoutReviewedByInput[]
+  connectOrCreate?: Prisma.QuestionCreateOrConnectWithoutReviewedByInput | Prisma.QuestionCreateOrConnectWithoutReviewedByInput[]
+  upsert?: Prisma.QuestionUpsertWithWhereUniqueWithoutReviewedByInput | Prisma.QuestionUpsertWithWhereUniqueWithoutReviewedByInput[]
+  createMany?: Prisma.QuestionCreateManyReviewedByInputEnvelope
+  set?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+  disconnect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+  delete?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+  connect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+  update?: Prisma.QuestionUpdateWithWhereUniqueWithoutReviewedByInput | Prisma.QuestionUpdateWithWhereUniqueWithoutReviewedByInput[]
+  updateMany?: Prisma.QuestionUpdateManyWithWhereWithoutReviewedByInput | Prisma.QuestionUpdateManyWithWhereWithoutReviewedByInput[]
+  deleteMany?: Prisma.QuestionScalarWhereInput | Prisma.QuestionScalarWhereInput[]
+}
+
+export type QuestionCreateNestedManyWithoutSubjectInput = {
+  create?: Prisma.XOR<Prisma.QuestionCreateWithoutSubjectInput, Prisma.QuestionUncheckedCreateWithoutSubjectInput> | Prisma.QuestionCreateWithoutSubjectInput[] | Prisma.QuestionUncheckedCreateWithoutSubjectInput[]
+  connectOrCreate?: Prisma.QuestionCreateOrConnectWithoutSubjectInput | Prisma.QuestionCreateOrConnectWithoutSubjectInput[]
+  createMany?: Prisma.QuestionCreateManySubjectInputEnvelope
+  connect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+}
+
+export type QuestionUncheckedCreateNestedManyWithoutSubjectInput = {
+  create?: Prisma.XOR<Prisma.QuestionCreateWithoutSubjectInput, Prisma.QuestionUncheckedCreateWithoutSubjectInput> | Prisma.QuestionCreateWithoutSubjectInput[] | Prisma.QuestionUncheckedCreateWithoutSubjectInput[]
+  connectOrCreate?: Prisma.QuestionCreateOrConnectWithoutSubjectInput | Prisma.QuestionCreateOrConnectWithoutSubjectInput[]
+  createMany?: Prisma.QuestionCreateManySubjectInputEnvelope
+  connect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+}
+
+export type QuestionUpdateManyWithoutSubjectNestedInput = {
+  create?: Prisma.XOR<Prisma.QuestionCreateWithoutSubjectInput, Prisma.QuestionUncheckedCreateWithoutSubjectInput> | Prisma.QuestionCreateWithoutSubjectInput[] | Prisma.QuestionUncheckedCreateWithoutSubjectInput[]
+  connectOrCreate?: Prisma.QuestionCreateOrConnectWithoutSubjectInput | Prisma.QuestionCreateOrConnectWithoutSubjectInput[]
+  upsert?: Prisma.QuestionUpsertWithWhereUniqueWithoutSubjectInput | Prisma.QuestionUpsertWithWhereUniqueWithoutSubjectInput[]
+  createMany?: Prisma.QuestionCreateManySubjectInputEnvelope
+  set?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+  disconnect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+  delete?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+  connect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+  update?: Prisma.QuestionUpdateWithWhereUniqueWithoutSubjectInput | Prisma.QuestionUpdateWithWhereUniqueWithoutSubjectInput[]
+  updateMany?: Prisma.QuestionUpdateManyWithWhereWithoutSubjectInput | Prisma.QuestionUpdateManyWithWhereWithoutSubjectInput[]
+  deleteMany?: Prisma.QuestionScalarWhereInput | Prisma.QuestionScalarWhereInput[]
+}
+
+export type QuestionUncheckedUpdateManyWithoutSubjectNestedInput = {
+  create?: Prisma.XOR<Prisma.QuestionCreateWithoutSubjectInput, Prisma.QuestionUncheckedCreateWithoutSubjectInput> | Prisma.QuestionCreateWithoutSubjectInput[] | Prisma.QuestionUncheckedCreateWithoutSubjectInput[]
+  connectOrCreate?: Prisma.QuestionCreateOrConnectWithoutSubjectInput | Prisma.QuestionCreateOrConnectWithoutSubjectInput[]
+  upsert?: Prisma.QuestionUpsertWithWhereUniqueWithoutSubjectInput | Prisma.QuestionUpsertWithWhereUniqueWithoutSubjectInput[]
+  createMany?: Prisma.QuestionCreateManySubjectInputEnvelope
+  set?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+  disconnect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+  delete?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+  connect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+  update?: Prisma.QuestionUpdateWithWhereUniqueWithoutSubjectInput | Prisma.QuestionUpdateWithWhereUniqueWithoutSubjectInput[]
+  updateMany?: Prisma.QuestionUpdateManyWithWhereWithoutSubjectInput | Prisma.QuestionUpdateManyWithWhereWithoutSubjectInput[]
   deleteMany?: Prisma.QuestionScalarWhereInput | Prisma.QuestionScalarWhereInput[]
 }
 
@@ -642,6 +1006,90 @@ export type QuestionUncheckedUpdateManyWithoutSubtopicNestedInput = {
   deleteMany?: Prisma.QuestionScalarWhereInput | Prisma.QuestionScalarWhereInput[]
 }
 
+export type QuestionCreateNestedManyWithoutSourceDocumentInput = {
+  create?: Prisma.XOR<Prisma.QuestionCreateWithoutSourceDocumentInput, Prisma.QuestionUncheckedCreateWithoutSourceDocumentInput> | Prisma.QuestionCreateWithoutSourceDocumentInput[] | Prisma.QuestionUncheckedCreateWithoutSourceDocumentInput[]
+  connectOrCreate?: Prisma.QuestionCreateOrConnectWithoutSourceDocumentInput | Prisma.QuestionCreateOrConnectWithoutSourceDocumentInput[]
+  createMany?: Prisma.QuestionCreateManySourceDocumentInputEnvelope
+  connect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+}
+
+export type QuestionUncheckedCreateNestedManyWithoutSourceDocumentInput = {
+  create?: Prisma.XOR<Prisma.QuestionCreateWithoutSourceDocumentInput, Prisma.QuestionUncheckedCreateWithoutSourceDocumentInput> | Prisma.QuestionCreateWithoutSourceDocumentInput[] | Prisma.QuestionUncheckedCreateWithoutSourceDocumentInput[]
+  connectOrCreate?: Prisma.QuestionCreateOrConnectWithoutSourceDocumentInput | Prisma.QuestionCreateOrConnectWithoutSourceDocumentInput[]
+  createMany?: Prisma.QuestionCreateManySourceDocumentInputEnvelope
+  connect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+}
+
+export type QuestionUpdateManyWithoutSourceDocumentNestedInput = {
+  create?: Prisma.XOR<Prisma.QuestionCreateWithoutSourceDocumentInput, Prisma.QuestionUncheckedCreateWithoutSourceDocumentInput> | Prisma.QuestionCreateWithoutSourceDocumentInput[] | Prisma.QuestionUncheckedCreateWithoutSourceDocumentInput[]
+  connectOrCreate?: Prisma.QuestionCreateOrConnectWithoutSourceDocumentInput | Prisma.QuestionCreateOrConnectWithoutSourceDocumentInput[]
+  upsert?: Prisma.QuestionUpsertWithWhereUniqueWithoutSourceDocumentInput | Prisma.QuestionUpsertWithWhereUniqueWithoutSourceDocumentInput[]
+  createMany?: Prisma.QuestionCreateManySourceDocumentInputEnvelope
+  set?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+  disconnect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+  delete?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+  connect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+  update?: Prisma.QuestionUpdateWithWhereUniqueWithoutSourceDocumentInput | Prisma.QuestionUpdateWithWhereUniqueWithoutSourceDocumentInput[]
+  updateMany?: Prisma.QuestionUpdateManyWithWhereWithoutSourceDocumentInput | Prisma.QuestionUpdateManyWithWhereWithoutSourceDocumentInput[]
+  deleteMany?: Prisma.QuestionScalarWhereInput | Prisma.QuestionScalarWhereInput[]
+}
+
+export type QuestionUncheckedUpdateManyWithoutSourceDocumentNestedInput = {
+  create?: Prisma.XOR<Prisma.QuestionCreateWithoutSourceDocumentInput, Prisma.QuestionUncheckedCreateWithoutSourceDocumentInput> | Prisma.QuestionCreateWithoutSourceDocumentInput[] | Prisma.QuestionUncheckedCreateWithoutSourceDocumentInput[]
+  connectOrCreate?: Prisma.QuestionCreateOrConnectWithoutSourceDocumentInput | Prisma.QuestionCreateOrConnectWithoutSourceDocumentInput[]
+  upsert?: Prisma.QuestionUpsertWithWhereUniqueWithoutSourceDocumentInput | Prisma.QuestionUpsertWithWhereUniqueWithoutSourceDocumentInput[]
+  createMany?: Prisma.QuestionCreateManySourceDocumentInputEnvelope
+  set?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+  disconnect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+  delete?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+  connect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+  update?: Prisma.QuestionUpdateWithWhereUniqueWithoutSourceDocumentInput | Prisma.QuestionUpdateWithWhereUniqueWithoutSourceDocumentInput[]
+  updateMany?: Prisma.QuestionUpdateManyWithWhereWithoutSourceDocumentInput | Prisma.QuestionUpdateManyWithWhereWithoutSourceDocumentInput[]
+  deleteMany?: Prisma.QuestionScalarWhereInput | Prisma.QuestionScalarWhereInput[]
+}
+
+export type QuestionCreateNestedManyWithoutSourceChunkInput = {
+  create?: Prisma.XOR<Prisma.QuestionCreateWithoutSourceChunkInput, Prisma.QuestionUncheckedCreateWithoutSourceChunkInput> | Prisma.QuestionCreateWithoutSourceChunkInput[] | Prisma.QuestionUncheckedCreateWithoutSourceChunkInput[]
+  connectOrCreate?: Prisma.QuestionCreateOrConnectWithoutSourceChunkInput | Prisma.QuestionCreateOrConnectWithoutSourceChunkInput[]
+  createMany?: Prisma.QuestionCreateManySourceChunkInputEnvelope
+  connect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+}
+
+export type QuestionUncheckedCreateNestedManyWithoutSourceChunkInput = {
+  create?: Prisma.XOR<Prisma.QuestionCreateWithoutSourceChunkInput, Prisma.QuestionUncheckedCreateWithoutSourceChunkInput> | Prisma.QuestionCreateWithoutSourceChunkInput[] | Prisma.QuestionUncheckedCreateWithoutSourceChunkInput[]
+  connectOrCreate?: Prisma.QuestionCreateOrConnectWithoutSourceChunkInput | Prisma.QuestionCreateOrConnectWithoutSourceChunkInput[]
+  createMany?: Prisma.QuestionCreateManySourceChunkInputEnvelope
+  connect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+}
+
+export type QuestionUpdateManyWithoutSourceChunkNestedInput = {
+  create?: Prisma.XOR<Prisma.QuestionCreateWithoutSourceChunkInput, Prisma.QuestionUncheckedCreateWithoutSourceChunkInput> | Prisma.QuestionCreateWithoutSourceChunkInput[] | Prisma.QuestionUncheckedCreateWithoutSourceChunkInput[]
+  connectOrCreate?: Prisma.QuestionCreateOrConnectWithoutSourceChunkInput | Prisma.QuestionCreateOrConnectWithoutSourceChunkInput[]
+  upsert?: Prisma.QuestionUpsertWithWhereUniqueWithoutSourceChunkInput | Prisma.QuestionUpsertWithWhereUniqueWithoutSourceChunkInput[]
+  createMany?: Prisma.QuestionCreateManySourceChunkInputEnvelope
+  set?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+  disconnect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+  delete?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+  connect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+  update?: Prisma.QuestionUpdateWithWhereUniqueWithoutSourceChunkInput | Prisma.QuestionUpdateWithWhereUniqueWithoutSourceChunkInput[]
+  updateMany?: Prisma.QuestionUpdateManyWithWhereWithoutSourceChunkInput | Prisma.QuestionUpdateManyWithWhereWithoutSourceChunkInput[]
+  deleteMany?: Prisma.QuestionScalarWhereInput | Prisma.QuestionScalarWhereInput[]
+}
+
+export type QuestionUncheckedUpdateManyWithoutSourceChunkNestedInput = {
+  create?: Prisma.XOR<Prisma.QuestionCreateWithoutSourceChunkInput, Prisma.QuestionUncheckedCreateWithoutSourceChunkInput> | Prisma.QuestionCreateWithoutSourceChunkInput[] | Prisma.QuestionUncheckedCreateWithoutSourceChunkInput[]
+  connectOrCreate?: Prisma.QuestionCreateOrConnectWithoutSourceChunkInput | Prisma.QuestionCreateOrConnectWithoutSourceChunkInput[]
+  upsert?: Prisma.QuestionUpsertWithWhereUniqueWithoutSourceChunkInput | Prisma.QuestionUpsertWithWhereUniqueWithoutSourceChunkInput[]
+  createMany?: Prisma.QuestionCreateManySourceChunkInputEnvelope
+  set?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+  disconnect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+  delete?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+  connect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[]
+  update?: Prisma.QuestionUpdateWithWhereUniqueWithoutSourceChunkInput | Prisma.QuestionUpdateWithWhereUniqueWithoutSourceChunkInput[]
+  updateMany?: Prisma.QuestionUpdateManyWithWhereWithoutSourceChunkInput | Prisma.QuestionUpdateManyWithWhereWithoutSourceChunkInput[]
+  deleteMany?: Prisma.QuestionScalarWhereInput | Prisma.QuestionScalarWhereInput[]
+}
+
 export type EnumQuestionTypeFieldUpdateOperationsInput = {
   set?: $Enums.QuestionType
 }
@@ -650,12 +1098,12 @@ export type EnumDifficultyFieldUpdateOperationsInput = {
   set?: $Enums.Difficulty
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
+export type EnumQuestionStatusFieldUpdateOperationsInput = {
+  set?: $Enums.QuestionStatus
+}
+
+export type EnumQuestionSourceFieldUpdateOperationsInput = {
+  set?: $Enums.QuestionSource
 }
 
 export type QuestionCreateNestedOneWithoutAnswersInput = {
@@ -686,57 +1134,158 @@ export type QuestionUpdateOneRequiredWithoutExamQuestionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.QuestionUpdateToOneWithWhereWithoutExamQuestionsInput, Prisma.QuestionUpdateWithoutExamQuestionsInput>, Prisma.QuestionUncheckedUpdateWithoutExamQuestionsInput>
 }
 
-export type QuestionCreateWithoutUserInput = {
-  type?: $Enums.QuestionType
-  content: string
-  explanation?: string | null
-  difficulty?: $Enums.Difficulty
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  topic?: Prisma.TopicCreateNestedOneWithoutQuestionsInput
-  subtopic?: Prisma.SubtopicCreateNestedOneWithoutQuestionsInput
-  answers?: Prisma.QuestionAnswerCreateNestedManyWithoutQuestionInput
-  examQuestions?: Prisma.ExamQuestionCreateNestedManyWithoutQuestionInput
+export type QuestionCreateNestedOneWithoutAttemptQuestionsInput = {
+  create?: Prisma.XOR<Prisma.QuestionCreateWithoutAttemptQuestionsInput, Prisma.QuestionUncheckedCreateWithoutAttemptQuestionsInput>
+  connectOrCreate?: Prisma.QuestionCreateOrConnectWithoutAttemptQuestionsInput
+  connect?: Prisma.QuestionWhereUniqueInput
 }
 
-export type QuestionUncheckedCreateWithoutUserInput = {
-  id?: number
-  topicId?: number | null
-  subtopicId?: number | null
+export type QuestionUpdateOneWithoutAttemptQuestionsNestedInput = {
+  create?: Prisma.XOR<Prisma.QuestionCreateWithoutAttemptQuestionsInput, Prisma.QuestionUncheckedCreateWithoutAttemptQuestionsInput>
+  connectOrCreate?: Prisma.QuestionCreateOrConnectWithoutAttemptQuestionsInput
+  upsert?: Prisma.QuestionUpsertWithoutAttemptQuestionsInput
+  disconnect?: Prisma.QuestionWhereInput | boolean
+  delete?: Prisma.QuestionWhereInput | boolean
+  connect?: Prisma.QuestionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.QuestionUpdateToOneWithWhereWithoutAttemptQuestionsInput, Prisma.QuestionUpdateWithoutAttemptQuestionsInput>, Prisma.QuestionUncheckedUpdateWithoutAttemptQuestionsInput>
+}
+
+export type QuestionCreateWithoutCreatedByInput = {
   type?: $Enums.QuestionType
-  content: string
+  questionText: string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: string | null
   explanation?: string | null
   difficulty?: $Enums.Difficulty
+  status?: $Enums.QuestionStatus
+  source?: $Enums.QuestionSource
+  contentHash?: string | null
+  aiModel?: string | null
+  reviewedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  subject?: Prisma.SubjectCreateNestedOneWithoutQuestionsInput
+  topic?: Prisma.TopicCreateNestedOneWithoutQuestionsInput
+  subtopic?: Prisma.SubtopicCreateNestedOneWithoutQuestionsInput
+  sourceDocument?: Prisma.DocumentCreateNestedOneWithoutQuestionsInput
+  sourceChunk?: Prisma.DocumentChunkCreateNestedOneWithoutQuestionsInput
+  reviewedBy?: Prisma.UserCreateNestedOneWithoutReviewedQuestionsInput
+  answers?: Prisma.QuestionAnswerCreateNestedManyWithoutQuestionInput
+  examQuestions?: Prisma.ExamQuestionCreateNestedManyWithoutQuestionInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionCreateNestedManyWithoutQuestionInput
+}
+
+export type QuestionUncheckedCreateWithoutCreatedByInput = {
+  id?: number
+  subjectId?: number | null
+  topicId?: number | null
+  subtopicId?: number | null
+  sourceDocumentId?: number | null
+  sourceChunkId?: number | null
+  type?: $Enums.QuestionType
+  questionText: string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: string | null
+  explanation?: string | null
+  difficulty?: $Enums.Difficulty
+  status?: $Enums.QuestionStatus
+  source?: $Enums.QuestionSource
+  contentHash?: string | null
+  aiModel?: string | null
+  reviewedById?: number | null
+  reviewedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   answers?: Prisma.QuestionAnswerUncheckedCreateNestedManyWithoutQuestionInput
   examQuestions?: Prisma.ExamQuestionUncheckedCreateNestedManyWithoutQuestionInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionUncheckedCreateNestedManyWithoutQuestionInput
 }
 
-export type QuestionCreateOrConnectWithoutUserInput = {
+export type QuestionCreateOrConnectWithoutCreatedByInput = {
   where: Prisma.QuestionWhereUniqueInput
-  create: Prisma.XOR<Prisma.QuestionCreateWithoutUserInput, Prisma.QuestionUncheckedCreateWithoutUserInput>
+  create: Prisma.XOR<Prisma.QuestionCreateWithoutCreatedByInput, Prisma.QuestionUncheckedCreateWithoutCreatedByInput>
 }
 
-export type QuestionCreateManyUserInputEnvelope = {
-  data: Prisma.QuestionCreateManyUserInput | Prisma.QuestionCreateManyUserInput[]
+export type QuestionCreateManyCreatedByInputEnvelope = {
+  data: Prisma.QuestionCreateManyCreatedByInput | Prisma.QuestionCreateManyCreatedByInput[]
   skipDuplicates?: boolean
 }
 
-export type QuestionUpsertWithWhereUniqueWithoutUserInput = {
-  where: Prisma.QuestionWhereUniqueInput
-  update: Prisma.XOR<Prisma.QuestionUpdateWithoutUserInput, Prisma.QuestionUncheckedUpdateWithoutUserInput>
-  create: Prisma.XOR<Prisma.QuestionCreateWithoutUserInput, Prisma.QuestionUncheckedCreateWithoutUserInput>
+export type QuestionCreateWithoutReviewedByInput = {
+  type?: $Enums.QuestionType
+  questionText: string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: string | null
+  explanation?: string | null
+  difficulty?: $Enums.Difficulty
+  status?: $Enums.QuestionStatus
+  source?: $Enums.QuestionSource
+  contentHash?: string | null
+  aiModel?: string | null
+  reviewedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  subject?: Prisma.SubjectCreateNestedOneWithoutQuestionsInput
+  topic?: Prisma.TopicCreateNestedOneWithoutQuestionsInput
+  subtopic?: Prisma.SubtopicCreateNestedOneWithoutQuestionsInput
+  sourceDocument?: Prisma.DocumentCreateNestedOneWithoutQuestionsInput
+  sourceChunk?: Prisma.DocumentChunkCreateNestedOneWithoutQuestionsInput
+  createdBy?: Prisma.UserCreateNestedOneWithoutAuthoredQuestionsInput
+  answers?: Prisma.QuestionAnswerCreateNestedManyWithoutQuestionInput
+  examQuestions?: Prisma.ExamQuestionCreateNestedManyWithoutQuestionInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionCreateNestedManyWithoutQuestionInput
 }
 
-export type QuestionUpdateWithWhereUniqueWithoutUserInput = {
-  where: Prisma.QuestionWhereUniqueInput
-  data: Prisma.XOR<Prisma.QuestionUpdateWithoutUserInput, Prisma.QuestionUncheckedUpdateWithoutUserInput>
+export type QuestionUncheckedCreateWithoutReviewedByInput = {
+  id?: number
+  subjectId?: number | null
+  topicId?: number | null
+  subtopicId?: number | null
+  userId?: number | null
+  sourceDocumentId?: number | null
+  sourceChunkId?: number | null
+  type?: $Enums.QuestionType
+  questionText: string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: string | null
+  explanation?: string | null
+  difficulty?: $Enums.Difficulty
+  status?: $Enums.QuestionStatus
+  source?: $Enums.QuestionSource
+  contentHash?: string | null
+  aiModel?: string | null
+  reviewedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  answers?: Prisma.QuestionAnswerUncheckedCreateNestedManyWithoutQuestionInput
+  examQuestions?: Prisma.ExamQuestionUncheckedCreateNestedManyWithoutQuestionInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionUncheckedCreateNestedManyWithoutQuestionInput
 }
 
-export type QuestionUpdateManyWithWhereWithoutUserInput = {
+export type QuestionCreateOrConnectWithoutReviewedByInput = {
+  where: Prisma.QuestionWhereUniqueInput
+  create: Prisma.XOR<Prisma.QuestionCreateWithoutReviewedByInput, Prisma.QuestionUncheckedCreateWithoutReviewedByInput>
+}
+
+export type QuestionCreateManyReviewedByInputEnvelope = {
+  data: Prisma.QuestionCreateManyReviewedByInput | Prisma.QuestionCreateManyReviewedByInput[]
+  skipDuplicates?: boolean
+}
+
+export type QuestionUpsertWithWhereUniqueWithoutCreatedByInput = {
+  where: Prisma.QuestionWhereUniqueInput
+  update: Prisma.XOR<Prisma.QuestionUpdateWithoutCreatedByInput, Prisma.QuestionUncheckedUpdateWithoutCreatedByInput>
+  create: Prisma.XOR<Prisma.QuestionCreateWithoutCreatedByInput, Prisma.QuestionUncheckedCreateWithoutCreatedByInput>
+}
+
+export type QuestionUpdateWithWhereUniqueWithoutCreatedByInput = {
+  where: Prisma.QuestionWhereUniqueInput
+  data: Prisma.XOR<Prisma.QuestionUpdateWithoutCreatedByInput, Prisma.QuestionUncheckedUpdateWithoutCreatedByInput>
+}
+
+export type QuestionUpdateManyWithWhereWithoutCreatedByInput = {
   where: Prisma.QuestionScalarWhereInput
-  data: Prisma.XOR<Prisma.QuestionUpdateManyMutationInput, Prisma.QuestionUncheckedUpdateManyWithoutUserInput>
+  data: Prisma.XOR<Prisma.QuestionUpdateManyMutationInput, Prisma.QuestionUncheckedUpdateManyWithoutCreatedByInput>
 }
 
 export type QuestionScalarWhereInput = {
@@ -744,42 +1293,170 @@ export type QuestionScalarWhereInput = {
   OR?: Prisma.QuestionScalarWhereInput[]
   NOT?: Prisma.QuestionScalarWhereInput | Prisma.QuestionScalarWhereInput[]
   id?: Prisma.IntFilter<"Question"> | number
-  userId?: Prisma.IntFilter<"Question"> | number
+  subjectId?: Prisma.IntNullableFilter<"Question"> | number | null
   topicId?: Prisma.IntNullableFilter<"Question"> | number | null
   subtopicId?: Prisma.IntNullableFilter<"Question"> | number | null
+  userId?: Prisma.IntNullableFilter<"Question"> | number | null
+  sourceDocumentId?: Prisma.IntNullableFilter<"Question"> | number | null
+  sourceChunkId?: Prisma.IntNullableFilter<"Question"> | number | null
   type?: Prisma.EnumQuestionTypeFilter<"Question"> | $Enums.QuestionType
-  content?: Prisma.StringFilter<"Question"> | string
+  questionText?: Prisma.StringFilter<"Question"> | string
+  options?: Prisma.JsonNullableFilter<"Question">
+  correctOption?: Prisma.StringNullableFilter<"Question"> | string | null
   explanation?: Prisma.StringNullableFilter<"Question"> | string | null
   difficulty?: Prisma.EnumDifficultyFilter<"Question"> | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFilter<"Question"> | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFilter<"Question"> | $Enums.QuestionSource
+  contentHash?: Prisma.StringNullableFilter<"Question"> | string | null
+  aiModel?: Prisma.StringNullableFilter<"Question"> | string | null
+  reviewedById?: Prisma.IntNullableFilter<"Question"> | number | null
+  reviewedAt?: Prisma.DateTimeNullableFilter<"Question"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Question"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Question"> | Date | string
 }
 
-export type QuestionCreateWithoutTopicInput = {
-  type?: $Enums.QuestionType
-  content: string
-  explanation?: string | null
-  difficulty?: $Enums.Difficulty
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutQuestionsInput
-  subtopic?: Prisma.SubtopicCreateNestedOneWithoutQuestionsInput
-  answers?: Prisma.QuestionAnswerCreateNestedManyWithoutQuestionInput
-  examQuestions?: Prisma.ExamQuestionCreateNestedManyWithoutQuestionInput
+export type QuestionUpsertWithWhereUniqueWithoutReviewedByInput = {
+  where: Prisma.QuestionWhereUniqueInput
+  update: Prisma.XOR<Prisma.QuestionUpdateWithoutReviewedByInput, Prisma.QuestionUncheckedUpdateWithoutReviewedByInput>
+  create: Prisma.XOR<Prisma.QuestionCreateWithoutReviewedByInput, Prisma.QuestionUncheckedCreateWithoutReviewedByInput>
 }
 
-export type QuestionUncheckedCreateWithoutTopicInput = {
-  id?: number
-  userId: number
-  subtopicId?: number | null
+export type QuestionUpdateWithWhereUniqueWithoutReviewedByInput = {
+  where: Prisma.QuestionWhereUniqueInput
+  data: Prisma.XOR<Prisma.QuestionUpdateWithoutReviewedByInput, Prisma.QuestionUncheckedUpdateWithoutReviewedByInput>
+}
+
+export type QuestionUpdateManyWithWhereWithoutReviewedByInput = {
+  where: Prisma.QuestionScalarWhereInput
+  data: Prisma.XOR<Prisma.QuestionUpdateManyMutationInput, Prisma.QuestionUncheckedUpdateManyWithoutReviewedByInput>
+}
+
+export type QuestionCreateWithoutSubjectInput = {
   type?: $Enums.QuestionType
-  content: string
+  questionText: string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: string | null
   explanation?: string | null
   difficulty?: $Enums.Difficulty
+  status?: $Enums.QuestionStatus
+  source?: $Enums.QuestionSource
+  contentHash?: string | null
+  aiModel?: string | null
+  reviewedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  topic?: Prisma.TopicCreateNestedOneWithoutQuestionsInput
+  subtopic?: Prisma.SubtopicCreateNestedOneWithoutQuestionsInput
+  sourceDocument?: Prisma.DocumentCreateNestedOneWithoutQuestionsInput
+  sourceChunk?: Prisma.DocumentChunkCreateNestedOneWithoutQuestionsInput
+  createdBy?: Prisma.UserCreateNestedOneWithoutAuthoredQuestionsInput
+  reviewedBy?: Prisma.UserCreateNestedOneWithoutReviewedQuestionsInput
+  answers?: Prisma.QuestionAnswerCreateNestedManyWithoutQuestionInput
+  examQuestions?: Prisma.ExamQuestionCreateNestedManyWithoutQuestionInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionCreateNestedManyWithoutQuestionInput
+}
+
+export type QuestionUncheckedCreateWithoutSubjectInput = {
+  id?: number
+  topicId?: number | null
+  subtopicId?: number | null
+  userId?: number | null
+  sourceDocumentId?: number | null
+  sourceChunkId?: number | null
+  type?: $Enums.QuestionType
+  questionText: string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: string | null
+  explanation?: string | null
+  difficulty?: $Enums.Difficulty
+  status?: $Enums.QuestionStatus
+  source?: $Enums.QuestionSource
+  contentHash?: string | null
+  aiModel?: string | null
+  reviewedById?: number | null
+  reviewedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   answers?: Prisma.QuestionAnswerUncheckedCreateNestedManyWithoutQuestionInput
   examQuestions?: Prisma.ExamQuestionUncheckedCreateNestedManyWithoutQuestionInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionUncheckedCreateNestedManyWithoutQuestionInput
+}
+
+export type QuestionCreateOrConnectWithoutSubjectInput = {
+  where: Prisma.QuestionWhereUniqueInput
+  create: Prisma.XOR<Prisma.QuestionCreateWithoutSubjectInput, Prisma.QuestionUncheckedCreateWithoutSubjectInput>
+}
+
+export type QuestionCreateManySubjectInputEnvelope = {
+  data: Prisma.QuestionCreateManySubjectInput | Prisma.QuestionCreateManySubjectInput[]
+  skipDuplicates?: boolean
+}
+
+export type QuestionUpsertWithWhereUniqueWithoutSubjectInput = {
+  where: Prisma.QuestionWhereUniqueInput
+  update: Prisma.XOR<Prisma.QuestionUpdateWithoutSubjectInput, Prisma.QuestionUncheckedUpdateWithoutSubjectInput>
+  create: Prisma.XOR<Prisma.QuestionCreateWithoutSubjectInput, Prisma.QuestionUncheckedCreateWithoutSubjectInput>
+}
+
+export type QuestionUpdateWithWhereUniqueWithoutSubjectInput = {
+  where: Prisma.QuestionWhereUniqueInput
+  data: Prisma.XOR<Prisma.QuestionUpdateWithoutSubjectInput, Prisma.QuestionUncheckedUpdateWithoutSubjectInput>
+}
+
+export type QuestionUpdateManyWithWhereWithoutSubjectInput = {
+  where: Prisma.QuestionScalarWhereInput
+  data: Prisma.XOR<Prisma.QuestionUpdateManyMutationInput, Prisma.QuestionUncheckedUpdateManyWithoutSubjectInput>
+}
+
+export type QuestionCreateWithoutTopicInput = {
+  type?: $Enums.QuestionType
+  questionText: string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: string | null
+  explanation?: string | null
+  difficulty?: $Enums.Difficulty
+  status?: $Enums.QuestionStatus
+  source?: $Enums.QuestionSource
+  contentHash?: string | null
+  aiModel?: string | null
+  reviewedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  subject?: Prisma.SubjectCreateNestedOneWithoutQuestionsInput
+  subtopic?: Prisma.SubtopicCreateNestedOneWithoutQuestionsInput
+  sourceDocument?: Prisma.DocumentCreateNestedOneWithoutQuestionsInput
+  sourceChunk?: Prisma.DocumentChunkCreateNestedOneWithoutQuestionsInput
+  createdBy?: Prisma.UserCreateNestedOneWithoutAuthoredQuestionsInput
+  reviewedBy?: Prisma.UserCreateNestedOneWithoutReviewedQuestionsInput
+  answers?: Prisma.QuestionAnswerCreateNestedManyWithoutQuestionInput
+  examQuestions?: Prisma.ExamQuestionCreateNestedManyWithoutQuestionInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionCreateNestedManyWithoutQuestionInput
+}
+
+export type QuestionUncheckedCreateWithoutTopicInput = {
+  id?: number
+  subjectId?: number | null
+  subtopicId?: number | null
+  userId?: number | null
+  sourceDocumentId?: number | null
+  sourceChunkId?: number | null
+  type?: $Enums.QuestionType
+  questionText: string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: string | null
+  explanation?: string | null
+  difficulty?: $Enums.Difficulty
+  status?: $Enums.QuestionStatus
+  source?: $Enums.QuestionSource
+  contentHash?: string | null
+  aiModel?: string | null
+  reviewedById?: number | null
+  reviewedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  answers?: Prisma.QuestionAnswerUncheckedCreateNestedManyWithoutQuestionInput
+  examQuestions?: Prisma.ExamQuestionUncheckedCreateNestedManyWithoutQuestionInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionUncheckedCreateNestedManyWithoutQuestionInput
 }
 
 export type QuestionCreateOrConnectWithoutTopicInput = {
@@ -810,29 +1487,53 @@ export type QuestionUpdateManyWithWhereWithoutTopicInput = {
 
 export type QuestionCreateWithoutSubtopicInput = {
   type?: $Enums.QuestionType
-  content: string
+  questionText: string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: string | null
   explanation?: string | null
   difficulty?: $Enums.Difficulty
+  status?: $Enums.QuestionStatus
+  source?: $Enums.QuestionSource
+  contentHash?: string | null
+  aiModel?: string | null
+  reviewedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutQuestionsInput
+  subject?: Prisma.SubjectCreateNestedOneWithoutQuestionsInput
   topic?: Prisma.TopicCreateNestedOneWithoutQuestionsInput
+  sourceDocument?: Prisma.DocumentCreateNestedOneWithoutQuestionsInput
+  sourceChunk?: Prisma.DocumentChunkCreateNestedOneWithoutQuestionsInput
+  createdBy?: Prisma.UserCreateNestedOneWithoutAuthoredQuestionsInput
+  reviewedBy?: Prisma.UserCreateNestedOneWithoutReviewedQuestionsInput
   answers?: Prisma.QuestionAnswerCreateNestedManyWithoutQuestionInput
   examQuestions?: Prisma.ExamQuestionCreateNestedManyWithoutQuestionInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionCreateNestedManyWithoutQuestionInput
 }
 
 export type QuestionUncheckedCreateWithoutSubtopicInput = {
   id?: number
-  userId: number
+  subjectId?: number | null
   topicId?: number | null
+  userId?: number | null
+  sourceDocumentId?: number | null
+  sourceChunkId?: number | null
   type?: $Enums.QuestionType
-  content: string
+  questionText: string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: string | null
   explanation?: string | null
   difficulty?: $Enums.Difficulty
+  status?: $Enums.QuestionStatus
+  source?: $Enums.QuestionSource
+  contentHash?: string | null
+  aiModel?: string | null
+  reviewedById?: number | null
+  reviewedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   answers?: Prisma.QuestionAnswerUncheckedCreateNestedManyWithoutQuestionInput
   examQuestions?: Prisma.ExamQuestionUncheckedCreateNestedManyWithoutQuestionInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionUncheckedCreateNestedManyWithoutQuestionInput
 }
 
 export type QuestionCreateOrConnectWithoutSubtopicInput = {
@@ -861,31 +1562,209 @@ export type QuestionUpdateManyWithWhereWithoutSubtopicInput = {
   data: Prisma.XOR<Prisma.QuestionUpdateManyMutationInput, Prisma.QuestionUncheckedUpdateManyWithoutSubtopicInput>
 }
 
-export type QuestionCreateWithoutAnswersInput = {
+export type QuestionCreateWithoutSourceDocumentInput = {
   type?: $Enums.QuestionType
-  content: string
+  questionText: string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: string | null
   explanation?: string | null
   difficulty?: $Enums.Difficulty
+  status?: $Enums.QuestionStatus
+  source?: $Enums.QuestionSource
+  contentHash?: string | null
+  aiModel?: string | null
+  reviewedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutQuestionsInput
+  subject?: Prisma.SubjectCreateNestedOneWithoutQuestionsInput
   topic?: Prisma.TopicCreateNestedOneWithoutQuestionsInput
   subtopic?: Prisma.SubtopicCreateNestedOneWithoutQuestionsInput
+  sourceChunk?: Prisma.DocumentChunkCreateNestedOneWithoutQuestionsInput
+  createdBy?: Prisma.UserCreateNestedOneWithoutAuthoredQuestionsInput
+  reviewedBy?: Prisma.UserCreateNestedOneWithoutReviewedQuestionsInput
+  answers?: Prisma.QuestionAnswerCreateNestedManyWithoutQuestionInput
   examQuestions?: Prisma.ExamQuestionCreateNestedManyWithoutQuestionInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionCreateNestedManyWithoutQuestionInput
+}
+
+export type QuestionUncheckedCreateWithoutSourceDocumentInput = {
+  id?: number
+  subjectId?: number | null
+  topicId?: number | null
+  subtopicId?: number | null
+  userId?: number | null
+  sourceChunkId?: number | null
+  type?: $Enums.QuestionType
+  questionText: string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: string | null
+  explanation?: string | null
+  difficulty?: $Enums.Difficulty
+  status?: $Enums.QuestionStatus
+  source?: $Enums.QuestionSource
+  contentHash?: string | null
+  aiModel?: string | null
+  reviewedById?: number | null
+  reviewedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  answers?: Prisma.QuestionAnswerUncheckedCreateNestedManyWithoutQuestionInput
+  examQuestions?: Prisma.ExamQuestionUncheckedCreateNestedManyWithoutQuestionInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionUncheckedCreateNestedManyWithoutQuestionInput
+}
+
+export type QuestionCreateOrConnectWithoutSourceDocumentInput = {
+  where: Prisma.QuestionWhereUniqueInput
+  create: Prisma.XOR<Prisma.QuestionCreateWithoutSourceDocumentInput, Prisma.QuestionUncheckedCreateWithoutSourceDocumentInput>
+}
+
+export type QuestionCreateManySourceDocumentInputEnvelope = {
+  data: Prisma.QuestionCreateManySourceDocumentInput | Prisma.QuestionCreateManySourceDocumentInput[]
+  skipDuplicates?: boolean
+}
+
+export type QuestionUpsertWithWhereUniqueWithoutSourceDocumentInput = {
+  where: Prisma.QuestionWhereUniqueInput
+  update: Prisma.XOR<Prisma.QuestionUpdateWithoutSourceDocumentInput, Prisma.QuestionUncheckedUpdateWithoutSourceDocumentInput>
+  create: Prisma.XOR<Prisma.QuestionCreateWithoutSourceDocumentInput, Prisma.QuestionUncheckedCreateWithoutSourceDocumentInput>
+}
+
+export type QuestionUpdateWithWhereUniqueWithoutSourceDocumentInput = {
+  where: Prisma.QuestionWhereUniqueInput
+  data: Prisma.XOR<Prisma.QuestionUpdateWithoutSourceDocumentInput, Prisma.QuestionUncheckedUpdateWithoutSourceDocumentInput>
+}
+
+export type QuestionUpdateManyWithWhereWithoutSourceDocumentInput = {
+  where: Prisma.QuestionScalarWhereInput
+  data: Prisma.XOR<Prisma.QuestionUpdateManyMutationInput, Prisma.QuestionUncheckedUpdateManyWithoutSourceDocumentInput>
+}
+
+export type QuestionCreateWithoutSourceChunkInput = {
+  type?: $Enums.QuestionType
+  questionText: string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: string | null
+  explanation?: string | null
+  difficulty?: $Enums.Difficulty
+  status?: $Enums.QuestionStatus
+  source?: $Enums.QuestionSource
+  contentHash?: string | null
+  aiModel?: string | null
+  reviewedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  subject?: Prisma.SubjectCreateNestedOneWithoutQuestionsInput
+  topic?: Prisma.TopicCreateNestedOneWithoutQuestionsInput
+  subtopic?: Prisma.SubtopicCreateNestedOneWithoutQuestionsInput
+  sourceDocument?: Prisma.DocumentCreateNestedOneWithoutQuestionsInput
+  createdBy?: Prisma.UserCreateNestedOneWithoutAuthoredQuestionsInput
+  reviewedBy?: Prisma.UserCreateNestedOneWithoutReviewedQuestionsInput
+  answers?: Prisma.QuestionAnswerCreateNestedManyWithoutQuestionInput
+  examQuestions?: Prisma.ExamQuestionCreateNestedManyWithoutQuestionInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionCreateNestedManyWithoutQuestionInput
+}
+
+export type QuestionUncheckedCreateWithoutSourceChunkInput = {
+  id?: number
+  subjectId?: number | null
+  topicId?: number | null
+  subtopicId?: number | null
+  userId?: number | null
+  sourceDocumentId?: number | null
+  type?: $Enums.QuestionType
+  questionText: string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: string | null
+  explanation?: string | null
+  difficulty?: $Enums.Difficulty
+  status?: $Enums.QuestionStatus
+  source?: $Enums.QuestionSource
+  contentHash?: string | null
+  aiModel?: string | null
+  reviewedById?: number | null
+  reviewedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  answers?: Prisma.QuestionAnswerUncheckedCreateNestedManyWithoutQuestionInput
+  examQuestions?: Prisma.ExamQuestionUncheckedCreateNestedManyWithoutQuestionInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionUncheckedCreateNestedManyWithoutQuestionInput
+}
+
+export type QuestionCreateOrConnectWithoutSourceChunkInput = {
+  where: Prisma.QuestionWhereUniqueInput
+  create: Prisma.XOR<Prisma.QuestionCreateWithoutSourceChunkInput, Prisma.QuestionUncheckedCreateWithoutSourceChunkInput>
+}
+
+export type QuestionCreateManySourceChunkInputEnvelope = {
+  data: Prisma.QuestionCreateManySourceChunkInput | Prisma.QuestionCreateManySourceChunkInput[]
+  skipDuplicates?: boolean
+}
+
+export type QuestionUpsertWithWhereUniqueWithoutSourceChunkInput = {
+  where: Prisma.QuestionWhereUniqueInput
+  update: Prisma.XOR<Prisma.QuestionUpdateWithoutSourceChunkInput, Prisma.QuestionUncheckedUpdateWithoutSourceChunkInput>
+  create: Prisma.XOR<Prisma.QuestionCreateWithoutSourceChunkInput, Prisma.QuestionUncheckedCreateWithoutSourceChunkInput>
+}
+
+export type QuestionUpdateWithWhereUniqueWithoutSourceChunkInput = {
+  where: Prisma.QuestionWhereUniqueInput
+  data: Prisma.XOR<Prisma.QuestionUpdateWithoutSourceChunkInput, Prisma.QuestionUncheckedUpdateWithoutSourceChunkInput>
+}
+
+export type QuestionUpdateManyWithWhereWithoutSourceChunkInput = {
+  where: Prisma.QuestionScalarWhereInput
+  data: Prisma.XOR<Prisma.QuestionUpdateManyMutationInput, Prisma.QuestionUncheckedUpdateManyWithoutSourceChunkInput>
+}
+
+export type QuestionCreateWithoutAnswersInput = {
+  type?: $Enums.QuestionType
+  questionText: string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: string | null
+  explanation?: string | null
+  difficulty?: $Enums.Difficulty
+  status?: $Enums.QuestionStatus
+  source?: $Enums.QuestionSource
+  contentHash?: string | null
+  aiModel?: string | null
+  reviewedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  subject?: Prisma.SubjectCreateNestedOneWithoutQuestionsInput
+  topic?: Prisma.TopicCreateNestedOneWithoutQuestionsInput
+  subtopic?: Prisma.SubtopicCreateNestedOneWithoutQuestionsInput
+  sourceDocument?: Prisma.DocumentCreateNestedOneWithoutQuestionsInput
+  sourceChunk?: Prisma.DocumentChunkCreateNestedOneWithoutQuestionsInput
+  createdBy?: Prisma.UserCreateNestedOneWithoutAuthoredQuestionsInput
+  reviewedBy?: Prisma.UserCreateNestedOneWithoutReviewedQuestionsInput
+  examQuestions?: Prisma.ExamQuestionCreateNestedManyWithoutQuestionInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionCreateNestedManyWithoutQuestionInput
 }
 
 export type QuestionUncheckedCreateWithoutAnswersInput = {
   id?: number
-  userId: number
+  subjectId?: number | null
   topicId?: number | null
   subtopicId?: number | null
+  userId?: number | null
+  sourceDocumentId?: number | null
+  sourceChunkId?: number | null
   type?: $Enums.QuestionType
-  content: string
+  questionText: string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: string | null
   explanation?: string | null
   difficulty?: $Enums.Difficulty
+  status?: $Enums.QuestionStatus
+  source?: $Enums.QuestionSource
+  contentHash?: string | null
+  aiModel?: string | null
+  reviewedById?: number | null
+  reviewedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   examQuestions?: Prisma.ExamQuestionUncheckedCreateNestedManyWithoutQuestionInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionUncheckedCreateNestedManyWithoutQuestionInput
 }
 
 export type QuestionCreateOrConnectWithoutAnswersInput = {
@@ -906,56 +1785,104 @@ export type QuestionUpdateToOneWithWhereWithoutAnswersInput = {
 
 export type QuestionUpdateWithoutAnswersInput = {
   type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
-  content?: Prisma.StringFieldUpdateOperationsInput | string
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFieldUpdateOperationsInput | $Enums.QuestionSource
+  contentHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutQuestionsNestedInput
+  subject?: Prisma.SubjectUpdateOneWithoutQuestionsNestedInput
   topic?: Prisma.TopicUpdateOneWithoutQuestionsNestedInput
   subtopic?: Prisma.SubtopicUpdateOneWithoutQuestionsNestedInput
+  sourceDocument?: Prisma.DocumentUpdateOneWithoutQuestionsNestedInput
+  sourceChunk?: Prisma.DocumentChunkUpdateOneWithoutQuestionsNestedInput
+  createdBy?: Prisma.UserUpdateOneWithoutAuthoredQuestionsNestedInput
+  reviewedBy?: Prisma.UserUpdateOneWithoutReviewedQuestionsNestedInput
   examQuestions?: Prisma.ExamQuestionUpdateManyWithoutQuestionNestedInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionUpdateManyWithoutQuestionNestedInput
 }
 
 export type QuestionUncheckedUpdateWithoutAnswersInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  subjectId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   topicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subtopicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  userId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceDocumentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceChunkId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
-  content?: Prisma.StringFieldUpdateOperationsInput | string
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFieldUpdateOperationsInput | $Enums.QuestionSource
+  contentHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   examQuestions?: Prisma.ExamQuestionUncheckedUpdateManyWithoutQuestionNestedInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionUncheckedUpdateManyWithoutQuestionNestedInput
 }
 
 export type QuestionCreateWithoutExamQuestionsInput = {
   type?: $Enums.QuestionType
-  content: string
+  questionText: string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: string | null
   explanation?: string | null
   difficulty?: $Enums.Difficulty
+  status?: $Enums.QuestionStatus
+  source?: $Enums.QuestionSource
+  contentHash?: string | null
+  aiModel?: string | null
+  reviewedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutQuestionsInput
+  subject?: Prisma.SubjectCreateNestedOneWithoutQuestionsInput
   topic?: Prisma.TopicCreateNestedOneWithoutQuestionsInput
   subtopic?: Prisma.SubtopicCreateNestedOneWithoutQuestionsInput
+  sourceDocument?: Prisma.DocumentCreateNestedOneWithoutQuestionsInput
+  sourceChunk?: Prisma.DocumentChunkCreateNestedOneWithoutQuestionsInput
+  createdBy?: Prisma.UserCreateNestedOneWithoutAuthoredQuestionsInput
+  reviewedBy?: Prisma.UserCreateNestedOneWithoutReviewedQuestionsInput
   answers?: Prisma.QuestionAnswerCreateNestedManyWithoutQuestionInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionCreateNestedManyWithoutQuestionInput
 }
 
 export type QuestionUncheckedCreateWithoutExamQuestionsInput = {
   id?: number
-  userId: number
+  subjectId?: number | null
   topicId?: number | null
   subtopicId?: number | null
+  userId?: number | null
+  sourceDocumentId?: number | null
+  sourceChunkId?: number | null
   type?: $Enums.QuestionType
-  content: string
+  questionText: string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: string | null
   explanation?: string | null
   difficulty?: $Enums.Difficulty
+  status?: $Enums.QuestionStatus
+  source?: $Enums.QuestionSource
+  contentHash?: string | null
+  aiModel?: string | null
+  reviewedById?: number | null
+  reviewedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   answers?: Prisma.QuestionAnswerUncheckedCreateNestedManyWithoutQuestionInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionUncheckedCreateNestedManyWithoutQuestionInput
 }
 
 export type QuestionCreateOrConnectWithoutExamQuestionsInput = {
@@ -976,180 +1903,848 @@ export type QuestionUpdateToOneWithWhereWithoutExamQuestionsInput = {
 
 export type QuestionUpdateWithoutExamQuestionsInput = {
   type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
-  content?: Prisma.StringFieldUpdateOperationsInput | string
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFieldUpdateOperationsInput | $Enums.QuestionSource
+  contentHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutQuestionsNestedInput
+  subject?: Prisma.SubjectUpdateOneWithoutQuestionsNestedInput
   topic?: Prisma.TopicUpdateOneWithoutQuestionsNestedInput
   subtopic?: Prisma.SubtopicUpdateOneWithoutQuestionsNestedInput
+  sourceDocument?: Prisma.DocumentUpdateOneWithoutQuestionsNestedInput
+  sourceChunk?: Prisma.DocumentChunkUpdateOneWithoutQuestionsNestedInput
+  createdBy?: Prisma.UserUpdateOneWithoutAuthoredQuestionsNestedInput
+  reviewedBy?: Prisma.UserUpdateOneWithoutReviewedQuestionsNestedInput
   answers?: Prisma.QuestionAnswerUpdateManyWithoutQuestionNestedInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionUpdateManyWithoutQuestionNestedInput
 }
 
 export type QuestionUncheckedUpdateWithoutExamQuestionsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  subjectId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   topicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subtopicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  userId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceDocumentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceChunkId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
-  content?: Prisma.StringFieldUpdateOperationsInput | string
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFieldUpdateOperationsInput | $Enums.QuestionSource
+  contentHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   answers?: Prisma.QuestionAnswerUncheckedUpdateManyWithoutQuestionNestedInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionUncheckedUpdateManyWithoutQuestionNestedInput
 }
 
-export type QuestionCreateManyUserInput = {
-  id?: number
-  topicId?: number | null
-  subtopicId?: number | null
+export type QuestionCreateWithoutAttemptQuestionsInput = {
   type?: $Enums.QuestionType
-  content: string
+  questionText: string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: string | null
   explanation?: string | null
   difficulty?: $Enums.Difficulty
+  status?: $Enums.QuestionStatus
+  source?: $Enums.QuestionSource
+  contentHash?: string | null
+  aiModel?: string | null
+  reviewedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  subject?: Prisma.SubjectCreateNestedOneWithoutQuestionsInput
+  topic?: Prisma.TopicCreateNestedOneWithoutQuestionsInput
+  subtopic?: Prisma.SubtopicCreateNestedOneWithoutQuestionsInput
+  sourceDocument?: Prisma.DocumentCreateNestedOneWithoutQuestionsInput
+  sourceChunk?: Prisma.DocumentChunkCreateNestedOneWithoutQuestionsInput
+  createdBy?: Prisma.UserCreateNestedOneWithoutAuthoredQuestionsInput
+  reviewedBy?: Prisma.UserCreateNestedOneWithoutReviewedQuestionsInput
+  answers?: Prisma.QuestionAnswerCreateNestedManyWithoutQuestionInput
+  examQuestions?: Prisma.ExamQuestionCreateNestedManyWithoutQuestionInput
 }
 
-export type QuestionUpdateWithoutUserInput = {
+export type QuestionUncheckedCreateWithoutAttemptQuestionsInput = {
+  id?: number
+  subjectId?: number | null
+  topicId?: number | null
+  subtopicId?: number | null
+  userId?: number | null
+  sourceDocumentId?: number | null
+  sourceChunkId?: number | null
+  type?: $Enums.QuestionType
+  questionText: string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: string | null
+  explanation?: string | null
+  difficulty?: $Enums.Difficulty
+  status?: $Enums.QuestionStatus
+  source?: $Enums.QuestionSource
+  contentHash?: string | null
+  aiModel?: string | null
+  reviewedById?: number | null
+  reviewedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  answers?: Prisma.QuestionAnswerUncheckedCreateNestedManyWithoutQuestionInput
+  examQuestions?: Prisma.ExamQuestionUncheckedCreateNestedManyWithoutQuestionInput
+}
+
+export type QuestionCreateOrConnectWithoutAttemptQuestionsInput = {
+  where: Prisma.QuestionWhereUniqueInput
+  create: Prisma.XOR<Prisma.QuestionCreateWithoutAttemptQuestionsInput, Prisma.QuestionUncheckedCreateWithoutAttemptQuestionsInput>
+}
+
+export type QuestionUpsertWithoutAttemptQuestionsInput = {
+  update: Prisma.XOR<Prisma.QuestionUpdateWithoutAttemptQuestionsInput, Prisma.QuestionUncheckedUpdateWithoutAttemptQuestionsInput>
+  create: Prisma.XOR<Prisma.QuestionCreateWithoutAttemptQuestionsInput, Prisma.QuestionUncheckedCreateWithoutAttemptQuestionsInput>
+  where?: Prisma.QuestionWhereInput
+}
+
+export type QuestionUpdateToOneWithWhereWithoutAttemptQuestionsInput = {
+  where?: Prisma.QuestionWhereInput
+  data: Prisma.XOR<Prisma.QuestionUpdateWithoutAttemptQuestionsInput, Prisma.QuestionUncheckedUpdateWithoutAttemptQuestionsInput>
+}
+
+export type QuestionUpdateWithoutAttemptQuestionsInput = {
   type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
-  content?: Prisma.StringFieldUpdateOperationsInput | string
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFieldUpdateOperationsInput | $Enums.QuestionSource
+  contentHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  subject?: Prisma.SubjectUpdateOneWithoutQuestionsNestedInput
   topic?: Prisma.TopicUpdateOneWithoutQuestionsNestedInput
   subtopic?: Prisma.SubtopicUpdateOneWithoutQuestionsNestedInput
+  sourceDocument?: Prisma.DocumentUpdateOneWithoutQuestionsNestedInput
+  sourceChunk?: Prisma.DocumentChunkUpdateOneWithoutQuestionsNestedInput
+  createdBy?: Prisma.UserUpdateOneWithoutAuthoredQuestionsNestedInput
+  reviewedBy?: Prisma.UserUpdateOneWithoutReviewedQuestionsNestedInput
   answers?: Prisma.QuestionAnswerUpdateManyWithoutQuestionNestedInput
   examQuestions?: Prisma.ExamQuestionUpdateManyWithoutQuestionNestedInput
 }
 
-export type QuestionUncheckedUpdateWithoutUserInput = {
+export type QuestionUncheckedUpdateWithoutAttemptQuestionsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  subjectId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   topicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subtopicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  userId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceDocumentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceChunkId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
-  content?: Prisma.StringFieldUpdateOperationsInput | string
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFieldUpdateOperationsInput | $Enums.QuestionSource
+  contentHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   answers?: Prisma.QuestionAnswerUncheckedUpdateManyWithoutQuestionNestedInput
   examQuestions?: Prisma.ExamQuestionUncheckedUpdateManyWithoutQuestionNestedInput
 }
 
-export type QuestionUncheckedUpdateManyWithoutUserInput = {
+export type QuestionCreateManyCreatedByInput = {
+  id?: number
+  subjectId?: number | null
+  topicId?: number | null
+  subtopicId?: number | null
+  sourceDocumentId?: number | null
+  sourceChunkId?: number | null
+  type?: $Enums.QuestionType
+  questionText: string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: string | null
+  explanation?: string | null
+  difficulty?: $Enums.Difficulty
+  status?: $Enums.QuestionStatus
+  source?: $Enums.QuestionSource
+  contentHash?: string | null
+  aiModel?: string | null
+  reviewedById?: number | null
+  reviewedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type QuestionCreateManyReviewedByInput = {
+  id?: number
+  subjectId?: number | null
+  topicId?: number | null
+  subtopicId?: number | null
+  userId?: number | null
+  sourceDocumentId?: number | null
+  sourceChunkId?: number | null
+  type?: $Enums.QuestionType
+  questionText: string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: string | null
+  explanation?: string | null
+  difficulty?: $Enums.Difficulty
+  status?: $Enums.QuestionStatus
+  source?: $Enums.QuestionSource
+  contentHash?: string | null
+  aiModel?: string | null
+  reviewedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type QuestionUpdateWithoutCreatedByInput = {
+  type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFieldUpdateOperationsInput | $Enums.QuestionSource
+  contentHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  subject?: Prisma.SubjectUpdateOneWithoutQuestionsNestedInput
+  topic?: Prisma.TopicUpdateOneWithoutQuestionsNestedInput
+  subtopic?: Prisma.SubtopicUpdateOneWithoutQuestionsNestedInput
+  sourceDocument?: Prisma.DocumentUpdateOneWithoutQuestionsNestedInput
+  sourceChunk?: Prisma.DocumentChunkUpdateOneWithoutQuestionsNestedInput
+  reviewedBy?: Prisma.UserUpdateOneWithoutReviewedQuestionsNestedInput
+  answers?: Prisma.QuestionAnswerUpdateManyWithoutQuestionNestedInput
+  examQuestions?: Prisma.ExamQuestionUpdateManyWithoutQuestionNestedInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionUpdateManyWithoutQuestionNestedInput
+}
+
+export type QuestionUncheckedUpdateWithoutCreatedByInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  subjectId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  topicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subtopicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceDocumentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceChunkId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFieldUpdateOperationsInput | $Enums.QuestionSource
+  contentHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  answers?: Prisma.QuestionAnswerUncheckedUpdateManyWithoutQuestionNestedInput
+  examQuestions?: Prisma.ExamQuestionUncheckedUpdateManyWithoutQuestionNestedInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionUncheckedUpdateManyWithoutQuestionNestedInput
+}
+
+export type QuestionUncheckedUpdateManyWithoutCreatedByInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  subjectId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  topicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subtopicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceDocumentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceChunkId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFieldUpdateOperationsInput | $Enums.QuestionSource
+  contentHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type QuestionUpdateWithoutReviewedByInput = {
+  type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFieldUpdateOperationsInput | $Enums.QuestionSource
+  contentHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  subject?: Prisma.SubjectUpdateOneWithoutQuestionsNestedInput
+  topic?: Prisma.TopicUpdateOneWithoutQuestionsNestedInput
+  subtopic?: Prisma.SubtopicUpdateOneWithoutQuestionsNestedInput
+  sourceDocument?: Prisma.DocumentUpdateOneWithoutQuestionsNestedInput
+  sourceChunk?: Prisma.DocumentChunkUpdateOneWithoutQuestionsNestedInput
+  createdBy?: Prisma.UserUpdateOneWithoutAuthoredQuestionsNestedInput
+  answers?: Prisma.QuestionAnswerUpdateManyWithoutQuestionNestedInput
+  examQuestions?: Prisma.ExamQuestionUpdateManyWithoutQuestionNestedInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionUpdateManyWithoutQuestionNestedInput
+}
+
+export type QuestionUncheckedUpdateWithoutReviewedByInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  subjectId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  topicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subtopicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  userId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceDocumentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceChunkId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFieldUpdateOperationsInput | $Enums.QuestionSource
+  contentHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  answers?: Prisma.QuestionAnswerUncheckedUpdateManyWithoutQuestionNestedInput
+  examQuestions?: Prisma.ExamQuestionUncheckedUpdateManyWithoutQuestionNestedInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionUncheckedUpdateManyWithoutQuestionNestedInput
+}
+
+export type QuestionUncheckedUpdateManyWithoutReviewedByInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  subjectId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  topicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subtopicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  userId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceDocumentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceChunkId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFieldUpdateOperationsInput | $Enums.QuestionSource
+  contentHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type QuestionCreateManySubjectInput = {
+  id?: number
+  topicId?: number | null
+  subtopicId?: number | null
+  userId?: number | null
+  sourceDocumentId?: number | null
+  sourceChunkId?: number | null
+  type?: $Enums.QuestionType
+  questionText: string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: string | null
+  explanation?: string | null
+  difficulty?: $Enums.Difficulty
+  status?: $Enums.QuestionStatus
+  source?: $Enums.QuestionSource
+  contentHash?: string | null
+  aiModel?: string | null
+  reviewedById?: number | null
+  reviewedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type QuestionUpdateWithoutSubjectInput = {
+  type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFieldUpdateOperationsInput | $Enums.QuestionSource
+  contentHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  topic?: Prisma.TopicUpdateOneWithoutQuestionsNestedInput
+  subtopic?: Prisma.SubtopicUpdateOneWithoutQuestionsNestedInput
+  sourceDocument?: Prisma.DocumentUpdateOneWithoutQuestionsNestedInput
+  sourceChunk?: Prisma.DocumentChunkUpdateOneWithoutQuestionsNestedInput
+  createdBy?: Prisma.UserUpdateOneWithoutAuthoredQuestionsNestedInput
+  reviewedBy?: Prisma.UserUpdateOneWithoutReviewedQuestionsNestedInput
+  answers?: Prisma.QuestionAnswerUpdateManyWithoutQuestionNestedInput
+  examQuestions?: Prisma.ExamQuestionUpdateManyWithoutQuestionNestedInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionUpdateManyWithoutQuestionNestedInput
+}
+
+export type QuestionUncheckedUpdateWithoutSubjectInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   topicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subtopicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  userId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceDocumentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceChunkId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
-  content?: Prisma.StringFieldUpdateOperationsInput | string
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFieldUpdateOperationsInput | $Enums.QuestionSource
+  contentHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  answers?: Prisma.QuestionAnswerUncheckedUpdateManyWithoutQuestionNestedInput
+  examQuestions?: Prisma.ExamQuestionUncheckedUpdateManyWithoutQuestionNestedInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionUncheckedUpdateManyWithoutQuestionNestedInput
+}
+
+export type QuestionUncheckedUpdateManyWithoutSubjectInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  topicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subtopicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  userId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceDocumentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceChunkId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFieldUpdateOperationsInput | $Enums.QuestionSource
+  contentHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type QuestionCreateManyTopicInput = {
   id?: number
-  userId: number
+  subjectId?: number | null
   subtopicId?: number | null
+  userId?: number | null
+  sourceDocumentId?: number | null
+  sourceChunkId?: number | null
   type?: $Enums.QuestionType
-  content: string
+  questionText: string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: string | null
   explanation?: string | null
   difficulty?: $Enums.Difficulty
+  status?: $Enums.QuestionStatus
+  source?: $Enums.QuestionSource
+  contentHash?: string | null
+  aiModel?: string | null
+  reviewedById?: number | null
+  reviewedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type QuestionUpdateWithoutTopicInput = {
   type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
-  content?: Prisma.StringFieldUpdateOperationsInput | string
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFieldUpdateOperationsInput | $Enums.QuestionSource
+  contentHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutQuestionsNestedInput
+  subject?: Prisma.SubjectUpdateOneWithoutQuestionsNestedInput
   subtopic?: Prisma.SubtopicUpdateOneWithoutQuestionsNestedInput
+  sourceDocument?: Prisma.DocumentUpdateOneWithoutQuestionsNestedInput
+  sourceChunk?: Prisma.DocumentChunkUpdateOneWithoutQuestionsNestedInput
+  createdBy?: Prisma.UserUpdateOneWithoutAuthoredQuestionsNestedInput
+  reviewedBy?: Prisma.UserUpdateOneWithoutReviewedQuestionsNestedInput
   answers?: Prisma.QuestionAnswerUpdateManyWithoutQuestionNestedInput
   examQuestions?: Prisma.ExamQuestionUpdateManyWithoutQuestionNestedInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionUpdateManyWithoutQuestionNestedInput
 }
 
 export type QuestionUncheckedUpdateWithoutTopicInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  subjectId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subtopicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  userId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceDocumentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceChunkId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
-  content?: Prisma.StringFieldUpdateOperationsInput | string
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFieldUpdateOperationsInput | $Enums.QuestionSource
+  contentHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   answers?: Prisma.QuestionAnswerUncheckedUpdateManyWithoutQuestionNestedInput
   examQuestions?: Prisma.ExamQuestionUncheckedUpdateManyWithoutQuestionNestedInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionUncheckedUpdateManyWithoutQuestionNestedInput
 }
 
 export type QuestionUncheckedUpdateManyWithoutTopicInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  subjectId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subtopicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  userId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceDocumentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceChunkId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
-  content?: Prisma.StringFieldUpdateOperationsInput | string
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFieldUpdateOperationsInput | $Enums.QuestionSource
+  contentHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type QuestionCreateManySubtopicInput = {
   id?: number
-  userId: number
+  subjectId?: number | null
   topicId?: number | null
+  userId?: number | null
+  sourceDocumentId?: number | null
+  sourceChunkId?: number | null
   type?: $Enums.QuestionType
-  content: string
+  questionText: string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: string | null
   explanation?: string | null
   difficulty?: $Enums.Difficulty
+  status?: $Enums.QuestionStatus
+  source?: $Enums.QuestionSource
+  contentHash?: string | null
+  aiModel?: string | null
+  reviewedById?: number | null
+  reviewedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type QuestionUpdateWithoutSubtopicInput = {
   type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
-  content?: Prisma.StringFieldUpdateOperationsInput | string
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFieldUpdateOperationsInput | $Enums.QuestionSource
+  contentHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutQuestionsNestedInput
+  subject?: Prisma.SubjectUpdateOneWithoutQuestionsNestedInput
   topic?: Prisma.TopicUpdateOneWithoutQuestionsNestedInput
+  sourceDocument?: Prisma.DocumentUpdateOneWithoutQuestionsNestedInput
+  sourceChunk?: Prisma.DocumentChunkUpdateOneWithoutQuestionsNestedInput
+  createdBy?: Prisma.UserUpdateOneWithoutAuthoredQuestionsNestedInput
+  reviewedBy?: Prisma.UserUpdateOneWithoutReviewedQuestionsNestedInput
   answers?: Prisma.QuestionAnswerUpdateManyWithoutQuestionNestedInput
   examQuestions?: Prisma.ExamQuestionUpdateManyWithoutQuestionNestedInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionUpdateManyWithoutQuestionNestedInput
 }
 
 export type QuestionUncheckedUpdateWithoutSubtopicInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  subjectId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   topicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  userId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceDocumentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceChunkId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
-  content?: Prisma.StringFieldUpdateOperationsInput | string
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFieldUpdateOperationsInput | $Enums.QuestionSource
+  contentHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   answers?: Prisma.QuestionAnswerUncheckedUpdateManyWithoutQuestionNestedInput
   examQuestions?: Prisma.ExamQuestionUncheckedUpdateManyWithoutQuestionNestedInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionUncheckedUpdateManyWithoutQuestionNestedInput
 }
 
 export type QuestionUncheckedUpdateManyWithoutSubtopicInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  subjectId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   topicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  userId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceDocumentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceChunkId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
-  content?: Prisma.StringFieldUpdateOperationsInput | string
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFieldUpdateOperationsInput | $Enums.QuestionSource
+  contentHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type QuestionCreateManySourceDocumentInput = {
+  id?: number
+  subjectId?: number | null
+  topicId?: number | null
+  subtopicId?: number | null
+  userId?: number | null
+  sourceChunkId?: number | null
+  type?: $Enums.QuestionType
+  questionText: string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: string | null
+  explanation?: string | null
+  difficulty?: $Enums.Difficulty
+  status?: $Enums.QuestionStatus
+  source?: $Enums.QuestionSource
+  contentHash?: string | null
+  aiModel?: string | null
+  reviewedById?: number | null
+  reviewedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type QuestionUpdateWithoutSourceDocumentInput = {
+  type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFieldUpdateOperationsInput | $Enums.QuestionSource
+  contentHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  subject?: Prisma.SubjectUpdateOneWithoutQuestionsNestedInput
+  topic?: Prisma.TopicUpdateOneWithoutQuestionsNestedInput
+  subtopic?: Prisma.SubtopicUpdateOneWithoutQuestionsNestedInput
+  sourceChunk?: Prisma.DocumentChunkUpdateOneWithoutQuestionsNestedInput
+  createdBy?: Prisma.UserUpdateOneWithoutAuthoredQuestionsNestedInput
+  reviewedBy?: Prisma.UserUpdateOneWithoutReviewedQuestionsNestedInput
+  answers?: Prisma.QuestionAnswerUpdateManyWithoutQuestionNestedInput
+  examQuestions?: Prisma.ExamQuestionUpdateManyWithoutQuestionNestedInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionUpdateManyWithoutQuestionNestedInput
+}
+
+export type QuestionUncheckedUpdateWithoutSourceDocumentInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  subjectId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  topicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subtopicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  userId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceChunkId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFieldUpdateOperationsInput | $Enums.QuestionSource
+  contentHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  answers?: Prisma.QuestionAnswerUncheckedUpdateManyWithoutQuestionNestedInput
+  examQuestions?: Prisma.ExamQuestionUncheckedUpdateManyWithoutQuestionNestedInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionUncheckedUpdateManyWithoutQuestionNestedInput
+}
+
+export type QuestionUncheckedUpdateManyWithoutSourceDocumentInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  subjectId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  topicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subtopicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  userId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceChunkId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFieldUpdateOperationsInput | $Enums.QuestionSource
+  contentHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type QuestionCreateManySourceChunkInput = {
+  id?: number
+  subjectId?: number | null
+  topicId?: number | null
+  subtopicId?: number | null
+  userId?: number | null
+  sourceDocumentId?: number | null
+  type?: $Enums.QuestionType
+  questionText: string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: string | null
+  explanation?: string | null
+  difficulty?: $Enums.Difficulty
+  status?: $Enums.QuestionStatus
+  source?: $Enums.QuestionSource
+  contentHash?: string | null
+  aiModel?: string | null
+  reviewedById?: number | null
+  reviewedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type QuestionUpdateWithoutSourceChunkInput = {
+  type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFieldUpdateOperationsInput | $Enums.QuestionSource
+  contentHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  subject?: Prisma.SubjectUpdateOneWithoutQuestionsNestedInput
+  topic?: Prisma.TopicUpdateOneWithoutQuestionsNestedInput
+  subtopic?: Prisma.SubtopicUpdateOneWithoutQuestionsNestedInput
+  sourceDocument?: Prisma.DocumentUpdateOneWithoutQuestionsNestedInput
+  createdBy?: Prisma.UserUpdateOneWithoutAuthoredQuestionsNestedInput
+  reviewedBy?: Prisma.UserUpdateOneWithoutReviewedQuestionsNestedInput
+  answers?: Prisma.QuestionAnswerUpdateManyWithoutQuestionNestedInput
+  examQuestions?: Prisma.ExamQuestionUpdateManyWithoutQuestionNestedInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionUpdateManyWithoutQuestionNestedInput
+}
+
+export type QuestionUncheckedUpdateWithoutSourceChunkInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  subjectId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  topicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subtopicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  userId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceDocumentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFieldUpdateOperationsInput | $Enums.QuestionSource
+  contentHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  answers?: Prisma.QuestionAnswerUncheckedUpdateManyWithoutQuestionNestedInput
+  examQuestions?: Prisma.ExamQuestionUncheckedUpdateManyWithoutQuestionNestedInput
+  attemptQuestions?: Prisma.ExamAttemptQuestionUncheckedUpdateManyWithoutQuestionNestedInput
+}
+
+export type QuestionUncheckedUpdateManyWithoutSourceChunkInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  subjectId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  topicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subtopicId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  userId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceDocumentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  correctOption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  explanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus
+  source?: Prisma.EnumQuestionSourceFieldUpdateOperationsInput | $Enums.QuestionSource
+  contentHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  aiModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reviewedById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1162,11 +2757,13 @@ export type QuestionUncheckedUpdateManyWithoutSubtopicInput = {
 export type QuestionCountOutputType = {
   answers: number
   examQuestions: number
+  attemptQuestions: number
 }
 
 export type QuestionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   answers?: boolean | QuestionCountOutputTypeCountAnswersArgs
   examQuestions?: boolean | QuestionCountOutputTypeCountExamQuestionsArgs
+  attemptQuestions?: boolean | QuestionCountOutputTypeCountAttemptQuestionsArgs
 }
 
 /**
@@ -1193,23 +2790,46 @@ export type QuestionCountOutputTypeCountExamQuestionsArgs<ExtArgs extends runtim
   where?: Prisma.ExamQuestionWhereInput
 }
 
+/**
+ * QuestionCountOutputType without action
+ */
+export type QuestionCountOutputTypeCountAttemptQuestionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ExamAttemptQuestionWhereInput
+}
+
 
 export type QuestionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
+  subjectId?: boolean
   topicId?: boolean
   subtopicId?: boolean
+  userId?: boolean
+  sourceDocumentId?: boolean
+  sourceChunkId?: boolean
   type?: boolean
-  content?: boolean
+  questionText?: boolean
+  options?: boolean
+  correctOption?: boolean
   explanation?: boolean
   difficulty?: boolean
+  status?: boolean
+  source?: boolean
+  contentHash?: boolean
+  aiModel?: boolean
+  reviewedById?: boolean
+  reviewedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  subject?: boolean | Prisma.Question$subjectArgs<ExtArgs>
   topic?: boolean | Prisma.Question$topicArgs<ExtArgs>
   subtopic?: boolean | Prisma.Question$subtopicArgs<ExtArgs>
+  sourceDocument?: boolean | Prisma.Question$sourceDocumentArgs<ExtArgs>
+  sourceChunk?: boolean | Prisma.Question$sourceChunkArgs<ExtArgs>
+  createdBy?: boolean | Prisma.Question$createdByArgs<ExtArgs>
+  reviewedBy?: boolean | Prisma.Question$reviewedByArgs<ExtArgs>
   answers?: boolean | Prisma.Question$answersArgs<ExtArgs>
   examQuestions?: boolean | Prisma.Question$examQuestionsArgs<ExtArgs>
+  attemptQuestions?: boolean | Prisma.Question$attemptQuestionsArgs<ExtArgs>
   _count?: boolean | Prisma.QuestionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["question"]>
 
@@ -1217,45 +2837,77 @@ export type QuestionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
 
 export type QuestionSelectScalar = {
   id?: boolean
-  userId?: boolean
+  subjectId?: boolean
   topicId?: boolean
   subtopicId?: boolean
+  userId?: boolean
+  sourceDocumentId?: boolean
+  sourceChunkId?: boolean
   type?: boolean
-  content?: boolean
+  questionText?: boolean
+  options?: boolean
+  correctOption?: boolean
   explanation?: boolean
   difficulty?: boolean
+  status?: boolean
+  source?: boolean
+  contentHash?: boolean
+  aiModel?: boolean
+  reviewedById?: boolean
+  reviewedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type QuestionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "topicId" | "subtopicId" | "type" | "content" | "explanation" | "difficulty" | "createdAt" | "updatedAt", ExtArgs["result"]["question"]>
+export type QuestionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "subjectId" | "topicId" | "subtopicId" | "userId" | "sourceDocumentId" | "sourceChunkId" | "type" | "questionText" | "options" | "correctOption" | "explanation" | "difficulty" | "status" | "source" | "contentHash" | "aiModel" | "reviewedById" | "reviewedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["question"]>
 export type QuestionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  subject?: boolean | Prisma.Question$subjectArgs<ExtArgs>
   topic?: boolean | Prisma.Question$topicArgs<ExtArgs>
   subtopic?: boolean | Prisma.Question$subtopicArgs<ExtArgs>
+  sourceDocument?: boolean | Prisma.Question$sourceDocumentArgs<ExtArgs>
+  sourceChunk?: boolean | Prisma.Question$sourceChunkArgs<ExtArgs>
+  createdBy?: boolean | Prisma.Question$createdByArgs<ExtArgs>
+  reviewedBy?: boolean | Prisma.Question$reviewedByArgs<ExtArgs>
   answers?: boolean | Prisma.Question$answersArgs<ExtArgs>
   examQuestions?: boolean | Prisma.Question$examQuestionsArgs<ExtArgs>
+  attemptQuestions?: boolean | Prisma.Question$attemptQuestionsArgs<ExtArgs>
   _count?: boolean | Prisma.QuestionCountOutputTypeDefaultArgs<ExtArgs>
 }
 
 export type $QuestionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Question"
   objects: {
-    user: Prisma.$UserPayload<ExtArgs>
+    subject: Prisma.$SubjectPayload<ExtArgs> | null
     topic: Prisma.$TopicPayload<ExtArgs> | null
     subtopic: Prisma.$SubtopicPayload<ExtArgs> | null
+    sourceDocument: Prisma.$DocumentPayload<ExtArgs> | null
+    sourceChunk: Prisma.$DocumentChunkPayload<ExtArgs> | null
+    createdBy: Prisma.$UserPayload<ExtArgs> | null
+    reviewedBy: Prisma.$UserPayload<ExtArgs> | null
     answers: Prisma.$QuestionAnswerPayload<ExtArgs>[]
     examQuestions: Prisma.$ExamQuestionPayload<ExtArgs>[]
+    attemptQuestions: Prisma.$ExamAttemptQuestionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    userId: number
+    subjectId: number | null
     topicId: number | null
     subtopicId: number | null
+    userId: number | null
+    sourceDocumentId: number | null
+    sourceChunkId: number | null
     type: $Enums.QuestionType
-    content: string
+    questionText: string
+    options: runtime.JsonValue | null
+    correctOption: string | null
     explanation: string | null
     difficulty: $Enums.Difficulty
+    status: $Enums.QuestionStatus
+    source: $Enums.QuestionSource
+    contentHash: string | null
+    aiModel: string | null
+    reviewedById: number | null
+    reviewedAt: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["question"]>
@@ -1598,11 +3250,16 @@ readonly fields: QuestionFieldRefs;
  */
 export interface Prisma__QuestionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  subject<T extends Prisma.Question$subjectArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Question$subjectArgs<ExtArgs>>): Prisma.Prisma__SubjectClient<runtime.Types.Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   topic<T extends Prisma.Question$topicArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Question$topicArgs<ExtArgs>>): Prisma.Prisma__TopicClient<runtime.Types.Result.GetResult<Prisma.$TopicPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   subtopic<T extends Prisma.Question$subtopicArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Question$subtopicArgs<ExtArgs>>): Prisma.Prisma__SubtopicClient<runtime.Types.Result.GetResult<Prisma.$SubtopicPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  sourceDocument<T extends Prisma.Question$sourceDocumentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Question$sourceDocumentArgs<ExtArgs>>): Prisma.Prisma__DocumentClient<runtime.Types.Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  sourceChunk<T extends Prisma.Question$sourceChunkArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Question$sourceChunkArgs<ExtArgs>>): Prisma.Prisma__DocumentChunkClient<runtime.Types.Result.GetResult<Prisma.$DocumentChunkPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  createdBy<T extends Prisma.Question$createdByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Question$createdByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  reviewedBy<T extends Prisma.Question$reviewedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Question$reviewedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   answers<T extends Prisma.Question$answersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Question$answersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QuestionAnswerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   examQuestions<T extends Prisma.Question$examQuestionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Question$examQuestionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExamQuestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  attemptQuestions<T extends Prisma.Question$attemptQuestionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Question$attemptQuestionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExamAttemptQuestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1633,13 +3290,24 @@ export interface Prisma__QuestionClient<T, Null = never, ExtArgs extends runtime
  */
 export interface QuestionFieldRefs {
   readonly id: Prisma.FieldRef<"Question", 'Int'>
-  readonly userId: Prisma.FieldRef<"Question", 'Int'>
+  readonly subjectId: Prisma.FieldRef<"Question", 'Int'>
   readonly topicId: Prisma.FieldRef<"Question", 'Int'>
   readonly subtopicId: Prisma.FieldRef<"Question", 'Int'>
+  readonly userId: Prisma.FieldRef<"Question", 'Int'>
+  readonly sourceDocumentId: Prisma.FieldRef<"Question", 'Int'>
+  readonly sourceChunkId: Prisma.FieldRef<"Question", 'Int'>
   readonly type: Prisma.FieldRef<"Question", 'QuestionType'>
-  readonly content: Prisma.FieldRef<"Question", 'String'>
+  readonly questionText: Prisma.FieldRef<"Question", 'String'>
+  readonly options: Prisma.FieldRef<"Question", 'Json'>
+  readonly correctOption: Prisma.FieldRef<"Question", 'String'>
   readonly explanation: Prisma.FieldRef<"Question", 'String'>
   readonly difficulty: Prisma.FieldRef<"Question", 'Difficulty'>
+  readonly status: Prisma.FieldRef<"Question", 'QuestionStatus'>
+  readonly source: Prisma.FieldRef<"Question", 'QuestionSource'>
+  readonly contentHash: Prisma.FieldRef<"Question", 'String'>
+  readonly aiModel: Prisma.FieldRef<"Question", 'String'>
+  readonly reviewedById: Prisma.FieldRef<"Question", 'Int'>
+  readonly reviewedAt: Prisma.FieldRef<"Question", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Question", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Question", 'DateTime'>
 }
@@ -1990,6 +3658,25 @@ export type QuestionDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
+ * Question.subject
+ */
+export type Question$subjectArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Subject
+   */
+  select?: Prisma.SubjectSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Subject
+   */
+  omit?: Prisma.SubjectOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SubjectInclude<ExtArgs> | null
+  where?: Prisma.SubjectWhereInput
+}
+
+/**
  * Question.topic
  */
 export type Question$topicArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2025,6 +3712,82 @@ export type Question$subtopicArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   include?: Prisma.SubtopicInclude<ExtArgs> | null
   where?: Prisma.SubtopicWhereInput
+}
+
+/**
+ * Question.sourceDocument
+ */
+export type Question$sourceDocumentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Document
+   */
+  select?: Prisma.DocumentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Document
+   */
+  omit?: Prisma.DocumentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DocumentInclude<ExtArgs> | null
+  where?: Prisma.DocumentWhereInput
+}
+
+/**
+ * Question.sourceChunk
+ */
+export type Question$sourceChunkArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DocumentChunk
+   */
+  select?: Prisma.DocumentChunkSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DocumentChunk
+   */
+  omit?: Prisma.DocumentChunkOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DocumentChunkInclude<ExtArgs> | null
+  where?: Prisma.DocumentChunkWhereInput
+}
+
+/**
+ * Question.createdBy
+ */
+export type Question$createdByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
+}
+
+/**
+ * Question.reviewedBy
+ */
+export type Question$reviewedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
 }
 
 /**
@@ -2073,6 +3836,30 @@ export type Question$examQuestionsArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   distinct?: Prisma.ExamQuestionScalarFieldEnum | Prisma.ExamQuestionScalarFieldEnum[]
+}
+
+/**
+ * Question.attemptQuestions
+ */
+export type Question$attemptQuestionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ExamAttemptQuestion
+   */
+  select?: Prisma.ExamAttemptQuestionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ExamAttemptQuestion
+   */
+  omit?: Prisma.ExamAttemptQuestionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ExamAttemptQuestionInclude<ExtArgs> | null
+  where?: Prisma.ExamAttemptQuestionWhereInput
+  orderBy?: Prisma.ExamAttemptQuestionOrderByWithRelationInput | Prisma.ExamAttemptQuestionOrderByWithRelationInput[]
+  cursor?: Prisma.ExamAttemptQuestionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ExamAttemptQuestionScalarFieldEnum | Prisma.ExamAttemptQuestionScalarFieldEnum[]
 }
 
 /**

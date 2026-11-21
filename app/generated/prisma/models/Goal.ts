@@ -607,10 +607,6 @@ export type EnumGoalTypeFieldUpdateOperationsInput = {
   set?: $Enums.GoalType
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
 export type EnumGoalStatusFieldUpdateOperationsInput = {
   set?: $Enums.GoalStatus
 }

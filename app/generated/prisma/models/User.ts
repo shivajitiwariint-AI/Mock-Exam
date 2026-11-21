@@ -38,7 +38,11 @@ export type UserMinAggregateOutputType = {
   id: number | null
   email: string | null
   password: string | null
+  name: string | null
+  role: $Enums.Role | null
+  status: $Enums.UserStatus | null
   isAdmin: boolean | null
+  lastLoginAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -47,7 +51,11 @@ export type UserMaxAggregateOutputType = {
   id: number | null
   email: string | null
   password: string | null
+  name: string | null
+  role: $Enums.Role | null
+  status: $Enums.UserStatus | null
   isAdmin: boolean | null
+  lastLoginAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -56,7 +64,11 @@ export type UserCountAggregateOutputType = {
   id: number
   email: number
   password: number
+  name: number
+  role: number
+  status: number
   isAdmin: number
+  lastLoginAt: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -75,7 +87,11 @@ export type UserMinAggregateInputType = {
   id?: true
   email?: true
   password?: true
+  name?: true
+  role?: true
+  status?: true
   isAdmin?: true
+  lastLoginAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -84,7 +100,11 @@ export type UserMaxAggregateInputType = {
   id?: true
   email?: true
   password?: true
+  name?: true
+  role?: true
+  status?: true
   isAdmin?: true
+  lastLoginAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -93,7 +113,11 @@ export type UserCountAggregateInputType = {
   id?: true
   email?: true
   password?: true
+  name?: true
+  role?: true
+  status?: true
   isAdmin?: true
+  lastLoginAt?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -189,7 +213,11 @@ export type UserGroupByOutputType = {
   id: number
   email: string
   password: string
+  name: string | null
+  role: $Enums.Role
+  status: $Enums.UserStatus
   isAdmin: boolean
+  lastLoginAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: UserCountAggregateOutputType | null
@@ -221,20 +249,30 @@ export type UserWhereInput = {
   id?: Prisma.IntFilter<"User"> | number
   email?: Prisma.StringFilter<"User"> | string
   password?: Prisma.StringFilter<"User"> | string
+  name?: Prisma.StringNullableFilter<"User"> | string | null
+  role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
+  status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
   isAdmin?: Prisma.BoolFilter<"User"> | boolean
+  lastLoginAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   profile?: Prisma.XOR<Prisma.UserProfileNullableScalarRelationFilter, Prisma.UserProfileWhereInput> | null
   activityLogs?: Prisma.ActivityLogListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
   subjects?: Prisma.SubjectListRelationFilter
-  questions?: Prisma.QuestionListRelationFilter
-  exams?: Prisma.ExamListRelationFilter
+  subjectAssignments?: Prisma.SubjectAdminListRelationFilter
+  assignedSubjectAdmins?: Prisma.SubjectAdminListRelationFilter
+  documents?: Prisma.DocumentListRelationFilter
+  authoredQuestions?: Prisma.QuestionListRelationFilter
+  reviewedQuestions?: Prisma.QuestionListRelationFilter
+  createdExams?: Prisma.ExamListRelationFilter
   examResults?: Prisma.ExamResultListRelationFilter
+  examAttempts?: Prisma.ExamAttemptListRelationFilter
   studySessions?: Prisma.StudySessionListRelationFilter
   interviewCompanies?: Prisma.InterviewCompanyListRelationFilter
-  interviewQuestions?: Prisma.InterviewQuestionListRelationFilter
+  interviewQuestions?: Prisma.InterviewBankQuestionListRelationFilter
   interviewExperiences?: Prisma.InterviewExperienceListRelationFilter
+  interviewCategories?: Prisma.InterviewCategoryListRelationFilter
   goals?: Prisma.GoalListRelationFilter
   goalProgress?: Prisma.GoalProgressListRelationFilter
   healthLogs?: Prisma.HealthLogListRelationFilter
@@ -242,26 +280,40 @@ export type UserWhereInput = {
   userAchievements?: Prisma.UserAchievementListRelationFilter
   scheduleBlocks?: Prisma.ScheduleBlockListRelationFilter
   scheduleLogs?: Prisma.ScheduleLogListRelationFilter
+  auditLogs?: Prisma.AuditLogListRelationFilter
+  interviewPreps?: Prisma.InterviewPrepListRelationFilter
+  interviewSessions?: Prisma.InterviewSessionListRelationFilter
+  interviewProctorEvents?: Prisma.InterviewProctorEventListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  name?: Prisma.SortOrderInput | Prisma.SortOrder
+  role?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   isAdmin?: Prisma.SortOrder
+  lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   profile?: Prisma.UserProfileOrderByWithRelationInput
   activityLogs?: Prisma.ActivityLogOrderByRelationAggregateInput
   notifications?: Prisma.NotificationOrderByRelationAggregateInput
   subjects?: Prisma.SubjectOrderByRelationAggregateInput
-  questions?: Prisma.QuestionOrderByRelationAggregateInput
-  exams?: Prisma.ExamOrderByRelationAggregateInput
+  subjectAssignments?: Prisma.SubjectAdminOrderByRelationAggregateInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminOrderByRelationAggregateInput
+  documents?: Prisma.DocumentOrderByRelationAggregateInput
+  authoredQuestions?: Prisma.QuestionOrderByRelationAggregateInput
+  reviewedQuestions?: Prisma.QuestionOrderByRelationAggregateInput
+  createdExams?: Prisma.ExamOrderByRelationAggregateInput
   examResults?: Prisma.ExamResultOrderByRelationAggregateInput
+  examAttempts?: Prisma.ExamAttemptOrderByRelationAggregateInput
   studySessions?: Prisma.StudySessionOrderByRelationAggregateInput
   interviewCompanies?: Prisma.InterviewCompanyOrderByRelationAggregateInput
-  interviewQuestions?: Prisma.InterviewQuestionOrderByRelationAggregateInput
+  interviewQuestions?: Prisma.InterviewBankQuestionOrderByRelationAggregateInput
   interviewExperiences?: Prisma.InterviewExperienceOrderByRelationAggregateInput
+  interviewCategories?: Prisma.InterviewCategoryOrderByRelationAggregateInput
   goals?: Prisma.GoalOrderByRelationAggregateInput
   goalProgress?: Prisma.GoalProgressOrderByRelationAggregateInput
   healthLogs?: Prisma.HealthLogOrderByRelationAggregateInput
@@ -269,6 +321,10 @@ export type UserOrderByWithRelationInput = {
   userAchievements?: Prisma.UserAchievementOrderByRelationAggregateInput
   scheduleBlocks?: Prisma.ScheduleBlockOrderByRelationAggregateInput
   scheduleLogs?: Prisma.ScheduleLogOrderByRelationAggregateInput
+  auditLogs?: Prisma.AuditLogOrderByRelationAggregateInput
+  interviewPreps?: Prisma.InterviewPrepOrderByRelationAggregateInput
+  interviewSessions?: Prisma.InterviewSessionOrderByRelationAggregateInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventOrderByRelationAggregateInput
   _relevance?: Prisma.UserOrderByRelevanceInput
 }
 
@@ -279,20 +335,30 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   password?: Prisma.StringFilter<"User"> | string
+  name?: Prisma.StringNullableFilter<"User"> | string | null
+  role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
+  status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
   isAdmin?: Prisma.BoolFilter<"User"> | boolean
+  lastLoginAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   profile?: Prisma.XOR<Prisma.UserProfileNullableScalarRelationFilter, Prisma.UserProfileWhereInput> | null
   activityLogs?: Prisma.ActivityLogListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
   subjects?: Prisma.SubjectListRelationFilter
-  questions?: Prisma.QuestionListRelationFilter
-  exams?: Prisma.ExamListRelationFilter
+  subjectAssignments?: Prisma.SubjectAdminListRelationFilter
+  assignedSubjectAdmins?: Prisma.SubjectAdminListRelationFilter
+  documents?: Prisma.DocumentListRelationFilter
+  authoredQuestions?: Prisma.QuestionListRelationFilter
+  reviewedQuestions?: Prisma.QuestionListRelationFilter
+  createdExams?: Prisma.ExamListRelationFilter
   examResults?: Prisma.ExamResultListRelationFilter
+  examAttempts?: Prisma.ExamAttemptListRelationFilter
   studySessions?: Prisma.StudySessionListRelationFilter
   interviewCompanies?: Prisma.InterviewCompanyListRelationFilter
-  interviewQuestions?: Prisma.InterviewQuestionListRelationFilter
+  interviewQuestions?: Prisma.InterviewBankQuestionListRelationFilter
   interviewExperiences?: Prisma.InterviewExperienceListRelationFilter
+  interviewCategories?: Prisma.InterviewCategoryListRelationFilter
   goals?: Prisma.GoalListRelationFilter
   goalProgress?: Prisma.GoalProgressListRelationFilter
   healthLogs?: Prisma.HealthLogListRelationFilter
@@ -300,13 +366,21 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   userAchievements?: Prisma.UserAchievementListRelationFilter
   scheduleBlocks?: Prisma.ScheduleBlockListRelationFilter
   scheduleLogs?: Prisma.ScheduleLogListRelationFilter
+  auditLogs?: Prisma.AuditLogListRelationFilter
+  interviewPreps?: Prisma.InterviewPrepListRelationFilter
+  interviewSessions?: Prisma.InterviewSessionListRelationFilter
+  interviewProctorEvents?: Prisma.InterviewProctorEventListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  name?: Prisma.SortOrderInput | Prisma.SortOrder
+  role?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   isAdmin?: Prisma.SortOrder
+  lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
@@ -323,7 +397,11 @@ export type UserScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"User"> | number
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
   password?: Prisma.StringWithAggregatesFilter<"User"> | string
+  name?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  role?: Prisma.EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
+  status?: Prisma.EnumUserStatusWithAggregatesFilter<"User"> | $Enums.UserStatus
   isAdmin?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  lastLoginAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
@@ -331,20 +409,30 @@ export type UserScalarWhereWithAggregatesInput = {
 export type UserCreateInput = {
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
@@ -352,26 +440,40 @@ export type UserCreateInput = {
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
   id?: number
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamUncheckedCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultUncheckedCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
@@ -379,25 +481,39 @@ export type UserUncheckedCreateInput = {
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUpdateManyWithoutUserNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
@@ -405,26 +521,40 @@ export type UserUpdateInput = {
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUncheckedUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUncheckedUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUncheckedUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutUserNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
@@ -432,13 +562,21 @@ export type UserUncheckedUpdateInput = {
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
   id?: number
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -446,7 +584,11 @@ export type UserCreateManyInput = {
 export type UserUpdateManyMutationInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -455,7 +597,11 @@ export type UserUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -470,7 +616,11 @@ export type UserCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  role?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   isAdmin?: Prisma.SortOrder
+  lastLoginAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -483,7 +633,11 @@ export type UserMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  role?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   isAdmin?: Prisma.SortOrder
+  lastLoginAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -492,7 +646,11 @@ export type UserMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  role?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   isAdmin?: Prisma.SortOrder
+  lastLoginAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -506,12 +664,33 @@ export type UserScalarRelationFilter = {
   isNot?: Prisma.UserWhereInput
 }
 
+export type UserNullableScalarRelationFilter = {
+  is?: Prisma.UserWhereInput | null
+  isNot?: Prisma.UserWhereInput | null
+}
+
 export type StringFieldUpdateOperationsInput = {
   set?: string
 }
 
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
+}
+
+export type EnumRoleFieldUpdateOperationsInput = {
+  set?: $Enums.Role
+}
+
+export type EnumUserStatusFieldUpdateOperationsInput = {
+  set?: $Enums.UserStatus
+}
+
 export type BoolFieldUpdateOperationsInput = {
   set?: boolean
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -574,40 +753,106 @@ export type UserCreateNestedOneWithoutSubjectsInput = {
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutSubjectsNestedInput = {
+export type UserUpdateOneWithoutSubjectsNestedInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutSubjectsInput, Prisma.UserUncheckedCreateWithoutSubjectsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutSubjectsInput
   upsert?: Prisma.UserUpsertWithoutSubjectsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSubjectsInput, Prisma.UserUpdateWithoutSubjectsInput>, Prisma.UserUncheckedUpdateWithoutSubjectsInput>
 }
 
-export type UserCreateNestedOneWithoutQuestionsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutQuestionsInput, Prisma.UserUncheckedCreateWithoutQuestionsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutQuestionsInput
+export type UserCreateNestedOneWithoutSubjectAssignmentsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSubjectAssignmentsInput, Prisma.UserUncheckedCreateWithoutSubjectAssignmentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSubjectAssignmentsInput
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutQuestionsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutQuestionsInput, Prisma.UserUncheckedCreateWithoutQuestionsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutQuestionsInput
-  upsert?: Prisma.UserUpsertWithoutQuestionsInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutQuestionsInput, Prisma.UserUpdateWithoutQuestionsInput>, Prisma.UserUncheckedUpdateWithoutQuestionsInput>
-}
-
-export type UserCreateNestedOneWithoutExamsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutExamsInput, Prisma.UserUncheckedCreateWithoutExamsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutExamsInput
+export type UserCreateNestedOneWithoutAssignedSubjectAdminsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAssignedSubjectAdminsInput, Prisma.UserUncheckedCreateWithoutAssignedSubjectAdminsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAssignedSubjectAdminsInput
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutExamsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutExamsInput, Prisma.UserUncheckedCreateWithoutExamsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutExamsInput
-  upsert?: Prisma.UserUpsertWithoutExamsInput
+export type UserUpdateOneRequiredWithoutSubjectAssignmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSubjectAssignmentsInput, Prisma.UserUncheckedCreateWithoutSubjectAssignmentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSubjectAssignmentsInput
+  upsert?: Prisma.UserUpsertWithoutSubjectAssignmentsInput
   connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutExamsInput, Prisma.UserUpdateWithoutExamsInput>, Prisma.UserUncheckedUpdateWithoutExamsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSubjectAssignmentsInput, Prisma.UserUpdateWithoutSubjectAssignmentsInput>, Prisma.UserUncheckedUpdateWithoutSubjectAssignmentsInput>
+}
+
+export type UserUpdateOneWithoutAssignedSubjectAdminsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAssignedSubjectAdminsInput, Prisma.UserUncheckedCreateWithoutAssignedSubjectAdminsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAssignedSubjectAdminsInput
+  upsert?: Prisma.UserUpsertWithoutAssignedSubjectAdminsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAssignedSubjectAdminsInput, Prisma.UserUpdateWithoutAssignedSubjectAdminsInput>, Prisma.UserUncheckedUpdateWithoutAssignedSubjectAdminsInput>
+}
+
+export type UserCreateNestedOneWithoutDocumentsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDocumentsInput, Prisma.UserUncheckedCreateWithoutDocumentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDocumentsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutDocumentsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDocumentsInput, Prisma.UserUncheckedCreateWithoutDocumentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDocumentsInput
+  upsert?: Prisma.UserUpsertWithoutDocumentsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutDocumentsInput, Prisma.UserUpdateWithoutDocumentsInput>, Prisma.UserUncheckedUpdateWithoutDocumentsInput>
+}
+
+export type UserCreateNestedOneWithoutAuthoredQuestionsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAuthoredQuestionsInput, Prisma.UserUncheckedCreateWithoutAuthoredQuestionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAuthoredQuestionsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutReviewedQuestionsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReviewedQuestionsInput, Prisma.UserUncheckedCreateWithoutReviewedQuestionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewedQuestionsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutAuthoredQuestionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAuthoredQuestionsInput, Prisma.UserUncheckedCreateWithoutAuthoredQuestionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAuthoredQuestionsInput
+  upsert?: Prisma.UserUpsertWithoutAuthoredQuestionsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAuthoredQuestionsInput, Prisma.UserUpdateWithoutAuthoredQuestionsInput>, Prisma.UserUncheckedUpdateWithoutAuthoredQuestionsInput>
+}
+
+export type UserUpdateOneWithoutReviewedQuestionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReviewedQuestionsInput, Prisma.UserUncheckedCreateWithoutReviewedQuestionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewedQuestionsInput
+  upsert?: Prisma.UserUpsertWithoutReviewedQuestionsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReviewedQuestionsInput, Prisma.UserUpdateWithoutReviewedQuestionsInput>, Prisma.UserUncheckedUpdateWithoutReviewedQuestionsInput>
+}
+
+export type UserCreateNestedOneWithoutCreatedExamsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedExamsInput, Prisma.UserUncheckedCreateWithoutCreatedExamsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedExamsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutCreatedExamsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedExamsInput, Prisma.UserUncheckedCreateWithoutCreatedExamsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedExamsInput
+  upsert?: Prisma.UserUpsertWithoutCreatedExamsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCreatedExamsInput, Prisma.UserUpdateWithoutCreatedExamsInput>, Prisma.UserUncheckedUpdateWithoutCreatedExamsInput>
 }
 
 export type UserCreateNestedOneWithoutExamResultsInput = {
@@ -622,6 +867,20 @@ export type UserUpdateOneRequiredWithoutExamResultsNestedInput = {
   upsert?: Prisma.UserUpsertWithoutExamResultsInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutExamResultsInput, Prisma.UserUpdateWithoutExamResultsInput>, Prisma.UserUncheckedUpdateWithoutExamResultsInput>
+}
+
+export type UserCreateNestedOneWithoutExamAttemptsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutExamAttemptsInput, Prisma.UserUncheckedCreateWithoutExamAttemptsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutExamAttemptsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutExamAttemptsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutExamAttemptsInput, Prisma.UserUncheckedCreateWithoutExamAttemptsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutExamAttemptsInput
+  upsert?: Prisma.UserUpsertWithoutExamAttemptsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutExamAttemptsInput, Prisma.UserUpdateWithoutExamAttemptsInput>, Prisma.UserUncheckedUpdateWithoutExamAttemptsInput>
 }
 
 export type UserCreateNestedOneWithoutStudySessionsInput = {
@@ -666,6 +925,20 @@ export type UserUpdateOneRequiredWithoutInterviewQuestionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutInterviewQuestionsInput, Prisma.UserUpdateWithoutInterviewQuestionsInput>, Prisma.UserUncheckedUpdateWithoutInterviewQuestionsInput>
 }
 
+export type UserCreateNestedOneWithoutInterviewCategoriesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutInterviewCategoriesInput, Prisma.UserUncheckedCreateWithoutInterviewCategoriesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInterviewCategoriesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutInterviewCategoriesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutInterviewCategoriesInput, Prisma.UserUncheckedCreateWithoutInterviewCategoriesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInterviewCategoriesInput
+  upsert?: Prisma.UserUpsertWithoutInterviewCategoriesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutInterviewCategoriesInput, Prisma.UserUpdateWithoutInterviewCategoriesInput>, Prisma.UserUncheckedUpdateWithoutInterviewCategoriesInput>
+}
+
 export type UserCreateNestedOneWithoutInterviewExperiencesInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutInterviewExperiencesInput, Prisma.UserUncheckedCreateWithoutInterviewExperiencesInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutInterviewExperiencesInput
@@ -678,6 +951,64 @@ export type UserUpdateOneRequiredWithoutInterviewExperiencesNestedInput = {
   upsert?: Prisma.UserUpsertWithoutInterviewExperiencesInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutInterviewExperiencesInput, Prisma.UserUpdateWithoutInterviewExperiencesInput>, Prisma.UserUncheckedUpdateWithoutInterviewExperiencesInput>
+}
+
+export type UserCreateNestedOneWithoutInterviewPrepsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutInterviewPrepsInput, Prisma.UserUncheckedCreateWithoutInterviewPrepsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInterviewPrepsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutInterviewPrepsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutInterviewPrepsInput, Prisma.UserUncheckedCreateWithoutInterviewPrepsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInterviewPrepsInput
+  upsert?: Prisma.UserUpsertWithoutInterviewPrepsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutInterviewPrepsInput, Prisma.UserUpdateWithoutInterviewPrepsInput>, Prisma.UserUncheckedUpdateWithoutInterviewPrepsInput>
+}
+
+export type UserCreateNestedOneWithoutInterviewSessionsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutInterviewSessionsInput, Prisma.UserUncheckedCreateWithoutInterviewSessionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInterviewSessionsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutInterviewSessionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutInterviewSessionsInput, Prisma.UserUncheckedCreateWithoutInterviewSessionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInterviewSessionsInput
+  upsert?: Prisma.UserUpsertWithoutInterviewSessionsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutInterviewSessionsInput, Prisma.UserUpdateWithoutInterviewSessionsInput>, Prisma.UserUncheckedUpdateWithoutInterviewSessionsInput>
+}
+
+export type UserCreateNestedOneWithoutInterviewProctorEventsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutInterviewProctorEventsInput, Prisma.UserUncheckedCreateWithoutInterviewProctorEventsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInterviewProctorEventsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutInterviewProctorEventsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutInterviewProctorEventsInput, Prisma.UserUncheckedCreateWithoutInterviewProctorEventsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInterviewProctorEventsInput
+  upsert?: Prisma.UserUpsertWithoutInterviewProctorEventsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutInterviewProctorEventsInput, Prisma.UserUpdateWithoutInterviewProctorEventsInput>, Prisma.UserUncheckedUpdateWithoutInterviewProctorEventsInput>
+}
+
+export type UserCreateNestedOneWithoutAuditLogsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAuditLogsInput, Prisma.UserUncheckedCreateWithoutAuditLogsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAuditLogsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutAuditLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAuditLogsInput, Prisma.UserUncheckedCreateWithoutAuditLogsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAuditLogsInput
+  upsert?: Prisma.UserUpsertWithoutAuditLogsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAuditLogsInput, Prisma.UserUpdateWithoutAuditLogsInput>, Prisma.UserUncheckedUpdateWithoutAuditLogsInput>
 }
 
 export type UserCreateNestedOneWithoutGoalsInput = {
@@ -781,19 +1112,29 @@ export type UserUpdateOneRequiredWithoutScheduleLogsNestedInput = {
 export type UserCreateWithoutProfileInput = {
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
@@ -801,25 +1142,39 @@ export type UserCreateWithoutProfileInput = {
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutProfileInput = {
   id?: number
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamUncheckedCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultUncheckedCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
@@ -827,6 +1182,10 @@ export type UserUncheckedCreateWithoutProfileInput = {
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutProfileInput = {
@@ -848,19 +1207,29 @@ export type UserUpdateToOneWithWhereWithoutProfileInput = {
 export type UserUpdateWithoutProfileInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUpdateManyWithoutUserNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
@@ -868,25 +1237,39 @@ export type UserUpdateWithoutProfileInput = {
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProfileInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUncheckedUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUncheckedUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUncheckedUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutUserNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
@@ -894,24 +1277,38 @@ export type UserUncheckedUpdateWithoutProfileInput = {
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutActivityLogsInput = {
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
@@ -919,25 +1316,39 @@ export type UserCreateWithoutActivityLogsInput = {
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutActivityLogsInput = {
   id?: number
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamUncheckedCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultUncheckedCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
@@ -945,6 +1356,10 @@ export type UserUncheckedCreateWithoutActivityLogsInput = {
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutActivityLogsInput = {
@@ -966,19 +1381,29 @@ export type UserUpdateToOneWithWhereWithoutActivityLogsInput = {
 export type UserUpdateWithoutActivityLogsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUpdateManyWithoutUserNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
@@ -986,25 +1411,39 @@ export type UserUpdateWithoutActivityLogsInput = {
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutActivityLogsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUncheckedUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUncheckedUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUncheckedUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutUserNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
@@ -1012,24 +1451,38 @@ export type UserUncheckedUpdateWithoutActivityLogsInput = {
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutNotificationsInput = {
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
@@ -1037,25 +1490,39 @@ export type UserCreateWithoutNotificationsInput = {
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
   id?: number
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamUncheckedCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultUncheckedCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
@@ -1063,6 +1530,10 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -1084,19 +1555,29 @@ export type UserUpdateToOneWithWhereWithoutNotificationsInput = {
 export type UserUpdateWithoutNotificationsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUpdateManyWithoutUserNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
@@ -1104,25 +1585,39 @@ export type UserUpdateWithoutNotificationsInput = {
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUncheckedUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUncheckedUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUncheckedUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutUserNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
@@ -1130,24 +1625,38 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSubjectsInput = {
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
@@ -1155,25 +1664,39 @@ export type UserCreateWithoutSubjectsInput = {
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSubjectsInput = {
   id?: number
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamUncheckedCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultUncheckedCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
@@ -1181,6 +1704,10 @@ export type UserUncheckedCreateWithoutSubjectsInput = {
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSubjectsInput = {
@@ -1202,19 +1729,29 @@ export type UserUpdateToOneWithWhereWithoutSubjectsInput = {
 export type UserUpdateWithoutSubjectsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUpdateManyWithoutUserNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
@@ -1222,25 +1759,39 @@ export type UserUpdateWithoutSubjectsInput = {
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSubjectsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUncheckedUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUncheckedUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUncheckedUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutUserNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
@@ -1248,24 +1799,38 @@ export type UserUncheckedUpdateWithoutSubjectsInput = {
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedUpdateManyWithoutUserNestedInput
 }
 
-export type UserCreateWithoutQuestionsInput = {
+export type UserCreateWithoutSubjectAssignmentsInput = {
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
@@ -1273,25 +1838,39 @@ export type UserCreateWithoutQuestionsInput = {
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventCreateNestedManyWithoutUserInput
 }
 
-export type UserUncheckedCreateWithoutQuestionsInput = {
+export type UserUncheckedCreateWithoutSubjectAssignmentsInput = {
   id?: number
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamUncheckedCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultUncheckedCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
@@ -1299,91 +1878,43 @@ export type UserUncheckedCreateWithoutQuestionsInput = {
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedCreateNestedManyWithoutUserInput
 }
 
-export type UserCreateOrConnectWithoutQuestionsInput = {
+export type UserCreateOrConnectWithoutSubjectAssignmentsInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutQuestionsInput, Prisma.UserUncheckedCreateWithoutQuestionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSubjectAssignmentsInput, Prisma.UserUncheckedCreateWithoutSubjectAssignmentsInput>
 }
 
-export type UserUpsertWithoutQuestionsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutQuestionsInput, Prisma.UserUncheckedUpdateWithoutQuestionsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutQuestionsInput, Prisma.UserUncheckedCreateWithoutQuestionsInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutQuestionsInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutQuestionsInput, Prisma.UserUncheckedUpdateWithoutQuestionsInput>
-}
-
-export type UserUpdateWithoutQuestionsInput = {
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
-  activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
-  examResults?: Prisma.ExamResultUpdateManyWithoutUserNestedInput
-  studySessions?: Prisma.StudySessionUpdateManyWithoutUserNestedInput
-  interviewCompanies?: Prisma.InterviewCompanyUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUpdateManyWithoutUserNestedInput
-  interviewExperiences?: Prisma.InterviewExperienceUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
-  goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
-  healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
-  meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
-  userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
-  scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
-  scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutQuestionsInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
-  activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
-  examResults?: Prisma.ExamResultUncheckedUpdateManyWithoutUserNestedInput
-  studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutUserNestedInput
-  interviewCompanies?: Prisma.InterviewCompanyUncheckedUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedUpdateManyWithoutUserNestedInput
-  interviewExperiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutUserNestedInput
-  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
-  goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
-  healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
-  meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
-  userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
-  scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
-  scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserCreateWithoutExamsInput = {
+export type UserCreateWithoutAssignedSubjectAdminsInput = {
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminCreateNestedManyWithoutUserInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
@@ -1391,25 +1922,39 @@ export type UserCreateWithoutExamsInput = {
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventCreateNestedManyWithoutUserInput
 }
 
-export type UserUncheckedCreateWithoutExamsInput = {
+export type UserUncheckedCreateWithoutAssignedSubjectAdminsInput = {
   id?: number
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutUserInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamUncheckedCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultUncheckedCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
@@ -1417,40 +1962,54 @@ export type UserUncheckedCreateWithoutExamsInput = {
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedCreateNestedManyWithoutUserInput
 }
 
-export type UserCreateOrConnectWithoutExamsInput = {
+export type UserCreateOrConnectWithoutAssignedSubjectAdminsInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutExamsInput, Prisma.UserUncheckedCreateWithoutExamsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAssignedSubjectAdminsInput, Prisma.UserUncheckedCreateWithoutAssignedSubjectAdminsInput>
 }
 
-export type UserUpsertWithoutExamsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutExamsInput, Prisma.UserUncheckedUpdateWithoutExamsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutExamsInput, Prisma.UserUncheckedCreateWithoutExamsInput>
+export type UserUpsertWithoutSubjectAssignmentsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSubjectAssignmentsInput, Prisma.UserUncheckedUpdateWithoutSubjectAssignmentsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSubjectAssignmentsInput, Prisma.UserUncheckedCreateWithoutSubjectAssignmentsInput>
   where?: Prisma.UserWhereInput
 }
 
-export type UserUpdateToOneWithWhereWithoutExamsInput = {
+export type UserUpdateToOneWithWhereWithoutSubjectAssignmentsInput = {
   where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutExamsInput, Prisma.UserUncheckedUpdateWithoutExamsInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSubjectAssignmentsInput, Prisma.UserUncheckedUpdateWithoutSubjectAssignmentsInput>
 }
 
-export type UserUpdateWithoutExamsInput = {
+export type UserUpdateWithoutSubjectAssignmentsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUpdateManyWithoutUserNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
@@ -1458,25 +2017,39 @@ export type UserUpdateWithoutExamsInput = {
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUpdateManyWithoutUserNestedInput
 }
 
-export type UserUncheckedUpdateWithoutExamsInput = {
+export type UserUncheckedUpdateWithoutSubjectAssignmentsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUncheckedUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUncheckedUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUncheckedUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutUserNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
@@ -1484,24 +2057,824 @@ export type UserUncheckedUpdateWithoutExamsInput = {
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserUpsertWithoutAssignedSubjectAdminsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAssignedSubjectAdminsInput, Prisma.UserUncheckedUpdateWithoutAssignedSubjectAdminsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAssignedSubjectAdminsInput, Prisma.UserUncheckedCreateWithoutAssignedSubjectAdminsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAssignedSubjectAdminsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAssignedSubjectAdminsInput, Prisma.UserUncheckedUpdateWithoutAssignedSubjectAdminsInput>
+}
+
+export type UserUpdateWithoutAssignedSubjectAdminsInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUpdateManyWithoutUserNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUpdateManyWithoutCreatedByNestedInput
+  examResults?: Prisma.ExamResultUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUpdateManyWithoutStudentNestedInput
+  studySessions?: Prisma.StudySessionUpdateManyWithoutUserNestedInput
+  interviewCompanies?: Prisma.InterviewCompanyUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUpdateManyWithoutUserNestedInput
+  interviewExperiences?: Prisma.InterviewExperienceUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
+  healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
+  meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAssignedSubjectAdminsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedUpdateManyWithoutUserNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUncheckedUpdateManyWithoutCreatedByNestedInput
+  examResults?: Prisma.ExamResultUncheckedUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutStudentNestedInput
+  studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewCompanies?: Prisma.InterviewCompanyUncheckedUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedUpdateManyWithoutUserNestedInput
+  interviewExperiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
+  healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
+  meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutDocumentsInput = {
+  email: string
+  password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
+  isAdmin?: boolean
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminCreateNestedManyWithoutAssignedByInput
+  authoredQuestions?: Prisma.QuestionCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamCreateNestedManyWithoutCreatedByInput
+  examResults?: Prisma.ExamResultCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutStudentInput
+  studySessions?: Prisma.StudySessionCreateNestedManyWithoutUserInput
+  interviewCompanies?: Prisma.InterviewCompanyCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionCreateNestedManyWithoutUserInput
+  interviewExperiences?: Prisma.InterviewExperienceCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
+  healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
+  meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutDocumentsInput = {
+  id?: number
+  email: string
+  password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
+  isAdmin?: boolean
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutAssignedByInput
+  authoredQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamUncheckedCreateNestedManyWithoutCreatedByInput
+  examResults?: Prisma.ExamResultUncheckedCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutStudentInput
+  studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutUserInput
+  interviewCompanies?: Prisma.InterviewCompanyUncheckedCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedCreateNestedManyWithoutUserInput
+  interviewExperiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
+  healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
+  meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutDocumentsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutDocumentsInput, Prisma.UserUncheckedCreateWithoutDocumentsInput>
+}
+
+export type UserUpsertWithoutDocumentsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutDocumentsInput, Prisma.UserUncheckedUpdateWithoutDocumentsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutDocumentsInput, Prisma.UserUncheckedCreateWithoutDocumentsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutDocumentsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutDocumentsInput, Prisma.UserUncheckedUpdateWithoutDocumentsInput>
+}
+
+export type UserUpdateWithoutDocumentsInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUpdateManyWithoutAssignedByNestedInput
+  authoredQuestions?: Prisma.QuestionUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUpdateManyWithoutCreatedByNestedInput
+  examResults?: Prisma.ExamResultUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUpdateManyWithoutStudentNestedInput
+  studySessions?: Prisma.StudySessionUpdateManyWithoutUserNestedInput
+  interviewCompanies?: Prisma.InterviewCompanyUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUpdateManyWithoutUserNestedInput
+  interviewExperiences?: Prisma.InterviewExperienceUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
+  healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
+  meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutDocumentsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedUpdateManyWithoutAssignedByNestedInput
+  authoredQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUncheckedUpdateManyWithoutCreatedByNestedInput
+  examResults?: Prisma.ExamResultUncheckedUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutStudentNestedInput
+  studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewCompanies?: Prisma.InterviewCompanyUncheckedUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedUpdateManyWithoutUserNestedInput
+  interviewExperiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
+  healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
+  meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutAuthoredQuestionsInput = {
+  email: string
+  password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
+  isAdmin?: boolean
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutUploaderInput
+  reviewedQuestions?: Prisma.QuestionCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamCreateNestedManyWithoutCreatedByInput
+  examResults?: Prisma.ExamResultCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutStudentInput
+  studySessions?: Prisma.StudySessionCreateNestedManyWithoutUserInput
+  interviewCompanies?: Prisma.InterviewCompanyCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionCreateNestedManyWithoutUserInput
+  interviewExperiences?: Prisma.InterviewExperienceCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
+  healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
+  meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutAuthoredQuestionsInput = {
+  id?: number
+  email: string
+  password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
+  isAdmin?: boolean
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploaderInput
+  reviewedQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamUncheckedCreateNestedManyWithoutCreatedByInput
+  examResults?: Prisma.ExamResultUncheckedCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutStudentInput
+  studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutUserInput
+  interviewCompanies?: Prisma.InterviewCompanyUncheckedCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedCreateNestedManyWithoutUserInput
+  interviewExperiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
+  healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
+  meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutAuthoredQuestionsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAuthoredQuestionsInput, Prisma.UserUncheckedCreateWithoutAuthoredQuestionsInput>
+}
+
+export type UserCreateWithoutReviewedQuestionsInput = {
+  email: string
+  password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
+  isAdmin?: boolean
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionCreateNestedManyWithoutCreatedByInput
+  createdExams?: Prisma.ExamCreateNestedManyWithoutCreatedByInput
+  examResults?: Prisma.ExamResultCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutStudentInput
+  studySessions?: Prisma.StudySessionCreateNestedManyWithoutUserInput
+  interviewCompanies?: Prisma.InterviewCompanyCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionCreateNestedManyWithoutUserInput
+  interviewExperiences?: Prisma.InterviewExperienceCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
+  healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
+  meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutReviewedQuestionsInput = {
+  id?: number
+  email: string
+  password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
+  isAdmin?: boolean
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutCreatedByInput
+  createdExams?: Prisma.ExamUncheckedCreateNestedManyWithoutCreatedByInput
+  examResults?: Prisma.ExamResultUncheckedCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutStudentInput
+  studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutUserInput
+  interviewCompanies?: Prisma.InterviewCompanyUncheckedCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedCreateNestedManyWithoutUserInput
+  interviewExperiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
+  healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
+  meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutReviewedQuestionsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutReviewedQuestionsInput, Prisma.UserUncheckedCreateWithoutReviewedQuestionsInput>
+}
+
+export type UserUpsertWithoutAuthoredQuestionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAuthoredQuestionsInput, Prisma.UserUncheckedUpdateWithoutAuthoredQuestionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAuthoredQuestionsInput, Prisma.UserUncheckedCreateWithoutAuthoredQuestionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAuthoredQuestionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAuthoredQuestionsInput, Prisma.UserUncheckedUpdateWithoutAuthoredQuestionsInput>
+}
+
+export type UserUpdateWithoutAuthoredQuestionsInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutUploaderNestedInput
+  reviewedQuestions?: Prisma.QuestionUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUpdateManyWithoutCreatedByNestedInput
+  examResults?: Prisma.ExamResultUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUpdateManyWithoutStudentNestedInput
+  studySessions?: Prisma.StudySessionUpdateManyWithoutUserNestedInput
+  interviewCompanies?: Prisma.InterviewCompanyUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUpdateManyWithoutUserNestedInput
+  interviewExperiences?: Prisma.InterviewExperienceUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
+  healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
+  meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAuthoredQuestionsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUploaderNestedInput
+  reviewedQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUncheckedUpdateManyWithoutCreatedByNestedInput
+  examResults?: Prisma.ExamResultUncheckedUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutStudentNestedInput
+  studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewCompanies?: Prisma.InterviewCompanyUncheckedUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedUpdateManyWithoutUserNestedInput
+  interviewExperiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
+  healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
+  meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserUpsertWithoutReviewedQuestionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutReviewedQuestionsInput, Prisma.UserUncheckedUpdateWithoutReviewedQuestionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutReviewedQuestionsInput, Prisma.UserUncheckedCreateWithoutReviewedQuestionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutReviewedQuestionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutReviewedQuestionsInput, Prisma.UserUncheckedUpdateWithoutReviewedQuestionsInput>
+}
+
+export type UserUpdateWithoutReviewedQuestionsInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUpdateManyWithoutCreatedByNestedInput
+  createdExams?: Prisma.ExamUpdateManyWithoutCreatedByNestedInput
+  examResults?: Prisma.ExamResultUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUpdateManyWithoutStudentNestedInput
+  studySessions?: Prisma.StudySessionUpdateManyWithoutUserNestedInput
+  interviewCompanies?: Prisma.InterviewCompanyUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUpdateManyWithoutUserNestedInput
+  interviewExperiences?: Prisma.InterviewExperienceUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
+  healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
+  meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutReviewedQuestionsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutCreatedByNestedInput
+  createdExams?: Prisma.ExamUncheckedUpdateManyWithoutCreatedByNestedInput
+  examResults?: Prisma.ExamResultUncheckedUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutStudentNestedInput
+  studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewCompanies?: Prisma.InterviewCompanyUncheckedUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedUpdateManyWithoutUserNestedInput
+  interviewExperiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
+  healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
+  meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutCreatedExamsInput = {
+  email: string
+  password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
+  isAdmin?: boolean
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionCreateNestedManyWithoutReviewedByInput
+  examResults?: Prisma.ExamResultCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutStudentInput
+  studySessions?: Prisma.StudySessionCreateNestedManyWithoutUserInput
+  interviewCompanies?: Prisma.InterviewCompanyCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionCreateNestedManyWithoutUserInput
+  interviewExperiences?: Prisma.InterviewExperienceCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
+  healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
+  meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutCreatedExamsInput = {
+  id?: number
+  email: string
+  password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
+  isAdmin?: boolean
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutReviewedByInput
+  examResults?: Prisma.ExamResultUncheckedCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutStudentInput
+  studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutUserInput
+  interviewCompanies?: Prisma.InterviewCompanyUncheckedCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedCreateNestedManyWithoutUserInput
+  interviewExperiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
+  healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
+  meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutCreatedExamsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCreatedExamsInput, Prisma.UserUncheckedCreateWithoutCreatedExamsInput>
+}
+
+export type UserUpsertWithoutCreatedExamsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCreatedExamsInput, Prisma.UserUncheckedUpdateWithoutCreatedExamsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCreatedExamsInput, Prisma.UserUncheckedCreateWithoutCreatedExamsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCreatedExamsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCreatedExamsInput, Prisma.UserUncheckedUpdateWithoutCreatedExamsInput>
+}
+
+export type UserUpdateWithoutCreatedExamsInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUpdateManyWithoutReviewedByNestedInput
+  examResults?: Prisma.ExamResultUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUpdateManyWithoutStudentNestedInput
+  studySessions?: Prisma.StudySessionUpdateManyWithoutUserNestedInput
+  interviewCompanies?: Prisma.InterviewCompanyUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUpdateManyWithoutUserNestedInput
+  interviewExperiences?: Prisma.InterviewExperienceUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
+  healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
+  meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCreatedExamsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  examResults?: Prisma.ExamResultUncheckedUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutStudentNestedInput
+  studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewCompanies?: Prisma.InterviewCompanyUncheckedUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedUpdateManyWithoutUserNestedInput
+  interviewExperiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
+  healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
+  meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutExamResultsInput = {
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamCreateNestedManyWithoutCreatedByInput
+  examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
@@ -1509,25 +2882,39 @@ export type UserCreateWithoutExamResultsInput = {
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutExamResultsInput = {
   id?: number
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamUncheckedCreateNestedManyWithoutCreatedByInput
+  examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
@@ -1535,6 +2922,10 @@ export type UserUncheckedCreateWithoutExamResultsInput = {
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutExamResultsInput = {
@@ -1556,19 +2947,29 @@ export type UserUpdateToOneWithWhereWithoutExamResultsInput = {
 export type UserUpdateWithoutExamResultsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUpdateManyWithoutCreatedByNestedInput
+  examAttempts?: Prisma.ExamAttemptUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUpdateManyWithoutUserNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
@@ -1576,25 +2977,39 @@ export type UserUpdateWithoutExamResultsInput = {
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutExamResultsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUncheckedUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUncheckedUpdateManyWithoutCreatedByNestedInput
+  examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutUserNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
@@ -1602,24 +3017,38 @@ export type UserUncheckedUpdateWithoutExamResultsInput = {
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedUpdateManyWithoutUserNestedInput
 }
 
-export type UserCreateWithoutStudySessionsInput = {
+export type UserCreateWithoutExamAttemptsInput = {
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultCreateNestedManyWithoutUserInput
+  studySessions?: Prisma.StudySessionCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
@@ -1627,25 +3056,39 @@ export type UserCreateWithoutStudySessionsInput = {
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventCreateNestedManyWithoutUserInput
 }
 
-export type UserUncheckedCreateWithoutStudySessionsInput = {
+export type UserUncheckedCreateWithoutExamAttemptsInput = {
   id?: number
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamUncheckedCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultUncheckedCreateNestedManyWithoutUserInput
+  studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
@@ -1653,6 +3096,184 @@ export type UserUncheckedCreateWithoutStudySessionsInput = {
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutExamAttemptsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutExamAttemptsInput, Prisma.UserUncheckedCreateWithoutExamAttemptsInput>
+}
+
+export type UserUpsertWithoutExamAttemptsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutExamAttemptsInput, Prisma.UserUncheckedUpdateWithoutExamAttemptsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutExamAttemptsInput, Prisma.UserUncheckedCreateWithoutExamAttemptsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutExamAttemptsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutExamAttemptsInput, Prisma.UserUncheckedUpdateWithoutExamAttemptsInput>
+}
+
+export type UserUpdateWithoutExamAttemptsInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUpdateManyWithoutCreatedByNestedInput
+  examResults?: Prisma.ExamResultUpdateManyWithoutUserNestedInput
+  studySessions?: Prisma.StudySessionUpdateManyWithoutUserNestedInput
+  interviewCompanies?: Prisma.InterviewCompanyUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUpdateManyWithoutUserNestedInput
+  interviewExperiences?: Prisma.InterviewExperienceUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
+  healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
+  meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutExamAttemptsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUncheckedUpdateManyWithoutCreatedByNestedInput
+  examResults?: Prisma.ExamResultUncheckedUpdateManyWithoutUserNestedInput
+  studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewCompanies?: Prisma.InterviewCompanyUncheckedUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedUpdateManyWithoutUserNestedInput
+  interviewExperiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
+  healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
+  meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutStudySessionsInput = {
+  email: string
+  password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
+  isAdmin?: boolean
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamCreateNestedManyWithoutCreatedByInput
+  examResults?: Prisma.ExamResultCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutStudentInput
+  interviewCompanies?: Prisma.InterviewCompanyCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionCreateNestedManyWithoutUserInput
+  interviewExperiences?: Prisma.InterviewExperienceCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
+  healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
+  meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutStudySessionsInput = {
+  id?: number
+  email: string
+  password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
+  isAdmin?: boolean
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamUncheckedCreateNestedManyWithoutCreatedByInput
+  examResults?: Prisma.ExamResultUncheckedCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutStudentInput
+  interviewCompanies?: Prisma.InterviewCompanyUncheckedCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedCreateNestedManyWithoutUserInput
+  interviewExperiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
+  healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
+  meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutStudySessionsInput = {
@@ -1674,19 +3295,29 @@ export type UserUpdateToOneWithWhereWithoutStudySessionsInput = {
 export type UserUpdateWithoutStudySessionsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUpdateManyWithoutStudentNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
@@ -1694,25 +3325,39 @@ export type UserUpdateWithoutStudySessionsInput = {
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStudySessionsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUncheckedUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUncheckedUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUncheckedUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutStudentNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
@@ -1720,24 +3365,38 @@ export type UserUncheckedUpdateWithoutStudySessionsInput = {
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutInterviewCompaniesInput = {
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
@@ -1745,25 +3404,39 @@ export type UserCreateWithoutInterviewCompaniesInput = {
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutInterviewCompaniesInput = {
   id?: number
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamUncheckedCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultUncheckedCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
@@ -1771,6 +3444,10 @@ export type UserUncheckedCreateWithoutInterviewCompaniesInput = {
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutInterviewCompaniesInput = {
@@ -1792,19 +3469,29 @@ export type UserUpdateToOneWithWhereWithoutInterviewCompaniesInput = {
 export type UserUpdateWithoutInterviewCompaniesInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
@@ -1812,25 +3499,39 @@ export type UserUpdateWithoutInterviewCompaniesInput = {
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutInterviewCompaniesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUncheckedUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUncheckedUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUncheckedUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
@@ -1838,24 +3539,38 @@ export type UserUncheckedUpdateWithoutInterviewCompaniesInput = {
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutInterviewQuestionsInput = {
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
@@ -1863,25 +3578,39 @@ export type UserCreateWithoutInterviewQuestionsInput = {
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutInterviewQuestionsInput = {
   id?: number
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamUncheckedCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultUncheckedCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
@@ -1889,6 +3618,10 @@ export type UserUncheckedCreateWithoutInterviewQuestionsInput = {
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutInterviewQuestionsInput = {
@@ -1910,18 +3643,202 @@ export type UserUpdateToOneWithWhereWithoutInterviewQuestionsInput = {
 export type UserUpdateWithoutInterviewQuestionsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUpdateManyWithoutUserNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUpdateManyWithoutUserNestedInput
+  interviewExperiences?: Prisma.InterviewExperienceUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
+  healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
+  meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutInterviewQuestionsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUncheckedUpdateManyWithoutCreatedByNestedInput
+  examResults?: Prisma.ExamResultUncheckedUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutStudentNestedInput
+  studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewCompanies?: Prisma.InterviewCompanyUncheckedUpdateManyWithoutUserNestedInput
+  interviewExperiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
+  healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
+  meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutInterviewCategoriesInput = {
+  email: string
+  password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
+  isAdmin?: boolean
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamCreateNestedManyWithoutCreatedByInput
+  examResults?: Prisma.ExamResultCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutStudentInput
+  studySessions?: Prisma.StudySessionCreateNestedManyWithoutUserInput
+  interviewCompanies?: Prisma.InterviewCompanyCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionCreateNestedManyWithoutUserInput
+  interviewExperiences?: Prisma.InterviewExperienceCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
+  healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
+  meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutInterviewCategoriesInput = {
+  id?: number
+  email: string
+  password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
+  isAdmin?: boolean
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamUncheckedCreateNestedManyWithoutCreatedByInput
+  examResults?: Prisma.ExamResultUncheckedCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutStudentInput
+  studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutUserInput
+  interviewCompanies?: Prisma.InterviewCompanyUncheckedCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedCreateNestedManyWithoutUserInput
+  interviewExperiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
+  healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
+  meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutInterviewCategoriesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutInterviewCategoriesInput, Prisma.UserUncheckedCreateWithoutInterviewCategoriesInput>
+}
+
+export type UserUpsertWithoutInterviewCategoriesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutInterviewCategoriesInput, Prisma.UserUncheckedUpdateWithoutInterviewCategoriesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutInterviewCategoriesInput, Prisma.UserUncheckedCreateWithoutInterviewCategoriesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutInterviewCategoriesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutInterviewCategoriesInput, Prisma.UserUncheckedUpdateWithoutInterviewCategoriesInput>
+}
+
+export type UserUpdateWithoutInterviewCategoriesInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUpdateManyWithoutCreatedByNestedInput
+  examResults?: Prisma.ExamResultUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUpdateManyWithoutStudentNestedInput
+  studySessions?: Prisma.StudySessionUpdateManyWithoutUserNestedInput
+  interviewCompanies?: Prisma.InterviewCompanyUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
@@ -1930,24 +3847,38 @@ export type UserUpdateWithoutInterviewQuestionsInput = {
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUpdateManyWithoutUserNestedInput
 }
 
-export type UserUncheckedUpdateWithoutInterviewQuestionsInput = {
+export type UserUncheckedUpdateWithoutInterviewCategoriesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUncheckedUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUncheckedUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUncheckedUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutUserNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
@@ -1956,24 +3887,38 @@ export type UserUncheckedUpdateWithoutInterviewQuestionsInput = {
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutInterviewExperiencesInput = {
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
@@ -1981,25 +3926,39 @@ export type UserCreateWithoutInterviewExperiencesInput = {
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutInterviewExperiencesInput = {
   id?: number
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamUncheckedCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultUncheckedCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
@@ -2007,6 +3966,10 @@ export type UserUncheckedCreateWithoutInterviewExperiencesInput = {
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutInterviewExperiencesInput = {
@@ -2028,19 +3991,29 @@ export type UserUpdateToOneWithWhereWithoutInterviewExperiencesInput = {
 export type UserUpdateWithoutInterviewExperiencesInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUpdateManyWithoutUserNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
@@ -2048,25 +4021,39 @@ export type UserUpdateWithoutInterviewExperiencesInput = {
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutInterviewExperiencesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUncheckedUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUncheckedUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUncheckedUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutUserNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
@@ -2074,57 +4061,785 @@ export type UserUncheckedUpdateWithoutInterviewExperiencesInput = {
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedUpdateManyWithoutUserNestedInput
 }
 
-export type UserCreateWithoutGoalsInput = {
+export type UserCreateWithoutInterviewPrepsInput = {
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  interviewSessions?: Prisma.InterviewSessionCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventCreateNestedManyWithoutUserInput
 }
 
-export type UserUncheckedCreateWithoutGoalsInput = {
+export type UserUncheckedCreateWithoutInterviewPrepsInput = {
   id?: number
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamUncheckedCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultUncheckedCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutInterviewPrepsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutInterviewPrepsInput, Prisma.UserUncheckedCreateWithoutInterviewPrepsInput>
+}
+
+export type UserUpsertWithoutInterviewPrepsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutInterviewPrepsInput, Prisma.UserUncheckedUpdateWithoutInterviewPrepsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutInterviewPrepsInput, Prisma.UserUncheckedCreateWithoutInterviewPrepsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutInterviewPrepsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutInterviewPrepsInput, Prisma.UserUncheckedUpdateWithoutInterviewPrepsInput>
+}
+
+export type UserUpdateWithoutInterviewPrepsInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUpdateManyWithoutCreatedByNestedInput
+  examResults?: Prisma.ExamResultUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUpdateManyWithoutStudentNestedInput
+  studySessions?: Prisma.StudySessionUpdateManyWithoutUserNestedInput
+  interviewCompanies?: Prisma.InterviewCompanyUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUpdateManyWithoutUserNestedInput
+  interviewExperiences?: Prisma.InterviewExperienceUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
+  healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
+  meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  interviewSessions?: Prisma.InterviewSessionUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutInterviewPrepsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUncheckedUpdateManyWithoutCreatedByNestedInput
+  examResults?: Prisma.ExamResultUncheckedUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutStudentNestedInput
+  studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewCompanies?: Prisma.InterviewCompanyUncheckedUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedUpdateManyWithoutUserNestedInput
+  interviewExperiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
+  healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
+  meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutInterviewSessionsInput = {
+  email: string
+  password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
+  isAdmin?: boolean
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamCreateNestedManyWithoutCreatedByInput
+  examResults?: Prisma.ExamResultCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutStudentInput
+  studySessions?: Prisma.StudySessionCreateNestedManyWithoutUserInput
+  interviewCompanies?: Prisma.InterviewCompanyCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionCreateNestedManyWithoutUserInput
+  interviewExperiences?: Prisma.InterviewExperienceCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
+  healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
+  meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutInterviewSessionsInput = {
+  id?: number
+  email: string
+  password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
+  isAdmin?: boolean
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamUncheckedCreateNestedManyWithoutCreatedByInput
+  examResults?: Prisma.ExamResultUncheckedCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutStudentInput
+  studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutUserInput
+  interviewCompanies?: Prisma.InterviewCompanyUncheckedCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedCreateNestedManyWithoutUserInput
+  interviewExperiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
+  healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
+  meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutInterviewSessionsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutInterviewSessionsInput, Prisma.UserUncheckedCreateWithoutInterviewSessionsInput>
+}
+
+export type UserUpsertWithoutInterviewSessionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutInterviewSessionsInput, Prisma.UserUncheckedUpdateWithoutInterviewSessionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutInterviewSessionsInput, Prisma.UserUncheckedCreateWithoutInterviewSessionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutInterviewSessionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutInterviewSessionsInput, Prisma.UserUncheckedUpdateWithoutInterviewSessionsInput>
+}
+
+export type UserUpdateWithoutInterviewSessionsInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUpdateManyWithoutCreatedByNestedInput
+  examResults?: Prisma.ExamResultUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUpdateManyWithoutStudentNestedInput
+  studySessions?: Prisma.StudySessionUpdateManyWithoutUserNestedInput
+  interviewCompanies?: Prisma.InterviewCompanyUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUpdateManyWithoutUserNestedInput
+  interviewExperiences?: Prisma.InterviewExperienceUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
+  healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
+  meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutInterviewSessionsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUncheckedUpdateManyWithoutCreatedByNestedInput
+  examResults?: Prisma.ExamResultUncheckedUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutStudentNestedInput
+  studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewCompanies?: Prisma.InterviewCompanyUncheckedUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedUpdateManyWithoutUserNestedInput
+  interviewExperiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
+  healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
+  meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutInterviewProctorEventsInput = {
+  email: string
+  password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
+  isAdmin?: boolean
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamCreateNestedManyWithoutCreatedByInput
+  examResults?: Prisma.ExamResultCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutStudentInput
+  studySessions?: Prisma.StudySessionCreateNestedManyWithoutUserInput
+  interviewCompanies?: Prisma.InterviewCompanyCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionCreateNestedManyWithoutUserInput
+  interviewExperiences?: Prisma.InterviewExperienceCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
+  healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
+  meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutInterviewProctorEventsInput = {
+  id?: number
+  email: string
+  password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
+  isAdmin?: boolean
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamUncheckedCreateNestedManyWithoutCreatedByInput
+  examResults?: Prisma.ExamResultUncheckedCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutStudentInput
+  studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutUserInput
+  interviewCompanies?: Prisma.InterviewCompanyUncheckedCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedCreateNestedManyWithoutUserInput
+  interviewExperiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
+  healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
+  meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutInterviewProctorEventsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutInterviewProctorEventsInput, Prisma.UserUncheckedCreateWithoutInterviewProctorEventsInput>
+}
+
+export type UserUpsertWithoutInterviewProctorEventsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutInterviewProctorEventsInput, Prisma.UserUncheckedUpdateWithoutInterviewProctorEventsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutInterviewProctorEventsInput, Prisma.UserUncheckedCreateWithoutInterviewProctorEventsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutInterviewProctorEventsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutInterviewProctorEventsInput, Prisma.UserUncheckedUpdateWithoutInterviewProctorEventsInput>
+}
+
+export type UserUpdateWithoutInterviewProctorEventsInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUpdateManyWithoutCreatedByNestedInput
+  examResults?: Prisma.ExamResultUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUpdateManyWithoutStudentNestedInput
+  studySessions?: Prisma.StudySessionUpdateManyWithoutUserNestedInput
+  interviewCompanies?: Prisma.InterviewCompanyUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUpdateManyWithoutUserNestedInput
+  interviewExperiences?: Prisma.InterviewExperienceUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
+  healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
+  meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutInterviewProctorEventsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUncheckedUpdateManyWithoutCreatedByNestedInput
+  examResults?: Prisma.ExamResultUncheckedUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutStudentNestedInput
+  studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewCompanies?: Prisma.InterviewCompanyUncheckedUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedUpdateManyWithoutUserNestedInput
+  interviewExperiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
+  healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
+  meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutAuditLogsInput = {
+  email: string
+  password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
+  isAdmin?: boolean
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamCreateNestedManyWithoutCreatedByInput
+  examResults?: Prisma.ExamResultCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutStudentInput
+  studySessions?: Prisma.StudySessionCreateNestedManyWithoutUserInput
+  interviewCompanies?: Prisma.InterviewCompanyCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionCreateNestedManyWithoutUserInput
+  interviewExperiences?: Prisma.InterviewExperienceCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalCreateNestedManyWithoutUserInput
+  goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
+  healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
+  meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
+  interviewPreps?: Prisma.InterviewPrepCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutAuditLogsInput = {
+  id?: number
+  email: string
+  password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
+  isAdmin?: boolean
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamUncheckedCreateNestedManyWithoutCreatedByInput
+  examResults?: Prisma.ExamResultUncheckedCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutStudentInput
+  studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutUserInput
+  interviewCompanies?: Prisma.InterviewCompanyUncheckedCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedCreateNestedManyWithoutUserInput
+  interviewExperiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedCreateNestedManyWithoutUserInput
+  goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
+  goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
+  healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
+  meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutAuditLogsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAuditLogsInput, Prisma.UserUncheckedCreateWithoutAuditLogsInput>
+}
+
+export type UserUpsertWithoutAuditLogsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAuditLogsInput, Prisma.UserUncheckedUpdateWithoutAuditLogsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAuditLogsInput, Prisma.UserUncheckedCreateWithoutAuditLogsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAuditLogsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAuditLogsInput, Prisma.UserUncheckedUpdateWithoutAuditLogsInput>
+}
+
+export type UserUpdateWithoutAuditLogsInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUpdateManyWithoutCreatedByNestedInput
+  examResults?: Prisma.ExamResultUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUpdateManyWithoutStudentNestedInput
+  studySessions?: Prisma.StudySessionUpdateManyWithoutUserNestedInput
+  interviewCompanies?: Prisma.InterviewCompanyUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUpdateManyWithoutUserNestedInput
+  interviewExperiences?: Prisma.InterviewExperienceUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
+  goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
+  healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
+  meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
+  interviewPreps?: Prisma.InterviewPrepUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAuditLogsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
+  activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUncheckedUpdateManyWithoutCreatedByNestedInput
+  examResults?: Prisma.ExamResultUncheckedUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutStudentNestedInput
+  studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewCompanies?: Prisma.InterviewCompanyUncheckedUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedUpdateManyWithoutUserNestedInput
+  interviewExperiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedUpdateManyWithoutUserNestedInput
+  goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
+  goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
+  healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
+  meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
+  userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutGoalsInput = {
+  email: string
+  password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
+  isAdmin?: boolean
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
+  activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamCreateNestedManyWithoutCreatedByInput
+  examResults?: Prisma.ExamResultCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutStudentInput
+  studySessions?: Prisma.StudySessionCreateNestedManyWithoutUserInput
+  interviewCompanies?: Prisma.InterviewCompanyCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionCreateNestedManyWithoutUserInput
+  interviewExperiences?: Prisma.InterviewExperienceCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryCreateNestedManyWithoutUserInput
+  goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
+  healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
+  meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutGoalsInput = {
+  id?: number
+  email: string
+  password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
+  isAdmin?: boolean
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
+  activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamUncheckedCreateNestedManyWithoutCreatedByInput
+  examResults?: Prisma.ExamResultUncheckedCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutStudentInput
+  studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutUserInput
+  interviewCompanies?: Prisma.InterviewCompanyUncheckedCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedCreateNestedManyWithoutUserInput
+  interviewExperiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedCreateNestedManyWithoutUserInput
+  goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
+  healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
+  meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
+  userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
+  scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutGoalsInput = {
@@ -2146,103 +4861,159 @@ export type UserUpdateToOneWithWhereWithoutGoalsInput = {
 export type UserUpdateWithoutGoalsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUpdateManyWithoutUserNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGoalsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUncheckedUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUncheckedUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUncheckedUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutUserNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutGoalProgressInput = {
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutGoalProgressInput = {
   id?: number
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamUncheckedCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultUncheckedCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutGoalProgressInput = {
@@ -2264,103 +5035,159 @@ export type UserUpdateToOneWithWhereWithoutGoalProgressInput = {
 export type UserUpdateWithoutGoalProgressInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUpdateManyWithoutUserNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGoalProgressInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUncheckedUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUncheckedUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUncheckedUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutUserNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutHealthLogsInput = {
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutHealthLogsInput = {
   id?: number
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamUncheckedCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultUncheckedCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutHealthLogsInput = {
@@ -2382,103 +5209,159 @@ export type UserUpdateToOneWithWhereWithoutHealthLogsInput = {
 export type UserUpdateWithoutHealthLogsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUpdateManyWithoutUserNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutHealthLogsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUncheckedUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUncheckedUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUncheckedUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutUserNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutMeditationLogsInput = {
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutMeditationLogsInput = {
   id?: number
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamUncheckedCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultUncheckedCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutMeditationLogsInput = {
@@ -2500,103 +5383,159 @@ export type UserUpdateToOneWithWhereWithoutMeditationLogsInput = {
 export type UserUpdateWithoutMeditationLogsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUpdateManyWithoutUserNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMeditationLogsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUncheckedUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUncheckedUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUncheckedUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutUserNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUserAchievementsInput = {
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserAchievementsInput = {
   id?: number
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamUncheckedCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultUncheckedCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUserAchievementsInput = {
@@ -2618,103 +5557,159 @@ export type UserUpdateToOneWithWhereWithoutUserAchievementsInput = {
 export type UserUpdateWithoutUserAchievementsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUpdateManyWithoutUserNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserAchievementsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUncheckedUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUncheckedUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUncheckedUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutUserNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutScheduleBlocksInput = {
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutScheduleBlocksInput = {
   id?: number
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamUncheckedCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultUncheckedCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutScheduleBlocksInput = {
@@ -2736,103 +5731,159 @@ export type UserUpdateToOneWithWhereWithoutScheduleBlocksInput = {
 export type UserUpdateWithoutScheduleBlocksInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUpdateManyWithoutUserNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutScheduleBlocksInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUncheckedUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUncheckedUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUncheckedUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutUserNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   scheduleLogs?: Prisma.ScheduleLogUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutScheduleLogsInput = {
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutScheduleLogsInput = {
   id?: number
   email: string
   password: string
+  name?: string | null
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
   isAdmin?: boolean
+  lastLoginAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserInput
   activityLogs?: Prisma.ActivityLogUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
-  questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutUserInput
-  exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutUserInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedCreateNestedManyWithoutAssignedByInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutUploaderInput
+  authoredQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutCreatedByInput
+  reviewedQuestions?: Prisma.QuestionUncheckedCreateNestedManyWithoutReviewedByInput
+  createdExams?: Prisma.ExamUncheckedCreateNestedManyWithoutCreatedByInput
   examResults?: Prisma.ExamResultUncheckedCreateNestedManyWithoutUserInput
+  examAttempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutStudentInput
   studySessions?: Prisma.StudySessionUncheckedCreateNestedManyWithoutUserInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedCreateNestedManyWithoutUserInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedCreateNestedManyWithoutUserInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedCreateNestedManyWithoutUserInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutUserInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedCreateNestedManyWithoutUserInput
   goals?: Prisma.GoalUncheckedCreateNestedManyWithoutUserInput
   goalProgress?: Prisma.GoalProgressUncheckedCreateNestedManyWithoutUserInput
   healthLogs?: Prisma.HealthLogUncheckedCreateNestedManyWithoutUserInput
   meditationLogs?: Prisma.MeditationLogUncheckedCreateNestedManyWithoutUserInput
   userAchievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedCreateNestedManyWithoutUserInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedCreateNestedManyWithoutUserInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedCreateNestedManyWithoutUserInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutScheduleLogsInput = {
@@ -2854,52 +5905,80 @@ export type UserUpdateToOneWithWhereWithoutScheduleLogsInput = {
 export type UserUpdateWithoutScheduleLogsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUpdateOneWithoutUserNestedInput
   activityLogs?: Prisma.ActivityLogUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUpdateManyWithoutUserNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutScheduleLogsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserNestedInput
   activityLogs?: Prisma.ActivityLogUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
-  questions?: Prisma.QuestionUncheckedUpdateManyWithoutUserNestedInput
-  exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
+  subjectAssignments?: Prisma.SubjectAdminUncheckedUpdateManyWithoutUserNestedInput
+  assignedSubjectAdmins?: Prisma.SubjectAdminUncheckedUpdateManyWithoutAssignedByNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutUploaderNestedInput
+  authoredQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutCreatedByNestedInput
+  reviewedQuestions?: Prisma.QuestionUncheckedUpdateManyWithoutReviewedByNestedInput
+  createdExams?: Prisma.ExamUncheckedUpdateManyWithoutCreatedByNestedInput
   examResults?: Prisma.ExamResultUncheckedUpdateManyWithoutUserNestedInput
+  examAttempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutStudentNestedInput
   studySessions?: Prisma.StudySessionUncheckedUpdateManyWithoutUserNestedInput
   interviewCompanies?: Prisma.InterviewCompanyUncheckedUpdateManyWithoutUserNestedInput
-  interviewQuestions?: Prisma.InterviewQuestionUncheckedUpdateManyWithoutUserNestedInput
+  interviewQuestions?: Prisma.InterviewBankQuestionUncheckedUpdateManyWithoutUserNestedInput
   interviewExperiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutUserNestedInput
+  interviewCategories?: Prisma.InterviewCategoryUncheckedUpdateManyWithoutUserNestedInput
   goals?: Prisma.GoalUncheckedUpdateManyWithoutUserNestedInput
   goalProgress?: Prisma.GoalProgressUncheckedUpdateManyWithoutUserNestedInput
   healthLogs?: Prisma.HealthLogUncheckedUpdateManyWithoutUserNestedInput
   meditationLogs?: Prisma.MeditationLogUncheckedUpdateManyWithoutUserNestedInput
   userAchievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   scheduleBlocks?: Prisma.ScheduleBlockUncheckedUpdateManyWithoutUserNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+  interviewPreps?: Prisma.InterviewPrepUncheckedUpdateManyWithoutUserNestedInput
+  interviewSessions?: Prisma.InterviewSessionUncheckedUpdateManyWithoutUserNestedInput
+  interviewProctorEvents?: Prisma.InterviewProctorEventUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -2911,13 +5990,19 @@ export type UserCountOutputType = {
   activityLogs: number
   notifications: number
   subjects: number
-  questions: number
-  exams: number
+  subjectAssignments: number
+  assignedSubjectAdmins: number
+  documents: number
+  authoredQuestions: number
+  reviewedQuestions: number
+  createdExams: number
   examResults: number
+  examAttempts: number
   studySessions: number
   interviewCompanies: number
   interviewQuestions: number
   interviewExperiences: number
+  interviewCategories: number
   goals: number
   goalProgress: number
   healthLogs: number
@@ -2925,19 +6010,29 @@ export type UserCountOutputType = {
   userAchievements: number
   scheduleBlocks: number
   scheduleLogs: number
+  auditLogs: number
+  interviewPreps: number
+  interviewSessions: number
+  interviewProctorEvents: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   activityLogs?: boolean | UserCountOutputTypeCountActivityLogsArgs
   notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
   subjects?: boolean | UserCountOutputTypeCountSubjectsArgs
-  questions?: boolean | UserCountOutputTypeCountQuestionsArgs
-  exams?: boolean | UserCountOutputTypeCountExamsArgs
+  subjectAssignments?: boolean | UserCountOutputTypeCountSubjectAssignmentsArgs
+  assignedSubjectAdmins?: boolean | UserCountOutputTypeCountAssignedSubjectAdminsArgs
+  documents?: boolean | UserCountOutputTypeCountDocumentsArgs
+  authoredQuestions?: boolean | UserCountOutputTypeCountAuthoredQuestionsArgs
+  reviewedQuestions?: boolean | UserCountOutputTypeCountReviewedQuestionsArgs
+  createdExams?: boolean | UserCountOutputTypeCountCreatedExamsArgs
   examResults?: boolean | UserCountOutputTypeCountExamResultsArgs
+  examAttempts?: boolean | UserCountOutputTypeCountExamAttemptsArgs
   studySessions?: boolean | UserCountOutputTypeCountStudySessionsArgs
   interviewCompanies?: boolean | UserCountOutputTypeCountInterviewCompaniesArgs
   interviewQuestions?: boolean | UserCountOutputTypeCountInterviewQuestionsArgs
   interviewExperiences?: boolean | UserCountOutputTypeCountInterviewExperiencesArgs
+  interviewCategories?: boolean | UserCountOutputTypeCountInterviewCategoriesArgs
   goals?: boolean | UserCountOutputTypeCountGoalsArgs
   goalProgress?: boolean | UserCountOutputTypeCountGoalProgressArgs
   healthLogs?: boolean | UserCountOutputTypeCountHealthLogsArgs
@@ -2945,6 +6040,10 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   userAchievements?: boolean | UserCountOutputTypeCountUserAchievementsArgs
   scheduleBlocks?: boolean | UserCountOutputTypeCountScheduleBlocksArgs
   scheduleLogs?: boolean | UserCountOutputTypeCountScheduleLogsArgs
+  auditLogs?: boolean | UserCountOutputTypeCountAuditLogsArgs
+  interviewPreps?: boolean | UserCountOutputTypeCountInterviewPrepsArgs
+  interviewSessions?: boolean | UserCountOutputTypeCountInterviewSessionsArgs
+  interviewProctorEvents?: boolean | UserCountOutputTypeCountInterviewProctorEventsArgs
 }
 
 /**
@@ -2981,14 +6080,42 @@ export type UserCountOutputTypeCountSubjectsArgs<ExtArgs extends runtime.Types.E
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountQuestionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type UserCountOutputTypeCountSubjectAssignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SubjectAdminWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAssignedSubjectAdminsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SubjectAdminWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountDocumentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DocumentWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAuthoredQuestionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.QuestionWhereInput
 }
 
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountExamsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type UserCountOutputTypeCountReviewedQuestionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.QuestionWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCreatedExamsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ExamWhereInput
 }
 
@@ -2997,6 +6124,13 @@ export type UserCountOutputTypeCountExamsArgs<ExtArgs extends runtime.Types.Exte
  */
 export type UserCountOutputTypeCountExamResultsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ExamResultWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountExamAttemptsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ExamAttemptWhereInput
 }
 
 /**
@@ -3017,7 +6151,7 @@ export type UserCountOutputTypeCountInterviewCompaniesArgs<ExtArgs extends runti
  * UserCountOutputType without action
  */
 export type UserCountOutputTypeCountInterviewQuestionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.InterviewQuestionWhereInput
+  where?: Prisma.InterviewBankQuestionWhereInput
 }
 
 /**
@@ -3025,6 +6159,13 @@ export type UserCountOutputTypeCountInterviewQuestionsArgs<ExtArgs extends runti
  */
 export type UserCountOutputTypeCountInterviewExperiencesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.InterviewExperienceWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountInterviewCategoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.InterviewCategoryWhereInput
 }
 
 /**
@@ -3076,25 +6217,63 @@ export type UserCountOutputTypeCountScheduleLogsArgs<ExtArgs extends runtime.Typ
   where?: Prisma.ScheduleLogWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAuditLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AuditLogWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountInterviewPrepsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.InterviewPrepWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountInterviewSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.InterviewSessionWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountInterviewProctorEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.InterviewProctorEventWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   email?: boolean
   password?: boolean
+  name?: boolean
+  role?: boolean
+  status?: boolean
   isAdmin?: boolean
+  lastLoginAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   profile?: boolean | Prisma.User$profileArgs<ExtArgs>
   activityLogs?: boolean | Prisma.User$activityLogsArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   subjects?: boolean | Prisma.User$subjectsArgs<ExtArgs>
-  questions?: boolean | Prisma.User$questionsArgs<ExtArgs>
-  exams?: boolean | Prisma.User$examsArgs<ExtArgs>
+  subjectAssignments?: boolean | Prisma.User$subjectAssignmentsArgs<ExtArgs>
+  assignedSubjectAdmins?: boolean | Prisma.User$assignedSubjectAdminsArgs<ExtArgs>
+  documents?: boolean | Prisma.User$documentsArgs<ExtArgs>
+  authoredQuestions?: boolean | Prisma.User$authoredQuestionsArgs<ExtArgs>
+  reviewedQuestions?: boolean | Prisma.User$reviewedQuestionsArgs<ExtArgs>
+  createdExams?: boolean | Prisma.User$createdExamsArgs<ExtArgs>
   examResults?: boolean | Prisma.User$examResultsArgs<ExtArgs>
+  examAttempts?: boolean | Prisma.User$examAttemptsArgs<ExtArgs>
   studySessions?: boolean | Prisma.User$studySessionsArgs<ExtArgs>
   interviewCompanies?: boolean | Prisma.User$interviewCompaniesArgs<ExtArgs>
   interviewQuestions?: boolean | Prisma.User$interviewQuestionsArgs<ExtArgs>
   interviewExperiences?: boolean | Prisma.User$interviewExperiencesArgs<ExtArgs>
+  interviewCategories?: boolean | Prisma.User$interviewCategoriesArgs<ExtArgs>
   goals?: boolean | Prisma.User$goalsArgs<ExtArgs>
   goalProgress?: boolean | Prisma.User$goalProgressArgs<ExtArgs>
   healthLogs?: boolean | Prisma.User$healthLogsArgs<ExtArgs>
@@ -3102,6 +6281,10 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   userAchievements?: boolean | Prisma.User$userAchievementsArgs<ExtArgs>
   scheduleBlocks?: boolean | Prisma.User$scheduleBlocksArgs<ExtArgs>
   scheduleLogs?: boolean | Prisma.User$scheduleLogsArgs<ExtArgs>
+  auditLogs?: boolean | Prisma.User$auditLogsArgs<ExtArgs>
+  interviewPreps?: boolean | Prisma.User$interviewPrepsArgs<ExtArgs>
+  interviewSessions?: boolean | Prisma.User$interviewSessionsArgs<ExtArgs>
+  interviewProctorEvents?: boolean | Prisma.User$interviewProctorEventsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -3111,24 +6294,34 @@ export type UserSelectScalar = {
   id?: boolean
   email?: boolean
   password?: boolean
+  name?: boolean
+  role?: boolean
+  status?: boolean
   isAdmin?: boolean
+  lastLoginAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "isAdmin" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "name" | "role" | "status" | "isAdmin" | "lastLoginAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   profile?: boolean | Prisma.User$profileArgs<ExtArgs>
   activityLogs?: boolean | Prisma.User$activityLogsArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   subjects?: boolean | Prisma.User$subjectsArgs<ExtArgs>
-  questions?: boolean | Prisma.User$questionsArgs<ExtArgs>
-  exams?: boolean | Prisma.User$examsArgs<ExtArgs>
+  subjectAssignments?: boolean | Prisma.User$subjectAssignmentsArgs<ExtArgs>
+  assignedSubjectAdmins?: boolean | Prisma.User$assignedSubjectAdminsArgs<ExtArgs>
+  documents?: boolean | Prisma.User$documentsArgs<ExtArgs>
+  authoredQuestions?: boolean | Prisma.User$authoredQuestionsArgs<ExtArgs>
+  reviewedQuestions?: boolean | Prisma.User$reviewedQuestionsArgs<ExtArgs>
+  createdExams?: boolean | Prisma.User$createdExamsArgs<ExtArgs>
   examResults?: boolean | Prisma.User$examResultsArgs<ExtArgs>
+  examAttempts?: boolean | Prisma.User$examAttemptsArgs<ExtArgs>
   studySessions?: boolean | Prisma.User$studySessionsArgs<ExtArgs>
   interviewCompanies?: boolean | Prisma.User$interviewCompaniesArgs<ExtArgs>
   interviewQuestions?: boolean | Prisma.User$interviewQuestionsArgs<ExtArgs>
   interviewExperiences?: boolean | Prisma.User$interviewExperiencesArgs<ExtArgs>
+  interviewCategories?: boolean | Prisma.User$interviewCategoriesArgs<ExtArgs>
   goals?: boolean | Prisma.User$goalsArgs<ExtArgs>
   goalProgress?: boolean | Prisma.User$goalProgressArgs<ExtArgs>
   healthLogs?: boolean | Prisma.User$healthLogsArgs<ExtArgs>
@@ -3136,6 +6329,10 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   userAchievements?: boolean | Prisma.User$userAchievementsArgs<ExtArgs>
   scheduleBlocks?: boolean | Prisma.User$scheduleBlocksArgs<ExtArgs>
   scheduleLogs?: boolean | Prisma.User$scheduleLogsArgs<ExtArgs>
+  auditLogs?: boolean | Prisma.User$auditLogsArgs<ExtArgs>
+  interviewPreps?: boolean | Prisma.User$interviewPrepsArgs<ExtArgs>
+  interviewSessions?: boolean | Prisma.User$interviewSessionsArgs<ExtArgs>
+  interviewProctorEvents?: boolean | Prisma.User$interviewProctorEventsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 
@@ -3146,13 +6343,19 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     activityLogs: Prisma.$ActivityLogPayload<ExtArgs>[]
     notifications: Prisma.$NotificationPayload<ExtArgs>[]
     subjects: Prisma.$SubjectPayload<ExtArgs>[]
-    questions: Prisma.$QuestionPayload<ExtArgs>[]
-    exams: Prisma.$ExamPayload<ExtArgs>[]
+    subjectAssignments: Prisma.$SubjectAdminPayload<ExtArgs>[]
+    assignedSubjectAdmins: Prisma.$SubjectAdminPayload<ExtArgs>[]
+    documents: Prisma.$DocumentPayload<ExtArgs>[]
+    authoredQuestions: Prisma.$QuestionPayload<ExtArgs>[]
+    reviewedQuestions: Prisma.$QuestionPayload<ExtArgs>[]
+    createdExams: Prisma.$ExamPayload<ExtArgs>[]
     examResults: Prisma.$ExamResultPayload<ExtArgs>[]
+    examAttempts: Prisma.$ExamAttemptPayload<ExtArgs>[]
     studySessions: Prisma.$StudySessionPayload<ExtArgs>[]
     interviewCompanies: Prisma.$InterviewCompanyPayload<ExtArgs>[]
-    interviewQuestions: Prisma.$InterviewQuestionPayload<ExtArgs>[]
+    interviewQuestions: Prisma.$InterviewBankQuestionPayload<ExtArgs>[]
     interviewExperiences: Prisma.$InterviewExperiencePayload<ExtArgs>[]
+    interviewCategories: Prisma.$InterviewCategoryPayload<ExtArgs>[]
     goals: Prisma.$GoalPayload<ExtArgs>[]
     goalProgress: Prisma.$GoalProgressPayload<ExtArgs>[]
     healthLogs: Prisma.$HealthLogPayload<ExtArgs>[]
@@ -3160,12 +6363,20 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     userAchievements: Prisma.$UserAchievementPayload<ExtArgs>[]
     scheduleBlocks: Prisma.$ScheduleBlockPayload<ExtArgs>[]
     scheduleLogs: Prisma.$ScheduleLogPayload<ExtArgs>[]
+    auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
+    interviewPreps: Prisma.$InterviewPrepPayload<ExtArgs>[]
+    interviewSessions: Prisma.$InterviewSessionPayload<ExtArgs>[]
+    interviewProctorEvents: Prisma.$InterviewProctorEventPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     email: string
     password: string
+    name: string | null
+    role: $Enums.Role
+    status: $Enums.UserStatus
     isAdmin: boolean
+    lastLoginAt: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["user"]>
@@ -3512,13 +6723,19 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   activityLogs<T extends Prisma.User$activityLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$activityLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ActivityLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   subjects<T extends Prisma.User$subjectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$subjectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  questions<T extends Prisma.User$questionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$questionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QuestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  exams<T extends Prisma.User$examsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$examsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExamPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  subjectAssignments<T extends Prisma.User$subjectAssignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$subjectAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubjectAdminPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  assignedSubjectAdmins<T extends Prisma.User$assignedSubjectAdminsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$assignedSubjectAdminsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubjectAdminPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  documents<T extends Prisma.User$documentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  authoredQuestions<T extends Prisma.User$authoredQuestionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$authoredQuestionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QuestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reviewedQuestions<T extends Prisma.User$reviewedQuestionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewedQuestionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QuestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  createdExams<T extends Prisma.User$createdExamsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdExamsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExamPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   examResults<T extends Prisma.User$examResultsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$examResultsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExamResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  examAttempts<T extends Prisma.User$examAttemptsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$examAttemptsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExamAttemptPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   studySessions<T extends Prisma.User$studySessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$studySessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudySessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   interviewCompanies<T extends Prisma.User$interviewCompaniesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$interviewCompaniesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InterviewCompanyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  interviewQuestions<T extends Prisma.User$interviewQuestionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$interviewQuestionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InterviewQuestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  interviewQuestions<T extends Prisma.User$interviewQuestionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$interviewQuestionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InterviewBankQuestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   interviewExperiences<T extends Prisma.User$interviewExperiencesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$interviewExperiencesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InterviewExperiencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  interviewCategories<T extends Prisma.User$interviewCategoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$interviewCategoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InterviewCategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   goals<T extends Prisma.User$goalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$goalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GoalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   goalProgress<T extends Prisma.User$goalProgressArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$goalProgressArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GoalProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   healthLogs<T extends Prisma.User$healthLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$healthLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HealthLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3526,6 +6743,10 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   userAchievements<T extends Prisma.User$userAchievementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$userAchievementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserAchievementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   scheduleBlocks<T extends Prisma.User$scheduleBlocksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$scheduleBlocksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ScheduleBlockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   scheduleLogs<T extends Prisma.User$scheduleLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$scheduleLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ScheduleLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  auditLogs<T extends Prisma.User$auditLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  interviewPreps<T extends Prisma.User$interviewPrepsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$interviewPrepsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InterviewPrepPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  interviewSessions<T extends Prisma.User$interviewSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$interviewSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InterviewSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  interviewProctorEvents<T extends Prisma.User$interviewProctorEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$interviewProctorEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InterviewProctorEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3558,7 +6779,11 @@ export interface UserFieldRefs {
   readonly id: Prisma.FieldRef<"User", 'Int'>
   readonly email: Prisma.FieldRef<"User", 'String'>
   readonly password: Prisma.FieldRef<"User", 'String'>
+  readonly name: Prisma.FieldRef<"User", 'String'>
+  readonly role: Prisma.FieldRef<"User", 'Role'>
+  readonly status: Prisma.FieldRef<"User", 'UserStatus'>
   readonly isAdmin: Prisma.FieldRef<"User", 'Boolean'>
+  readonly lastLoginAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
 }
@@ -4000,9 +7225,81 @@ export type User$subjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 }
 
 /**
- * User.questions
+ * User.subjectAssignments
  */
-export type User$questionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$subjectAssignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SubjectAdmin
+   */
+  select?: Prisma.SubjectAdminSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SubjectAdmin
+   */
+  omit?: Prisma.SubjectAdminOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SubjectAdminInclude<ExtArgs> | null
+  where?: Prisma.SubjectAdminWhereInput
+  orderBy?: Prisma.SubjectAdminOrderByWithRelationInput | Prisma.SubjectAdminOrderByWithRelationInput[]
+  cursor?: Prisma.SubjectAdminWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SubjectAdminScalarFieldEnum | Prisma.SubjectAdminScalarFieldEnum[]
+}
+
+/**
+ * User.assignedSubjectAdmins
+ */
+export type User$assignedSubjectAdminsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SubjectAdmin
+   */
+  select?: Prisma.SubjectAdminSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SubjectAdmin
+   */
+  omit?: Prisma.SubjectAdminOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SubjectAdminInclude<ExtArgs> | null
+  where?: Prisma.SubjectAdminWhereInput
+  orderBy?: Prisma.SubjectAdminOrderByWithRelationInput | Prisma.SubjectAdminOrderByWithRelationInput[]
+  cursor?: Prisma.SubjectAdminWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SubjectAdminScalarFieldEnum | Prisma.SubjectAdminScalarFieldEnum[]
+}
+
+/**
+ * User.documents
+ */
+export type User$documentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Document
+   */
+  select?: Prisma.DocumentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Document
+   */
+  omit?: Prisma.DocumentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DocumentInclude<ExtArgs> | null
+  where?: Prisma.DocumentWhereInput
+  orderBy?: Prisma.DocumentOrderByWithRelationInput | Prisma.DocumentOrderByWithRelationInput[]
+  cursor?: Prisma.DocumentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DocumentScalarFieldEnum | Prisma.DocumentScalarFieldEnum[]
+}
+
+/**
+ * User.authoredQuestions
+ */
+export type User$authoredQuestionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Question
    */
@@ -4024,9 +7321,33 @@ export type User$questionsArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * User.exams
+ * User.reviewedQuestions
  */
-export type User$examsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$reviewedQuestionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Question
+   */
+  select?: Prisma.QuestionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Question
+   */
+  omit?: Prisma.QuestionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.QuestionInclude<ExtArgs> | null
+  where?: Prisma.QuestionWhereInput
+  orderBy?: Prisma.QuestionOrderByWithRelationInput | Prisma.QuestionOrderByWithRelationInput[]
+  cursor?: Prisma.QuestionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.QuestionScalarFieldEnum | Prisma.QuestionScalarFieldEnum[]
+}
+
+/**
+ * User.createdExams
+ */
+export type User$createdExamsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Exam
    */
@@ -4069,6 +7390,30 @@ export type User$examResultsArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.ExamResultScalarFieldEnum | Prisma.ExamResultScalarFieldEnum[]
+}
+
+/**
+ * User.examAttempts
+ */
+export type User$examAttemptsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ExamAttempt
+   */
+  select?: Prisma.ExamAttemptSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ExamAttempt
+   */
+  omit?: Prisma.ExamAttemptOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ExamAttemptInclude<ExtArgs> | null
+  where?: Prisma.ExamAttemptWhereInput
+  orderBy?: Prisma.ExamAttemptOrderByWithRelationInput | Prisma.ExamAttemptOrderByWithRelationInput[]
+  cursor?: Prisma.ExamAttemptWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ExamAttemptScalarFieldEnum | Prisma.ExamAttemptScalarFieldEnum[]
 }
 
 /**
@@ -4124,23 +7469,23 @@ export type User$interviewCompaniesArgs<ExtArgs extends runtime.Types.Extensions
  */
 export type User$interviewQuestionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the InterviewQuestion
+   * Select specific fields to fetch from the InterviewBankQuestion
    */
-  select?: Prisma.InterviewQuestionSelect<ExtArgs> | null
+  select?: Prisma.InterviewBankQuestionSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the InterviewQuestion
+   * Omit specific fields from the InterviewBankQuestion
    */
-  omit?: Prisma.InterviewQuestionOmit<ExtArgs> | null
+  omit?: Prisma.InterviewBankQuestionOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.InterviewQuestionInclude<ExtArgs> | null
-  where?: Prisma.InterviewQuestionWhereInput
-  orderBy?: Prisma.InterviewQuestionOrderByWithRelationInput | Prisma.InterviewQuestionOrderByWithRelationInput[]
-  cursor?: Prisma.InterviewQuestionWhereUniqueInput
+  include?: Prisma.InterviewBankQuestionInclude<ExtArgs> | null
+  where?: Prisma.InterviewBankQuestionWhereInput
+  orderBy?: Prisma.InterviewBankQuestionOrderByWithRelationInput | Prisma.InterviewBankQuestionOrderByWithRelationInput[]
+  cursor?: Prisma.InterviewBankQuestionWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.InterviewQuestionScalarFieldEnum | Prisma.InterviewQuestionScalarFieldEnum[]
+  distinct?: Prisma.InterviewBankQuestionScalarFieldEnum | Prisma.InterviewBankQuestionScalarFieldEnum[]
 }
 
 /**
@@ -4165,6 +7510,30 @@ export type User$interviewExperiencesArgs<ExtArgs extends runtime.Types.Extensio
   take?: number
   skip?: number
   distinct?: Prisma.InterviewExperienceScalarFieldEnum | Prisma.InterviewExperienceScalarFieldEnum[]
+}
+
+/**
+ * User.interviewCategories
+ */
+export type User$interviewCategoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the InterviewCategory
+   */
+  select?: Prisma.InterviewCategorySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the InterviewCategory
+   */
+  omit?: Prisma.InterviewCategoryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InterviewCategoryInclude<ExtArgs> | null
+  where?: Prisma.InterviewCategoryWhereInput
+  orderBy?: Prisma.InterviewCategoryOrderByWithRelationInput | Prisma.InterviewCategoryOrderByWithRelationInput[]
+  cursor?: Prisma.InterviewCategoryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.InterviewCategoryScalarFieldEnum | Prisma.InterviewCategoryScalarFieldEnum[]
 }
 
 /**
@@ -4333,6 +7702,102 @@ export type User$scheduleLogsArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.ScheduleLogScalarFieldEnum | Prisma.ScheduleLogScalarFieldEnum[]
+}
+
+/**
+ * User.auditLogs
+ */
+export type User$auditLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AuditLog
+   */
+  select?: Prisma.AuditLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AuditLog
+   */
+  omit?: Prisma.AuditLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AuditLogInclude<ExtArgs> | null
+  where?: Prisma.AuditLogWhereInput
+  orderBy?: Prisma.AuditLogOrderByWithRelationInput | Prisma.AuditLogOrderByWithRelationInput[]
+  cursor?: Prisma.AuditLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AuditLogScalarFieldEnum | Prisma.AuditLogScalarFieldEnum[]
+}
+
+/**
+ * User.interviewPreps
+ */
+export type User$interviewPrepsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the InterviewPrep
+   */
+  select?: Prisma.InterviewPrepSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the InterviewPrep
+   */
+  omit?: Prisma.InterviewPrepOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InterviewPrepInclude<ExtArgs> | null
+  where?: Prisma.InterviewPrepWhereInput
+  orderBy?: Prisma.InterviewPrepOrderByWithRelationInput | Prisma.InterviewPrepOrderByWithRelationInput[]
+  cursor?: Prisma.InterviewPrepWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.InterviewPrepScalarFieldEnum | Prisma.InterviewPrepScalarFieldEnum[]
+}
+
+/**
+ * User.interviewSessions
+ */
+export type User$interviewSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the InterviewSession
+   */
+  select?: Prisma.InterviewSessionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the InterviewSession
+   */
+  omit?: Prisma.InterviewSessionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InterviewSessionInclude<ExtArgs> | null
+  where?: Prisma.InterviewSessionWhereInput
+  orderBy?: Prisma.InterviewSessionOrderByWithRelationInput | Prisma.InterviewSessionOrderByWithRelationInput[]
+  cursor?: Prisma.InterviewSessionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.InterviewSessionScalarFieldEnum | Prisma.InterviewSessionScalarFieldEnum[]
+}
+
+/**
+ * User.interviewProctorEvents
+ */
+export type User$interviewProctorEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the InterviewProctorEvent
+   */
+  select?: Prisma.InterviewProctorEventSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the InterviewProctorEvent
+   */
+  omit?: Prisma.InterviewProctorEventOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InterviewProctorEventInclude<ExtArgs> | null
+  where?: Prisma.InterviewProctorEventWhereInput
+  orderBy?: Prisma.InterviewProctorEventOrderByWithRelationInput | Prisma.InterviewProctorEventOrderByWithRelationInput[]
+  cursor?: Prisma.InterviewProctorEventWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.InterviewProctorEventScalarFieldEnum | Prisma.InterviewProctorEventScalarFieldEnum[]
 }
 
 /**

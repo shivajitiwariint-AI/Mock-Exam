@@ -67,6 +67,11 @@ export type Notification = Prisma.NotificationModel
  */
 export type Subject = Prisma.SubjectModel
 /**
+ * Model SubjectAdmin
+ * 
+ */
+export type SubjectAdmin = Prisma.SubjectAdminModel
+/**
  * Model Topic
  * 
  */
@@ -76,6 +81,16 @@ export type Topic = Prisma.TopicModel
  * 
  */
 export type Subtopic = Prisma.SubtopicModel
+/**
+ * Model Document
+ * 
+ */
+export type Document = Prisma.DocumentModel
+/**
+ * Model DocumentChunk
+ * 
+ */
+export type DocumentChunk = Prisma.DocumentChunkModel
 /**
  * Model Question
  * 
@@ -102,6 +117,26 @@ export type ExamQuestion = Prisma.ExamQuestionModel
  */
 export type ExamResult = Prisma.ExamResultModel
 /**
+ * Model ExamAttempt
+ * 
+ */
+export type ExamAttempt = Prisma.ExamAttemptModel
+/**
+ * Model ExamAttemptQuestion
+ * 
+ */
+export type ExamAttemptQuestion = Prisma.ExamAttemptQuestionModel
+/**
+ * Model StudentAnswer
+ * 
+ */
+export type StudentAnswer = Prisma.StudentAnswerModel
+/**
+ * Model AttemptResult
+ * 
+ */
+export type AttemptResult = Prisma.AttemptResultModel
+/**
  * Model StudySession
  * 
  */
@@ -117,10 +152,15 @@ export type InterviewCompany = Prisma.InterviewCompanyModel
  */
 export type JobDescription = Prisma.JobDescriptionModel
 /**
- * Model InterviewQuestion
+ * Model InterviewBankQuestion
  * 
  */
-export type InterviewQuestion = Prisma.InterviewQuestionModel
+export type InterviewBankQuestion = Prisma.InterviewBankQuestionModel
+/**
+ * Model InterviewCategory
+ * 
+ */
+export type InterviewCategory = Prisma.InterviewCategoryModel
 /**
  * Model InterviewExperience
  * 
@@ -131,6 +171,51 @@ export type InterviewExperience = Prisma.InterviewExperienceModel
  * 
  */
 export type InterviewRound = Prisma.InterviewRoundModel
+/**
+ * Model InterviewPrep
+ * 
+ */
+export type InterviewPrep = Prisma.InterviewPrepModel
+/**
+ * Model InterviewQuestion
+ * 
+ */
+export type InterviewQuestion = Prisma.InterviewQuestionModel
+/**
+ * Model InterviewSession
+ * 
+ */
+export type InterviewSession = Prisma.InterviewSessionModel
+/**
+ * Model InterviewProctorEvent
+ * 
+ */
+export type InterviewProctorEvent = Prisma.InterviewProctorEventModel
+/**
+ * Model InterviewSessionQuestion
+ * 
+ */
+export type InterviewSessionQuestion = Prisma.InterviewSessionQuestionModel
+/**
+ * Model InterviewAnswer
+ * 
+ */
+export type InterviewAnswer = Prisma.InterviewAnswerModel
+/**
+ * Model AuditLog
+ * 
+ */
+export type AuditLog = Prisma.AuditLogModel
+/**
+ * Model ProcessingJob
+ * 
+ */
+export type ProcessingJob = Prisma.ProcessingJobModel
+/**
+ * Model RateLimitBucket
+ * 
+ */
+export type RateLimitBucket = Prisma.RateLimitBucketModel
 /**
  * Model Goal
  * 

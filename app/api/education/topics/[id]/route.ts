@@ -20,7 +20,10 @@ export async function GET(
   if (isNaN(id)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
 
   const topic = await prisma.topic.findFirst({
-    where: { id, subject: { userId: user.userId } },
+    where: {
+      id,
+      subject: { OR: [{ userId: user.userId }, { userId: null }] },
+    },
     include: {
       subtopics: { orderBy: { order: 'asc' } },
       _count: { select: { questions: true } },

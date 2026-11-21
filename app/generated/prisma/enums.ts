@@ -9,13 +9,70 @@
 * 🟢 You can import this file directly.
 */
 
+export const Role = {
+  SUPER_ADMIN: 'SUPER_ADMIN',
+  SUBJECT_ADMIN: 'SUBJECT_ADMIN',
+  STUDENT: 'STUDENT'
+} as const
+
+export type Role = (typeof Role)[keyof typeof Role]
+
+
+export const UserStatus = {
+  ACTIVE: 'ACTIVE',
+  SUSPENDED: 'SUSPENDED',
+  DISABLED: 'DISABLED'
+} as const
+
+export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]
+
+
+export const SubjectStatus = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE'
+} as const
+
+export type SubjectStatus = (typeof SubjectStatus)[keyof typeof SubjectStatus]
+
+
+export const DocumentStatus = {
+  UPLOADED: 'UPLOADED',
+  PROCESSING: 'PROCESSING',
+  PROCESSED: 'PROCESSED',
+  FAILED: 'FAILED'
+} as const
+
+export type DocumentStatus = (typeof DocumentStatus)[keyof typeof DocumentStatus]
+
+
+export const QuestionStatus = {
+  DRAFT: 'DRAFT',
+  PENDING_REVIEW: 'PENDING_REVIEW',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  ARCHIVED: 'ARCHIVED'
+} as const
+
+export type QuestionStatus = (typeof QuestionStatus)[keyof typeof QuestionStatus]
+
+
 export const QuestionType = {
   MCQ: 'MCQ',
   TRUE_FALSE: 'TRUE_FALSE',
-  SHORT_ANSWER: 'SHORT_ANSWER'
+  SHORT_ANSWER: 'SHORT_ANSWER',
+  SUBJECTIVE: 'SUBJECTIVE'
 } as const
 
 export type QuestionType = (typeof QuestionType)[keyof typeof QuestionType]
+
+
+export const QuestionSource = {
+  MANUAL: 'MANUAL',
+  IMPORTED: 'IMPORTED',
+  AI: 'AI'
+} as const
+
+export type QuestionSource = (typeof QuestionSource)[keyof typeof QuestionSource]
 
 
 export const Difficulty = {
@@ -27,6 +84,105 @@ export const Difficulty = {
 export type Difficulty = (typeof Difficulty)[keyof typeof Difficulty]
 
 
+export const ExamStatus = {
+  DRAFT: 'DRAFT',
+  PUBLISHED: 'PUBLISHED',
+  UNPUBLISHED: 'UNPUBLISHED',
+  ARCHIVED: 'ARCHIVED'
+} as const
+
+export type ExamStatus = (typeof ExamStatus)[keyof typeof ExamStatus]
+
+
+export const ReviewPolicy = {
+  AFTER_SUBMIT: 'AFTER_SUBMIT',
+  AFTER_WINDOW_CLOSE: 'AFTER_WINDOW_CLOSE',
+  NEVER: 'NEVER'
+} as const
+
+export type ReviewPolicy = (typeof ReviewPolicy)[keyof typeof ReviewPolicy]
+
+
+export const AttemptStatus = {
+  IN_PROGRESS: 'IN_PROGRESS',
+  SUBMITTED: 'SUBMITTED',
+  EXPIRED: 'EXPIRED'
+} as const
+
+export type AttemptStatus = (typeof AttemptStatus)[keyof typeof AttemptStatus]
+
+
+export const JobType = {
+  DOCUMENT_PROCESSING: 'DOCUMENT_PROCESSING',
+  QUESTION_GENERATION: 'QUESTION_GENERATION'
+} as const
+
+export type JobType = (typeof JobType)[keyof typeof JobType]
+
+
+export const JobStatus = {
+  QUEUED: 'QUEUED',
+  RUNNING: 'RUNNING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+} as const
+
+export type JobStatus = (typeof JobStatus)[keyof typeof JobStatus]
+
+
+export const QuestionGenerationStatus = {
+  IDLE: 'IDLE',
+  RUNNING: 'RUNNING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+} as const
+
+export type QuestionGenerationStatus = (typeof QuestionGenerationStatus)[keyof typeof QuestionGenerationStatus]
+
+
+export const InterviewPrepStatus = {
+  PROCESSING: 'PROCESSING',
+  READY: 'READY',
+  FAILED: 'FAILED'
+} as const
+
+export type InterviewPrepStatus = (typeof InterviewPrepStatus)[keyof typeof InterviewPrepStatus]
+
+
+export const InterviewQuestionCategory = {
+  TECHNICAL: 'TECHNICAL',
+  BEHAVIORAL: 'BEHAVIORAL',
+  SITUATIONAL: 'SITUATIONAL',
+  ROLE_SPECIFIC: 'ROLE_SPECIFIC'
+} as const
+
+export type InterviewQuestionCategory = (typeof InterviewQuestionCategory)[keyof typeof InterviewQuestionCategory]
+
+
+export const InterviewSessionStatus = {
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED'
+} as const
+
+export type InterviewSessionStatus = (typeof InterviewSessionStatus)[keyof typeof InterviewSessionStatus]
+
+
+export const InterviewProctorEventType = {
+  SCREEN_SHARE_STARTED: 'SCREEN_SHARE_STARTED',
+  SCREEN_SHARE_STOPPED: 'SCREEN_SHARE_STOPPED',
+  CAMERA_STARTED: 'CAMERA_STARTED',
+  CAMERA_STOPPED: 'CAMERA_STOPPED',
+  TAB_HIDDEN: 'TAB_HIDDEN',
+  TAB_VISIBLE: 'TAB_VISIBLE',
+  WINDOW_BLURRED: 'WINDOW_BLURRED',
+  WINDOW_FOCUSED: 'WINDOW_FOCUSED',
+  FULLSCREEN_EXITED: 'FULLSCREEN_EXITED',
+  MIC_USED: 'MIC_USED'
+} as const
+
+export type InterviewProctorEventType = (typeof InterviewProctorEventType)[keyof typeof InterviewProctorEventType]
+
+
 export const InterviewQuestionSource = {
   MANUAL: 'MANUAL',
   AI_JD: 'AI_JD',
@@ -34,17 +190,6 @@ export const InterviewQuestionSource = {
 } as const
 
 export type InterviewQuestionSource = (typeof InterviewQuestionSource)[keyof typeof InterviewQuestionSource]
-
-
-export const InterviewQuestionCategory = {
-  TECHNICAL: 'TECHNICAL',
-  BEHAVIORAL: 'BEHAVIORAL',
-  SYSTEM_DESIGN: 'SYSTEM_DESIGN',
-  CODING: 'CODING',
-  HR: 'HR'
-} as const
-
-export type InterviewQuestionCategory = (typeof InterviewQuestionCategory)[keyof typeof InterviewQuestionCategory]
 
 
 export const InterviewRoundType = {

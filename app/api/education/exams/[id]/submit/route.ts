@@ -14,7 +14,7 @@ export async function POST(
   if (isNaN(examId)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
 
   const exam = await prisma.exam.findFirst({
-    where: { id: examId, userId: user.userId },
+    where: { id: examId, OR: [{ userId: user.userId }, { userId: null }] },
     include: {
       questions: {
         include: {

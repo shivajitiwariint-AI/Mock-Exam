@@ -36,7 +36,7 @@ async function isEarned(userId: number, key: string): Promise<boolean> {
     case 'interview_company':
       return (await prisma.interviewCompany.count({ where: { userId } })) >= 1
     case 'interview_10_q':
-      return (await prisma.interviewQuestion.count({ where: { userId } })) >= 10
+      return (await prisma.interviewBankQuestion.count({ where: { userId } })) >= 10
     case 'growth_score_25': {
       const { total } = await calculateGrowthScore(userId)
       return total >= 25

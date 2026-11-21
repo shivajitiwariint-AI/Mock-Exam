@@ -31,6 +31,8 @@ yarn-error.log*
 
 # vercel
 .vercel
+.env.vercel*.tmp
+.env.prod-check.tmp
 
 # typescript
 *.tsbuildinfo
@@ -38,4 +40,13 @@ next-env.d.ts
 
 /app/generated/prisma
 
-.vercel
+# local database backups and debug artifacts
+/backups/
+/.data/
+/build-output.txt
+/db-indexes.txt
+/db-inspect.txt
+/prisma-generate.txt
+/prisma-push*.txt
+/smoke-results.txt
+/tsc-errors.txt

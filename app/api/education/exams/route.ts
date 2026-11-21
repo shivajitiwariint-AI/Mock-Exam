@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
   const user = await getUserFromRequest(request)
 
   const exams = await prisma.exam.findMany({
-    where: { userId: user.userId },
+    where: { OR: [{ userId: user.userId }, { userId: null }] },
     include: { _count: { select: { questions: true, results: true } } },
     orderBy: { createdAt: 'desc' },
   })

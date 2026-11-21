@@ -1,46 +1,75 @@
-export const dynamic = 'force-dynamic'
+import { ok, paginated, parsePagination } from "@/lib/api";
+import { requireSuperAdmin } from "@/lib/authz";
+import { prisma } from "@/lib/db";
+import { withApi } from "@/lib/errors";
+import { listUsersQuerySchema } from "@/lib/validation";
 
-import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
-import { getAdminFromRequest } from '@/lib/auth'
-import { calculateGrowthScore } from '@/lib/growth-score'
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
-export async function GET(request: NextRequest): Promise<NextResponse> {
-  await getAdminFromRequest(request)
+export async function GET(request: Request) {
+  return withApi(async () => {
+    await requireSuperAdmin();
+    const url = new URL(request.url);
+    const { page, pageSize, skip, take } = parsePagination(url);
+    const filters = listUsersQuerySchema.parse({
+      search: url.searchParams.get("search") ?? undefined,
+      role: url.searchParams.get("role") ?? undefined,
+      status: url.searchParams.get("status") ?? undefined,
+    });
 
-  const users = await prisma.user.findMany({
-    select: {
-      id: true,
-      email: true,
-      isAdmin: true,
-      createdAt: true,
-      profile: { select: { name: true, avatar: true } },
-    },
-    orderBy: { createdAt: 'asc' },
-  })
+    const where = {
+      ...(filters.role ? { role: filters.role } : {}),
+      ...(filters.status ? { status: filters.status } : {}),
+      ...(filters.search
+        ? {
+            OR: [
+              { name: { contains: filters.search, mode: "insensitive" as const } },
+              { email: { contains: filters.search, mode: "insensitive" as const } },
+            ],
+          }
+        : {}),
+    };
 
-  const usersWithScores = await Promise.all(
-    users.map(async (u) => {
-      const score = await calculateGrowthScore(u.id)
-      return { ...u, score }
-    })
-  )
+    const [total, users] = await Promise.all([
+      prisma.user.count({ where }),
+      prisma.user.findMany({
+        where,
+        orderBy: { createdAt: "desc" },
+        skip,
+        take,
+        select: {
+          id: true,
+          email: true,
+          name: true,
+          role: true,
+          status: true,
+          lastLoginAt: true,
+          createdAt: true,
+          subjectAssignments: {
+            select: { subject: { select: { id: true, name: true } } },
+          },
+        },
+      }),
+    ]);
 
-  return NextResponse.json({ users: usersWithScores })
+    return ok(
+      paginated(
+        users.map((user) => ({
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          role: user.role,
+          status: user.status,
+          lastLoginAt: user.lastLoginAt,
+          createdAt: user.createdAt,
+          subjects: user.subjectAssignments.map((assignment) => assignment.subject),
+        })),
+        total,
+        page,
+        pageSize,
+      ),
+    );
+  });
 }
 
-export async function DELETE(request: NextRequest): Promise<NextResponse> {
-  const admin = await getAdminFromRequest(request)
-  const { searchParams } = new URL(request.url)
-  const userId = parseInt(searchParams.get('id') ?? '', 10)
-
-  if (!userId || isNaN(userId)) {
-    return NextResponse.json({ error: 'User id required' }, { status: 400 })
-  }
-  if (userId === admin.userId) {
-    return NextResponse.json({ error: 'Cannot delete your own account' }, { status: 400 })
-  }
-
-  await prisma.user.delete({ where: { id: userId } })
-  return NextResponse.json({ success: true })
-}

@@ -17,7 +17,13 @@ export async function signJWT(payload: AuthUser): Promise<string> {
 
 export async function verifyJWT(token: string): Promise<AuthUser> {
   const { payload } = await jwtVerify(token, secret)
-  return { userId: payload.userId as number, email: payload.email as string, isAdmin: payload.isAdmin as boolean | undefined }
+  return {
+    userId: payload.userId as number,
+    email: payload.email as string,
+    isAdmin: payload.isAdmin as boolean | undefined,
+    role: payload.role as AuthUser['role'],
+    status: payload.status as AuthUser['status'],
+  }
 }
 
 export async function getUserFromRequest(request: Request): Promise<AuthUser> {

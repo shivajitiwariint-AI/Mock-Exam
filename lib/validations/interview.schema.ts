@@ -26,7 +26,7 @@ export const updateJdSchema = createJdSchema.partial().refine(
 export const createQuestionSchema = z.object({
   companyId: z.number().int().positive().optional(),
   jdId: z.number().int().positive().optional(),
-  category: z.enum(['TECHNICAL', 'BEHAVIORAL', 'SYSTEM_DESIGN', 'CODING', 'HR']),
+  category: z.string().min(1).max(50),
   question: z.string().min(1),
   answer: z.string().optional(),
   difficulty: z.enum(['EASY', 'MEDIUM', 'HARD']),
@@ -35,10 +35,12 @@ export const createQuestionSchema = z.object({
 
 export const updateQuestionSchema = z.object({
   question: z.string().min(1).optional(),
-  answer: z.string().optional(),
+  answer: z.string().nullable().optional(),
+  whyAsked: z.string().nullable().optional(),
   practiced: z.boolean().optional(),
-  category: z.enum(['TECHNICAL', 'BEHAVIORAL', 'SYSTEM_DESIGN', 'CODING', 'HR']).optional(),
+  category: z.string().min(1).max(50).optional(),
   difficulty: z.enum(['EASY', 'MEDIUM', 'HARD']).optional(),
+  companyId: z.number().int().positive().nullable().optional(),
 })
 
 export const generateJdQuestionsSchema = z.object({

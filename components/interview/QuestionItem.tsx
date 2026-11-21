@@ -1,14 +1,19 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import type { InterviewQuestionData } from '@/types'
-import Badge from '@/components/ui/Badge'
+import { useState } from 'react';
+import type { InterviewQuestionData } from '@/types';
+import Badge from '@/components/ui/Badge';
+import { FormattedText } from '@/components/formatted-text';
 
 type Props = {
-  question: InterviewQuestionData
-  onTogglePracticed: (id: number, practiced: boolean) => void
-  onDelete: (id: number) => void
-}
+  question: InterviewQuestionData;
+  onTogglePracticed: (id: number, practiced: boolean) => void;
+  onDelete: (id: number) => void;
+  onEdit: (question: InterviewQuestionData) => void;
+  onRegenerate: (question: InterviewQuestionData) => void;
+  regenerating?: boolean;
+  answerFontSize?: 'sm' | 'md' | 'lg';
+};
 
 const CATEGORY_COLOR: Record<string, 'blue' | 'amber' | 'green' | 'red' | 'slate'> = {
   TECHNICAL: 'blue',
@@ -16,67 +21,159 @@ const CATEGORY_COLOR: Record<string, 'blue' | 'amber' | 'green' | 'red' | 'slate
   SYSTEM_DESIGN: 'green',
   CODING: 'red',
   HR: 'slate',
+};
+const COLORS: Array<'blue' | 'amber' | 'green' | 'red' | 'slate'> = ['blue', 'amber', 'green', 'red', 'slate'];
+
+function categoryColor(category: string): 'blue' | 'amber' | 'green' | 'red' | 'slate' {
+  if (CATEGORY_COLOR[category]) return CATEGORY_COLOR[category];
+  const index = category.split('').reduce((total, char) => total + char.charCodeAt(0), 0) % COLORS.length;
+  return COLORS[index];
 }
 
 const DIFFICULTY_COLOR: Record<string, 'green' | 'amber' | 'red'> = {
   EASY: 'green',
   MEDIUM: 'amber',
   HARD: 'red',
-}
+};
 
 const SOURCE_LABEL: Record<string, string> = {
   MANUAL: '✏️ Manual',
   AI_JD: '✨ AI',
   EXPERIENCE: '💼 Experience',
-}
+  MOCK_EXAM: '📚 Mock Exam',
+  AI_GUIDE: '📖 Interview Guide',
+};
 
-export default function QuestionItem({ question, onTogglePracticed, onDelete }: Props) {
-  const [expanded, setExpanded] = useState(false)
+const FONT_CLASS: Record<'sm' | 'md' | 'lg', string> = {
+  sm: 'text-sm',
+  md: 'text-base',
+  lg: 'text-lg',
+};
+
+export default function QuestionItem({
+  question,
+  onTogglePracticed,
+  onDelete,
+  onEdit,
+  onRegenerate,
+  regenerating = false,
+  answerFontSize = 'md',
+}: Props) {
+  const [expanded, setExpanded] = useState(false);
+  const isReadOnly =
+    question.isReadOnly ?? (question.id < 0 || question.source === 'MOCK_EXAM' || question.source === 'AI_GUIDE');
 
   return (
-    <div className={`rounded-lg border bg-white p-4 transition-colors ${question.practiced ? 'border-green-200 bg-green-50/30' : 'border-slate-200'}`}>
-      <div className="flex items-start gap-3">
-        <input
-          type="checkbox"
-          checked={question.practiced}
-          onChange={() => onTogglePracticed(question.id, !question.practiced)}
-          className="mt-1 h-4 w-4 text-green-600 rounded cursor-pointer"
-          title="Mark as practiced"
-        />
-        <div className="flex-1 min-w-0">
+    <div
+      className={`rounded-lg border bg-white p-3 transition-colors sm:p-4 ${
+        question.practiced ? 'border-green-200 bg-green-50/30' : 'border-slate-200'
+      }`}
+    >
+      <div className="flex items-start gap-2 sm:gap-3">
+        {isReadOnly ? (
+          <span className="mt-1 text-base" title="Shared question">📖</span>
+        ) : (
+          <input
+            type="checkbox"
+            checked={question.practiced}
+            onChange={() => onTogglePracticed(question.id, !question.practiced)}
+            className="mt-1 h-4 w-4 rounded text-green-600 cursor-pointer"
+            title="Mark as practiced"
+          />
+        )}
+
+        <div className="min-w-0 flex-1">
           <p
-            className="text-sm text-slate-800 font-medium cursor-pointer hover:text-indigo-700 leading-relaxed"
-            onClick={() => setExpanded((v) => !v)}
+            className="cursor-pointer break-words py-0.5 text-sm font-medium leading-relaxed text-slate-800 hover:text-indigo-700"
+            onClick={() => setExpanded((value) => !value)}
           >
             {question.question}
           </p>
 
-          <div className="flex flex-wrap gap-1.5 mt-2">
-            <Badge label={question.category.replace('_', ' ')} color={CATEGORY_COLOR[question.category] ?? 'slate'} />
+          <div className="mt-2 flex flex-wrap gap-1 sm:gap-1.5">
+            <Badge label={question.category.replace(/_/g, ' ')} color={categoryColor(question.category)} />
+            {question.subjectName ? <Badge label={question.subjectName} color="blue" /> : null}
+            {question.topicName ? <Badge label={question.topicName} color="green" /> : null}
             <Badge label={question.difficulty} color={DIFFICULTY_COLOR[question.difficulty] ?? 'slate'} />
             <Badge label={SOURCE_LABEL[question.source] ?? question.source} color="slate" />
+            {isReadOnly ? <Badge label="Shared" color="slate" /> : null}
           </div>
 
-          {question.whyAsked && expanded && (
-            <p className="mt-2 text-xs text-slate-600 italic bg-slate-50 rounded p-2">
+          {expanded && question.whyAsked ? (
+            <p className="mt-2 rounded bg-slate-50 p-2 text-xs italic text-slate-600">
               💡 {question.whyAsked}
             </p>
-          )}
+          ) : null}
 
-          {expanded && question.answer && (
-            <div className="mt-2 p-2 rounded bg-indigo-50 text-xs text-slate-700 whitespace-pre-wrap">
-              <p className="font-semibold text-indigo-700 mb-1">My Answer:</p>
-              {question.answer}
+          {expanded ? (
+            <div className="mt-3 rounded-lg border border-indigo-100 bg-indigo-50/50 p-3">
+              <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+                <p className="text-xs font-semibold uppercase tracking-wide text-indigo-700">
+                  Interview answer
+                </p>
+                <button
+                  type="button"
+                  onClick={() => onRegenerate(question)}
+                  disabled={regenerating}
+                  className="inline-flex w-full items-center justify-center gap-1.5 rounded-md bg-white px-2.5 py-2 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-200 transition hover:bg-indigo-50 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+                >
+                  <span>{regenerating ? '⏳' : '🔄'}</span>
+                  {regenerating ? 'Generating…' : question.answer ? 'Regenerate answer' : 'Generate answer'}
+                </button>
+              </div>
+
+              {question.answer ? (
+                <div className={`mt-3 break-words rounded-lg bg-white p-2 shadow-sm ring-1 ring-inset ring-slate-200 sm:p-3 ${FONT_CLASS[answerFontSize]}`}>
+                  <FormattedText text={question.answer} />
+                </div>
+              ) : (
+                <p className="mt-3 text-sm text-slate-500">
+                  No answer yet. Use “Generate answer” to create an interview-friendly explanation.
+                </p>
+              )}
             </div>
-          )}
+          ) : null}
+
+          {expanded && question.options && question.options.length > 0 ? (
+            <ul className="mt-3 space-y-1">
+              {question.options.map((option) => (
+                <li
+                  key={option.key}
+                  className={`rounded px-2 py-1 text-xs ${
+                    option.key === question.correctOption
+                      ? 'bg-emerald-50 font-medium text-emerald-800'
+                      : 'bg-slate-50 text-slate-600'
+                  }`}
+                >
+                  <span className="font-semibold">{option.key}.</span> {option.text}
+                  {option.key === question.correctOption ? ' ✓' : ''}
+                </li>
+              ))}
+            </ul>
+          ) : null}
         </div>
 
-        <button
-          onClick={() => onDelete(question.id)}
-          className="text-slate-300 hover:text-red-500 text-sm flex-shrink-0"
-          aria-label="Delete question"
-        >🗑️</button>
+        {isReadOnly ? null : (
+          <div className="flex flex-shrink-0 flex-col gap-1">
+            <button
+              type="button"
+              onClick={() => onEdit(question)}
+              className="rounded p-1.5 text-base text-slate-400 hover:bg-slate-100 hover:text-indigo-500 sm:p-0 sm:text-sm sm:text-slate-300 sm:hover:bg-transparent"
+              aria-label="Edit question"
+            >
+              ✏️
+            </button>
+            <button
+              type="button"
+              onClick={() => onDelete(question.id)}
+              className="rounded p-1.5 text-base text-slate-400 hover:bg-slate-100 hover:text-red-500 sm:p-0 sm:text-sm sm:text-slate-300 sm:hover:bg-transparent"
+              aria-label="Delete question"
+            >
+              🗑️
+            </button>
+          </div>
+        )}
       </div>
     </div>
-  )
+  );
 }

@@ -31,7 +31,14 @@ export async function POST(request: NextRequest) {
 
   const { email, password } = result.data
 
-  const user = await prisma.user.findUnique({ where: { email } })
+  let user
+  try {
+    user = await prisma.user.findUnique({ where: { email } })
+  } catch (err) {
+    console.error('[login] db error:', err instanceof Error ? err.message : err)
+    return NextResponse.json({ error: 'Service unavailable' }, { status: 503 })
+  }
+
   if (!user) {
     return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 })
   }
@@ -41,7 +48,23 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 })
   }
 
-  const token = await signJWT({ userId: user.id, email: user.email, isAdmin: user.isAdmin })
+  if (user.status !== 'ACTIVE') {
+    return NextResponse.json({ error: 'This account is not active.' }, { status: 403 })
+  }
+
+  await prisma.user.update({
+    where: { id: user.id },
+    data: { lastLoginAt: new Date() },
+  })
+
+  const effectiveRole = user.isAdmin && user.role === 'STUDENT' ? 'SUPER_ADMIN' : user.role
+  const token = await signJWT({
+    userId: user.id,
+    email: user.email,
+    isAdmin: user.isAdmin,
+    role: effectiveRole,
+    status: user.status,
+  })
   const response = NextResponse.json({ success: true })
   setAuthCookie(response, token)
   return response

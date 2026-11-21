@@ -51,7 +51,7 @@ export default function AdminPage() {
   }, [user, isLoading, router])
 
   useEffect(() => {
-    fetch('/api/admin/users')
+    fetch('/api/admin/growth-users')
       .then((r) => r.json())
       .then((d: { users: AdminUser[] }) => setUsers(d.users ?? []))
       .catch(() => {})
@@ -62,7 +62,7 @@ export default function AdminPage() {
     if (!confirm(`Delete user ${email} and all their data? This cannot be undone.`)) return
     setDeleting(id)
     try {
-      const res = await fetch(`/api/admin/users?id=${id}`, { method: 'DELETE' })
+      const res = await fetch(`/api/admin/growth-users?id=${id}`, { method: 'DELETE' })
       if (res.ok) setUsers((prev) => prev.filter((u) => u.id !== id))
     } finally {
       setDeleting(null)

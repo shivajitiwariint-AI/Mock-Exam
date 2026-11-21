@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
   const user = await getUserFromRequest(request)
 
   const subjects = await prisma.subject.findMany({
-    where: { userId: user.userId },
+    where: { OR: [{ userId: user.userId }, { userId: null }] },
     include: {
       _count: { select: { topics: true, studySessions: true, exams: true } },
     },

@@ -13,7 +13,9 @@ export async function GET(
   const subjectId = parseInt(params.id, 10)
   if (isNaN(subjectId)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
 
-  const subject = await prisma.subject.findFirst({ where: { id: subjectId, userId: user.userId } })
+  const subject = await prisma.subject.findFirst({
+    where: { id: subjectId, OR: [{ userId: user.userId }, { userId: null }] },
+  })
   if (!subject) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
   const topics = await prisma.topic.findMany({

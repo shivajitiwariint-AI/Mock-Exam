@@ -91,7 +91,7 @@ Return ONLY a valid JSON array — no markdown fences, no explanation text, just
       aiQuestions
         .filter((q) => q.question && validCategories.includes(q.category) && validDifficulties.includes(q.difficulty))
         .map((q) =>
-          prisma.interviewQuestion.create({
+          prisma.interviewBankQuestion.create({
             data: {
               userId: user.userId,
               companyId,

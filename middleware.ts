@@ -6,11 +6,12 @@ const secret = new TextEncoder().encode(
   process.env.JWT_SECRET ?? 'fallback-secret-not-for-production'
 )
 
-// Routes only regular users can access (admins get redirected to /admin)
-const userOnlyPaths = [
+// Authenticated areas of the merged app. Admins may use these pages too.
+const userPaths = [
   '/dashboard',
   '/education',
   '/interview',
+  '/interviews',
   '/goals',
   '/health',
   '/meditation',
@@ -18,33 +19,32 @@ const userOnlyPaths = [
   '/analytics',
   '/coach',
   '/schedule',
+  '/exams',
+  '/attempts',
+  '/history',
+  '/study',
+  '/exam-dashboard',
 ]
 
-// Routes only admins can access (non-admins get redirected to /dashboard)
 const adminOnlyPaths = ['/admin']
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
-  const isUserOnly = userOnlyPaths.some((p) => pathname.startsWith(p))
-  const isAdminOnly = adminOnlyPaths.some((p) => pathname.startsWith(p))
+  const isUserOnly = userPaths.some((p) => pathname === p || pathname.startsWith(`${p}/`))
+  const isAdminOnly = adminOnlyPaths.some((p) => pathname === p || pathname.startsWith(`${p}/`))
 
   if (!isUserOnly && !isAdminOnly) return NextResponse.next()
 
   const token = request.cookies.get(COOKIE_NAME)?.value
   if (!token) {
-    return NextResponse.redirect(new URL('/login?reason=session_expired', request.url))
+    return NextResponse.redirect(new URL('/login', request.url))
   }
 
   try {
     const { payload } = await jwtVerify(token, secret)
-    const isAdmin = payload.isAdmin === true
+    const role = payload.role as 'SUPER_ADMIN' | 'SUBJECT_ADMIN' | 'STUDENT' | undefined
+    const isAdmin = role === 'SUPER_ADMIN' || role === 'SUBJECT_ADMIN' || payload.isAdmin === true
 
-    // Admin visiting a user-only page → send to /admin
-    if (isUserOnly && isAdmin) {
-      return NextResponse.redirect(new URL('/admin', request.url))
-    }
-
-    // Regular user visiting an admin-only page → send to /dashboard
     if (isAdminOnly && !isAdmin) {
       return NextResponse.redirect(new URL('/dashboard', request.url))
     }
@@ -60,6 +60,7 @@ export const config = {
     '/dashboard/:path*',
     '/education/:path*',
     '/interview/:path*',
+    '/interviews/:path*',
     '/goals/:path*',
     '/health/:path*',
     '/meditation/:path*',
@@ -67,6 +68,11 @@ export const config = {
     '/analytics/:path*',
     '/coach/:path*',
     '/schedule/:path*',
+    '/exams/:path*',
+    '/attempts/:path*',
+    '/history/:path*',
+    '/study/:path*',
+    '/exam-dashboard/:path*',
     '/admin/:path*',
   ],
 }

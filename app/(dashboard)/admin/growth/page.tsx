@@ -50,7 +50,7 @@ export default function GrowthReportsPage() {
   }, [user, isLoading, router])
 
   useEffect(() => {
-    fetch('/api/admin/users')
+    fetch('/api/admin/growth-users')
       .then((r) => r.json())
       .then((d: { users: AdminUser[] }) => setUsers(d.users ?? []))
       .catch(() => {})

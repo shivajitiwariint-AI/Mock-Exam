@@ -12,7 +12,9 @@ export async function GET(
   const examId = parseInt(params.id, 10)
   if (isNaN(examId)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
 
-  const exam = await prisma.exam.findFirst({ where: { id: examId, userId: user.userId } })
+  const exam = await prisma.exam.findFirst({
+    where: { id: examId, OR: [{ userId: user.userId }, { userId: null }] },
+  })
   if (!exam) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
   const results = await prisma.examResult.findMany({

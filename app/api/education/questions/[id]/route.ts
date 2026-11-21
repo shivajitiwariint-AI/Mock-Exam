@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getUserFromRequest } from '@/lib/auth'
+import { questionWriteData, toLegacyQuestion } from '@/lib/legacy-education'
 import { updateQuestionSchema } from '@/lib/validations/education.schema'
 
 export async function GET(
@@ -14,12 +15,12 @@ export async function GET(
   if (isNaN(id)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
 
   const question = await prisma.question.findFirst({
-    where: { id, userId: user.userId },
+    where: { id, OR: [{ userId: user.userId }, { userId: null }] },
     include: { answers: { orderBy: { order: 'asc' } } },
   })
 
   if (!question) return NextResponse.json({ error: 'Not found' }, { status: 404 })
-  return NextResponse.json({ question })
+  return NextResponse.json({ question: toLegacyQuestion(question as unknown as Record<string, unknown>) })
 }
 
 export async function PUT(
@@ -47,15 +48,12 @@ export async function PUT(
     await tx.questionAnswer.deleteMany({ where: { questionId: id } })
     return tx.question.update({
       where: { id },
-      data: {
-        ...questionData,
-        answers: { create: answers },
-      },
+      data: questionWriteData(questionData, answers),
       include: { answers: { orderBy: { order: 'asc' } } },
     })
   })
 
-  return NextResponse.json({ question })
+  return NextResponse.json({ question: toLegacyQuestion(question as unknown as Record<string, unknown>) })
 }
 
 export async function DELETE(

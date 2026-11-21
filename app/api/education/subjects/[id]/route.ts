@@ -19,7 +19,7 @@ export async function GET(
   if (!id) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
 
   const subject = await prisma.subject.findFirst({
-    where: { id, userId: user.userId },
+    where: { id, OR: [{ userId: user.userId }, { userId: null }] },
     include: {
       topics: {
         include: {

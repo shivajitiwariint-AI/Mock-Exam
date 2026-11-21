@@ -7,7 +7,18 @@ const g = globalThis as unknown as GlobalWithPrisma
 function createClient(): PrismaClient {
   const url = process.env.DATABASE_URL
   if (!url) throw new Error('DATABASE_URL environment variable is not set')
-  const adapter = new PrismaMariaDb(url)
+  const parsed = new URL(url)
+  const isLocal = parsed.hostname === 'localhost' || parsed.hostname === '127.0.0.1'
+  const adapter = new PrismaMariaDb({
+    host: parsed.hostname,
+    port: parseInt(parsed.port) || 3306,
+    user: decodeURIComponent(parsed.username),
+    password: decodeURIComponent(parsed.password),
+    database: parsed.pathname.replace(/^\//, ''),
+    connectionLimit: isLocal ? 10 : 3,
+    connectTimeout: 20000,
+    ...(isLocal ? {} : { ssl: { rejectUnauthorized: false } }),
+  })
   return new PrismaClient({ adapter })
 }
 

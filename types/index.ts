@@ -2,6 +2,8 @@ export type AuthUser = {
   userId: number
   email: string
   isAdmin?: boolean
+  role?: 'SUPER_ADMIN' | 'SUBJECT_ADMIN' | 'STUDENT'
+  status?: 'ACTIVE' | 'SUSPENDED' | 'DISABLED'
 }
 
 export type UserProfileData = {
@@ -14,7 +16,10 @@ export type UserProfileData = {
 export type CurrentUser = {
   id: number
   email: string
+  name: string
   isAdmin: boolean
+  role: 'SUPER_ADMIN' | 'SUBJECT_ADMIN' | 'STUDENT'
+  status: 'ACTIVE' | 'SUSPENDED' | 'DISABLED'
   profile: UserProfileData | null
 }
 
@@ -178,14 +183,54 @@ export type InterviewQuestionData = {
   id: number
   userId: number
   companyId: number | null
+  companyName?: string | null
   jdId: number | null
-  source: 'MANUAL' | 'AI_JD' | 'EXPERIENCE'
-  category: 'TECHNICAL' | 'BEHAVIORAL' | 'SYSTEM_DESIGN' | 'CODING' | 'HR'
+  source: 'MANUAL' | 'AI_JD' | 'EXPERIENCE' | 'MOCK_EXAM' | 'AI_GUIDE'
+  category: string
   question: string
   answer: string | null
   difficulty: 'EASY' | 'MEDIUM' | 'HARD'
   whyAsked: string | null
   practiced: boolean
+  createdAt: string
+  updatedAt: string
+  subjectId?: number | null
+  subjectName?: string | null
+  topicId?: number | null
+  topicName?: string | null
+  options?: { key: string; text: string }[]
+  correctOption?: string | null
+  explanation?: string | null
+  isReadOnly?: boolean
+}
+
+export type InterviewQuestionFacets = {
+  sources: { value: string; count: number }[]
+  subjects: { id: number; name: string; count: number }[]
+  topics: { id: number; name: string; subjectId: number | null; subjectName: string | null; count: number }[]
+  categories: { name: string; count: number }[]
+  companies: { id: number; name: string; count: number }[]
+}
+
+export type InterviewQuestionsResponse = {
+  questions: InterviewQuestionData[]
+  subjects: MockQuestionSubject[]
+  facets: InterviewQuestionFacets
+  pagination: { page: number; pageSize: number; total: number; totalPages: number }
+  practicedCount: number
+}
+
+export type MockQuestionSubject = {
+  id: number
+  name: string
+  topics: { id: number; name: string }[]
+}
+
+export type InterviewCategoryData = {
+  id: number
+  userId: number
+  name: string
+  color: 'blue' | 'amber' | 'green' | 'red' | 'slate'
   createdAt: string
   updatedAt: string
 }

@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getUserFromRequest } from '@/lib/auth'
+import { toLegacyQuestion } from '@/lib/legacy-education'
 
 export async function GET(
   request: NextRequest,
@@ -13,7 +14,7 @@ export async function GET(
   if (isNaN(id)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
 
   const exam = await prisma.exam.findFirst({
-    where: { id, userId: user.userId },
+    where: { id, OR: [{ userId: user.userId }, { userId: null }] },
     include: {
       questions: {
         include: {
@@ -25,5 +26,13 @@ export async function GET(
   })
 
   if (!exam) return NextResponse.json({ error: 'Not found' }, { status: 404 })
-  return NextResponse.json({ exam })
+  return NextResponse.json({
+    exam: {
+      ...exam,
+      questions: exam.questions.map((examQuestion) => ({
+        ...examQuestion,
+        question: toLegacyQuestion(examQuestion.question as unknown as Record<string, unknown>),
+      })),
+    },
+  })
 }

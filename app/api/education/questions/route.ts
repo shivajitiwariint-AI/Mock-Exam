@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getUserFromRequest } from '@/lib/auth'
+import { questionWriteData, toLegacyQuestion } from '@/lib/legacy-education'
 import { createQuestionSchema } from '@/lib/validations/education.schema'
 
 export async function GET(request: NextRequest) {
@@ -14,7 +15,7 @@ export async function GET(request: NextRequest) {
 
   const questions = await prisma.question.findMany({
     where: {
-      userId: user.userId,
+      OR: [{ userId: user.userId }, { userId: null }],
       ...(topicId ? { topicId } : {}),
       ...(difficulty ? { difficulty } : {}),
       ...(type ? { type } : {}),
@@ -23,7 +24,7 @@ export async function GET(request: NextRequest) {
     orderBy: { createdAt: 'desc' },
   })
 
-  return NextResponse.json({ questions })
+  return NextResponse.json({ questions: questions.map(toLegacyQuestion) })
 }
 
 export async function POST(request: NextRequest) {
@@ -38,15 +39,15 @@ export async function POST(request: NextRequest) {
   if (!result.success) return NextResponse.json({ error: 'Validation failed' }, { status: 400 })
 
   const { answers, ...questionData } = result.data
-
   const question = await prisma.question.create({
     data: {
-      ...questionData,
+      ...questionWriteData(questionData, answers),
       userId: user.userId,
-      answers: { create: answers },
+      status: 'APPROVED',
+      source: 'MANUAL',
     },
     include: { answers: { orderBy: { order: 'asc' } } },
   })
 
-  return NextResponse.json({ question }, { status: 201 })
+  return NextResponse.json({ question: toLegacyQuestion(question as unknown as Record<string, unknown>) }, { status: 201 })
 }

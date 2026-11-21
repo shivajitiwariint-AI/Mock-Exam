@@ -246,7 +246,7 @@ export type InterviewCompanyWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"InterviewCompany"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   jobDescs?: Prisma.JobDescriptionListRelationFilter
-  questions?: Prisma.InterviewQuestionListRelationFilter
+  questions?: Prisma.InterviewBankQuestionListRelationFilter
   experiences?: Prisma.InterviewExperienceListRelationFilter
 }
 
@@ -261,7 +261,7 @@ export type InterviewCompanyOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   jobDescs?: Prisma.JobDescriptionOrderByRelationAggregateInput
-  questions?: Prisma.InterviewQuestionOrderByRelationAggregateInput
+  questions?: Prisma.InterviewBankQuestionOrderByRelationAggregateInput
   experiences?: Prisma.InterviewExperienceOrderByRelationAggregateInput
   _relevance?: Prisma.InterviewCompanyOrderByRelevanceInput
 }
@@ -280,7 +280,7 @@ export type InterviewCompanyWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"InterviewCompany"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   jobDescs?: Prisma.JobDescriptionListRelationFilter
-  questions?: Prisma.InterviewQuestionListRelationFilter
+  questions?: Prisma.InterviewBankQuestionListRelationFilter
   experiences?: Prisma.InterviewExperienceListRelationFilter
 }, "id">
 
@@ -323,7 +323,7 @@ export type InterviewCompanyCreateInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutInterviewCompaniesInput
   jobDescs?: Prisma.JobDescriptionCreateNestedManyWithoutCompanyInput
-  questions?: Prisma.InterviewQuestionCreateNestedManyWithoutCompanyInput
+  questions?: Prisma.InterviewBankQuestionCreateNestedManyWithoutCompanyInput
   experiences?: Prisma.InterviewExperienceCreateNestedManyWithoutCompanyInput
 }
 
@@ -337,7 +337,7 @@ export type InterviewCompanyUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   jobDescs?: Prisma.JobDescriptionUncheckedCreateNestedManyWithoutCompanyInput
-  questions?: Prisma.InterviewQuestionUncheckedCreateNestedManyWithoutCompanyInput
+  questions?: Prisma.InterviewBankQuestionUncheckedCreateNestedManyWithoutCompanyInput
   experiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutCompanyInput
 }
 
@@ -350,7 +350,7 @@ export type InterviewCompanyUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutInterviewCompaniesNestedInput
   jobDescs?: Prisma.JobDescriptionUpdateManyWithoutCompanyNestedInput
-  questions?: Prisma.InterviewQuestionUpdateManyWithoutCompanyNestedInput
+  questions?: Prisma.InterviewBankQuestionUpdateManyWithoutCompanyNestedInput
   experiences?: Prisma.InterviewExperienceUpdateManyWithoutCompanyNestedInput
 }
 
@@ -364,7 +364,7 @@ export type InterviewCompanyUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   jobDescs?: Prisma.JobDescriptionUncheckedUpdateManyWithoutCompanyNestedInput
-  questions?: Prisma.InterviewQuestionUncheckedUpdateManyWithoutCompanyNestedInput
+  questions?: Prisma.InterviewBankQuestionUncheckedUpdateManyWithoutCompanyNestedInput
   experiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
@@ -564,7 +564,7 @@ export type InterviewCompanyCreateWithoutUserInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   jobDescs?: Prisma.JobDescriptionCreateNestedManyWithoutCompanyInput
-  questions?: Prisma.InterviewQuestionCreateNestedManyWithoutCompanyInput
+  questions?: Prisma.InterviewBankQuestionCreateNestedManyWithoutCompanyInput
   experiences?: Prisma.InterviewExperienceCreateNestedManyWithoutCompanyInput
 }
 
@@ -577,7 +577,7 @@ export type InterviewCompanyUncheckedCreateWithoutUserInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   jobDescs?: Prisma.JobDescriptionUncheckedCreateNestedManyWithoutCompanyInput
-  questions?: Prisma.InterviewQuestionUncheckedCreateNestedManyWithoutCompanyInput
+  questions?: Prisma.InterviewBankQuestionUncheckedCreateNestedManyWithoutCompanyInput
   experiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutCompanyInput
 }
 
@@ -629,7 +629,7 @@ export type InterviewCompanyCreateWithoutJobDescsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutInterviewCompaniesInput
-  questions?: Prisma.InterviewQuestionCreateNestedManyWithoutCompanyInput
+  questions?: Prisma.InterviewBankQuestionCreateNestedManyWithoutCompanyInput
   experiences?: Prisma.InterviewExperienceCreateNestedManyWithoutCompanyInput
 }
 
@@ -642,7 +642,7 @@ export type InterviewCompanyUncheckedCreateWithoutJobDescsInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  questions?: Prisma.InterviewQuestionUncheckedCreateNestedManyWithoutCompanyInput
+  questions?: Prisma.InterviewBankQuestionUncheckedCreateNestedManyWithoutCompanyInput
   experiences?: Prisma.InterviewExperienceUncheckedCreateNestedManyWithoutCompanyInput
 }
 
@@ -670,7 +670,7 @@ export type InterviewCompanyUpdateWithoutJobDescsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutInterviewCompaniesNestedInput
-  questions?: Prisma.InterviewQuestionUpdateManyWithoutCompanyNestedInput
+  questions?: Prisma.InterviewBankQuestionUpdateManyWithoutCompanyNestedInput
   experiences?: Prisma.InterviewExperienceUpdateManyWithoutCompanyNestedInput
 }
 
@@ -683,7 +683,7 @@ export type InterviewCompanyUncheckedUpdateWithoutJobDescsInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  questions?: Prisma.InterviewQuestionUncheckedUpdateManyWithoutCompanyNestedInput
+  questions?: Prisma.InterviewBankQuestionUncheckedUpdateManyWithoutCompanyNestedInput
   experiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
@@ -762,7 +762,7 @@ export type InterviewCompanyCreateWithoutExperiencesInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutInterviewCompaniesInput
   jobDescs?: Prisma.JobDescriptionCreateNestedManyWithoutCompanyInput
-  questions?: Prisma.InterviewQuestionCreateNestedManyWithoutCompanyInput
+  questions?: Prisma.InterviewBankQuestionCreateNestedManyWithoutCompanyInput
 }
 
 export type InterviewCompanyUncheckedCreateWithoutExperiencesInput = {
@@ -775,7 +775,7 @@ export type InterviewCompanyUncheckedCreateWithoutExperiencesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   jobDescs?: Prisma.JobDescriptionUncheckedCreateNestedManyWithoutCompanyInput
-  questions?: Prisma.InterviewQuestionUncheckedCreateNestedManyWithoutCompanyInput
+  questions?: Prisma.InterviewBankQuestionUncheckedCreateNestedManyWithoutCompanyInput
 }
 
 export type InterviewCompanyCreateOrConnectWithoutExperiencesInput = {
@@ -803,7 +803,7 @@ export type InterviewCompanyUpdateWithoutExperiencesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutInterviewCompaniesNestedInput
   jobDescs?: Prisma.JobDescriptionUpdateManyWithoutCompanyNestedInput
-  questions?: Prisma.InterviewQuestionUpdateManyWithoutCompanyNestedInput
+  questions?: Prisma.InterviewBankQuestionUpdateManyWithoutCompanyNestedInput
 }
 
 export type InterviewCompanyUncheckedUpdateWithoutExperiencesInput = {
@@ -816,7 +816,7 @@ export type InterviewCompanyUncheckedUpdateWithoutExperiencesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   jobDescs?: Prisma.JobDescriptionUncheckedUpdateManyWithoutCompanyNestedInput
-  questions?: Prisma.InterviewQuestionUncheckedUpdateManyWithoutCompanyNestedInput
+  questions?: Prisma.InterviewBankQuestionUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
 export type InterviewCompanyCreateManyUserInput = {
@@ -837,7 +837,7 @@ export type InterviewCompanyUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   jobDescs?: Prisma.JobDescriptionUpdateManyWithoutCompanyNestedInput
-  questions?: Prisma.InterviewQuestionUpdateManyWithoutCompanyNestedInput
+  questions?: Prisma.InterviewBankQuestionUpdateManyWithoutCompanyNestedInput
   experiences?: Prisma.InterviewExperienceUpdateManyWithoutCompanyNestedInput
 }
 
@@ -850,7 +850,7 @@ export type InterviewCompanyUncheckedUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   jobDescs?: Prisma.JobDescriptionUncheckedUpdateManyWithoutCompanyNestedInput
-  questions?: Prisma.InterviewQuestionUncheckedUpdateManyWithoutCompanyNestedInput
+  questions?: Prisma.InterviewBankQuestionUncheckedUpdateManyWithoutCompanyNestedInput
   experiences?: Prisma.InterviewExperienceUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
@@ -902,7 +902,7 @@ export type InterviewCompanyCountOutputTypeCountJobDescsArgs<ExtArgs extends run
  * InterviewCompanyCountOutputType without action
  */
 export type InterviewCompanyCountOutputTypeCountQuestionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.InterviewQuestionWhereInput
+  where?: Prisma.InterviewBankQuestionWhereInput
 }
 
 /**
@@ -956,7 +956,7 @@ export type $InterviewCompanyPayload<ExtArgs extends runtime.Types.Extensions.In
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
     jobDescs: Prisma.$JobDescriptionPayload<ExtArgs>[]
-    questions: Prisma.$InterviewQuestionPayload<ExtArgs>[]
+    questions: Prisma.$InterviewBankQuestionPayload<ExtArgs>[]
     experiences: Prisma.$InterviewExperiencePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1310,7 +1310,7 @@ export interface Prisma__InterviewCompanyClient<T, Null = never, ExtArgs extends
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   jobDescs<T extends Prisma.InterviewCompany$jobDescsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InterviewCompany$jobDescsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JobDescriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  questions<T extends Prisma.InterviewCompany$questionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InterviewCompany$questionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InterviewQuestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  questions<T extends Prisma.InterviewCompany$questionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InterviewCompany$questionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InterviewBankQuestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   experiences<T extends Prisma.InterviewCompany$experiencesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InterviewCompany$experiencesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InterviewExperiencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1725,23 +1725,23 @@ export type InterviewCompany$jobDescsArgs<ExtArgs extends runtime.Types.Extensio
  */
 export type InterviewCompany$questionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the InterviewQuestion
+   * Select specific fields to fetch from the InterviewBankQuestion
    */
-  select?: Prisma.InterviewQuestionSelect<ExtArgs> | null
+  select?: Prisma.InterviewBankQuestionSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the InterviewQuestion
+   * Omit specific fields from the InterviewBankQuestion
    */
-  omit?: Prisma.InterviewQuestionOmit<ExtArgs> | null
+  omit?: Prisma.InterviewBankQuestionOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.InterviewQuestionInclude<ExtArgs> | null
-  where?: Prisma.InterviewQuestionWhereInput
-  orderBy?: Prisma.InterviewQuestionOrderByWithRelationInput | Prisma.InterviewQuestionOrderByWithRelationInput[]
-  cursor?: Prisma.InterviewQuestionWhereUniqueInput
+  include?: Prisma.InterviewBankQuestionInclude<ExtArgs> | null
+  where?: Prisma.InterviewBankQuestionWhereInput
+  orderBy?: Prisma.InterviewBankQuestionOrderByWithRelationInput | Prisma.InterviewBankQuestionOrderByWithRelationInput[]
+  cursor?: Prisma.InterviewBankQuestionWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.InterviewQuestionScalarFieldEnum | Prisma.InterviewQuestionScalarFieldEnum[]
+  distinct?: Prisma.InterviewBankQuestionScalarFieldEnum | Prisma.InterviewBankQuestionScalarFieldEnum[]
 }
 
 /**

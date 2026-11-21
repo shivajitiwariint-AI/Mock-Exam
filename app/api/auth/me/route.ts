@@ -21,10 +21,15 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'User not found' }, { status: 404 })
   }
 
+  const role = user.isAdmin && user.role === 'STUDENT' ? 'SUPER_ADMIN' : user.role
+
   return NextResponse.json({
     id: user.id,
     email: user.email,
+    name: user.name ?? user.profile?.name ?? user.email,
     isAdmin: user.isAdmin,
+    role,
+    status: user.status,
     profile: user.profile
       ? {
           id: user.profile.id,

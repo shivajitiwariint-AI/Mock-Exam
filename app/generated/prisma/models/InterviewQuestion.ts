@@ -28,128 +28,94 @@ export type AggregateInterviewQuestion = {
 
 export type InterviewQuestionAvgAggregateOutputType = {
   id: number | null
-  userId: number | null
-  companyId: number | null
-  jdId: number | null
+  prepId: number | null
+  order: number | null
 }
 
 export type InterviewQuestionSumAggregateOutputType = {
   id: number | null
-  userId: number | null
-  companyId: number | null
-  jdId: number | null
+  prepId: number | null
+  order: number | null
 }
 
 export type InterviewQuestionMinAggregateOutputType = {
   id: number | null
-  userId: number | null
-  companyId: number | null
-  jdId: number | null
-  source: $Enums.InterviewQuestionSource | null
+  prepId: number | null
+  order: number | null
+  questionText: string | null
   category: $Enums.InterviewQuestionCategory | null
-  question: string | null
-  answer: string | null
   difficulty: $Enums.Difficulty | null
-  whyAsked: string | null
-  practiced: boolean | null
+  expectedAnswer: string | null
   createdAt: Date | null
-  updatedAt: Date | null
 }
 
 export type InterviewQuestionMaxAggregateOutputType = {
   id: number | null
-  userId: number | null
-  companyId: number | null
-  jdId: number | null
-  source: $Enums.InterviewQuestionSource | null
+  prepId: number | null
+  order: number | null
+  questionText: string | null
   category: $Enums.InterviewQuestionCategory | null
-  question: string | null
-  answer: string | null
   difficulty: $Enums.Difficulty | null
-  whyAsked: string | null
-  practiced: boolean | null
+  expectedAnswer: string | null
   createdAt: Date | null
-  updatedAt: Date | null
 }
 
 export type InterviewQuestionCountAggregateOutputType = {
   id: number
-  userId: number
-  companyId: number
-  jdId: number
-  source: number
+  prepId: number
+  order: number
+  questionText: number
   category: number
-  question: number
-  answer: number
   difficulty: number
-  whyAsked: number
-  practiced: number
+  expectedAnswer: number
   createdAt: number
-  updatedAt: number
   _all: number
 }
 
 
 export type InterviewQuestionAvgAggregateInputType = {
   id?: true
-  userId?: true
-  companyId?: true
-  jdId?: true
+  prepId?: true
+  order?: true
 }
 
 export type InterviewQuestionSumAggregateInputType = {
   id?: true
-  userId?: true
-  companyId?: true
-  jdId?: true
+  prepId?: true
+  order?: true
 }
 
 export type InterviewQuestionMinAggregateInputType = {
   id?: true
-  userId?: true
-  companyId?: true
-  jdId?: true
-  source?: true
+  prepId?: true
+  order?: true
+  questionText?: true
   category?: true
-  question?: true
-  answer?: true
   difficulty?: true
-  whyAsked?: true
-  practiced?: true
+  expectedAnswer?: true
   createdAt?: true
-  updatedAt?: true
 }
 
 export type InterviewQuestionMaxAggregateInputType = {
   id?: true
-  userId?: true
-  companyId?: true
-  jdId?: true
-  source?: true
+  prepId?: true
+  order?: true
+  questionText?: true
   category?: true
-  question?: true
-  answer?: true
   difficulty?: true
-  whyAsked?: true
-  practiced?: true
+  expectedAnswer?: true
   createdAt?: true
-  updatedAt?: true
 }
 
 export type InterviewQuestionCountAggregateInputType = {
   id?: true
-  userId?: true
-  companyId?: true
-  jdId?: true
-  source?: true
+  prepId?: true
+  order?: true
+  questionText?: true
   category?: true
-  question?: true
-  answer?: true
   difficulty?: true
-  whyAsked?: true
-  practiced?: true
+  expectedAnswer?: true
   createdAt?: true
-  updatedAt?: true
   _all?: true
 }
 
@@ -241,18 +207,13 @@ export type InterviewQuestionGroupByArgs<ExtArgs extends runtime.Types.Extension
 
 export type InterviewQuestionGroupByOutputType = {
   id: number
-  userId: number
-  companyId: number | null
-  jdId: number | null
-  source: $Enums.InterviewQuestionSource
+  prepId: number
+  order: number
+  questionText: string
   category: $Enums.InterviewQuestionCategory
-  question: string
-  answer: string | null
   difficulty: $Enums.Difficulty
-  whyAsked: string | null
-  practiced: boolean
+  expectedAnswer: string | null
   createdAt: Date
-  updatedAt: Date
   _count: InterviewQuestionCountAggregateOutputType | null
   _avg: InterviewQuestionAvgAggregateOutputType | null
   _sum: InterviewQuestionSumAggregateOutputType | null
@@ -280,79 +241,60 @@ export type InterviewQuestionWhereInput = {
   OR?: Prisma.InterviewQuestionWhereInput[]
   NOT?: Prisma.InterviewQuestionWhereInput | Prisma.InterviewQuestionWhereInput[]
   id?: Prisma.IntFilter<"InterviewQuestion"> | number
-  userId?: Prisma.IntFilter<"InterviewQuestion"> | number
-  companyId?: Prisma.IntNullableFilter<"InterviewQuestion"> | number | null
-  jdId?: Prisma.IntNullableFilter<"InterviewQuestion"> | number | null
-  source?: Prisma.EnumInterviewQuestionSourceFilter<"InterviewQuestion"> | $Enums.InterviewQuestionSource
+  prepId?: Prisma.IntFilter<"InterviewQuestion"> | number
+  order?: Prisma.IntFilter<"InterviewQuestion"> | number
+  questionText?: Prisma.StringFilter<"InterviewQuestion"> | string
   category?: Prisma.EnumInterviewQuestionCategoryFilter<"InterviewQuestion"> | $Enums.InterviewQuestionCategory
-  question?: Prisma.StringFilter<"InterviewQuestion"> | string
-  answer?: Prisma.StringNullableFilter<"InterviewQuestion"> | string | null
   difficulty?: Prisma.EnumDifficultyFilter<"InterviewQuestion"> | $Enums.Difficulty
-  whyAsked?: Prisma.StringNullableFilter<"InterviewQuestion"> | string | null
-  practiced?: Prisma.BoolFilter<"InterviewQuestion"> | boolean
+  expectedAnswer?: Prisma.StringNullableFilter<"InterviewQuestion"> | string | null
   createdAt?: Prisma.DateTimeFilter<"InterviewQuestion"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"InterviewQuestion"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  company?: Prisma.XOR<Prisma.InterviewCompanyNullableScalarRelationFilter, Prisma.InterviewCompanyWhereInput> | null
-  jd?: Prisma.XOR<Prisma.JobDescriptionNullableScalarRelationFilter, Prisma.JobDescriptionWhereInput> | null
+  prep?: Prisma.XOR<Prisma.InterviewPrepScalarRelationFilter, Prisma.InterviewPrepWhereInput>
+  answers?: Prisma.InterviewAnswerListRelationFilter
+  sessionQuestions?: Prisma.InterviewSessionQuestionListRelationFilter
 }
 
 export type InterviewQuestionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  companyId?: Prisma.SortOrderInput | Prisma.SortOrder
-  jdId?: Prisma.SortOrderInput | Prisma.SortOrder
-  source?: Prisma.SortOrder
+  prepId?: Prisma.SortOrder
+  order?: Prisma.SortOrder
+  questionText?: Prisma.SortOrder
   category?: Prisma.SortOrder
-  question?: Prisma.SortOrder
-  answer?: Prisma.SortOrderInput | Prisma.SortOrder
   difficulty?: Prisma.SortOrder
-  whyAsked?: Prisma.SortOrderInput | Prisma.SortOrder
-  practiced?: Prisma.SortOrder
+  expectedAnswer?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
-  user?: Prisma.UserOrderByWithRelationInput
-  company?: Prisma.InterviewCompanyOrderByWithRelationInput
-  jd?: Prisma.JobDescriptionOrderByWithRelationInput
+  prep?: Prisma.InterviewPrepOrderByWithRelationInput
+  answers?: Prisma.InterviewAnswerOrderByRelationAggregateInput
+  sessionQuestions?: Prisma.InterviewSessionQuestionOrderByRelationAggregateInput
   _relevance?: Prisma.InterviewQuestionOrderByRelevanceInput
 }
 
 export type InterviewQuestionWhereUniqueInput = Prisma.AtLeast<{
   id?: number
+  prepId_order?: Prisma.InterviewQuestionPrepIdOrderCompoundUniqueInput
   AND?: Prisma.InterviewQuestionWhereInput | Prisma.InterviewQuestionWhereInput[]
   OR?: Prisma.InterviewQuestionWhereInput[]
   NOT?: Prisma.InterviewQuestionWhereInput | Prisma.InterviewQuestionWhereInput[]
-  userId?: Prisma.IntFilter<"InterviewQuestion"> | number
-  companyId?: Prisma.IntNullableFilter<"InterviewQuestion"> | number | null
-  jdId?: Prisma.IntNullableFilter<"InterviewQuestion"> | number | null
-  source?: Prisma.EnumInterviewQuestionSourceFilter<"InterviewQuestion"> | $Enums.InterviewQuestionSource
+  prepId?: Prisma.IntFilter<"InterviewQuestion"> | number
+  order?: Prisma.IntFilter<"InterviewQuestion"> | number
+  questionText?: Prisma.StringFilter<"InterviewQuestion"> | string
   category?: Prisma.EnumInterviewQuestionCategoryFilter<"InterviewQuestion"> | $Enums.InterviewQuestionCategory
-  question?: Prisma.StringFilter<"InterviewQuestion"> | string
-  answer?: Prisma.StringNullableFilter<"InterviewQuestion"> | string | null
   difficulty?: Prisma.EnumDifficultyFilter<"InterviewQuestion"> | $Enums.Difficulty
-  whyAsked?: Prisma.StringNullableFilter<"InterviewQuestion"> | string | null
-  practiced?: Prisma.BoolFilter<"InterviewQuestion"> | boolean
+  expectedAnswer?: Prisma.StringNullableFilter<"InterviewQuestion"> | string | null
   createdAt?: Prisma.DateTimeFilter<"InterviewQuestion"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"InterviewQuestion"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  company?: Prisma.XOR<Prisma.InterviewCompanyNullableScalarRelationFilter, Prisma.InterviewCompanyWhereInput> | null
-  jd?: Prisma.XOR<Prisma.JobDescriptionNullableScalarRelationFilter, Prisma.JobDescriptionWhereInput> | null
-}, "id">
+  prep?: Prisma.XOR<Prisma.InterviewPrepScalarRelationFilter, Prisma.InterviewPrepWhereInput>
+  answers?: Prisma.InterviewAnswerListRelationFilter
+  sessionQuestions?: Prisma.InterviewSessionQuestionListRelationFilter
+}, "id" | "prepId_order">
 
 export type InterviewQuestionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  companyId?: Prisma.SortOrderInput | Prisma.SortOrder
-  jdId?: Prisma.SortOrderInput | Prisma.SortOrder
-  source?: Prisma.SortOrder
+  prepId?: Prisma.SortOrder
+  order?: Prisma.SortOrder
+  questionText?: Prisma.SortOrder
   category?: Prisma.SortOrder
-  question?: Prisma.SortOrder
-  answer?: Prisma.SortOrderInput | Prisma.SortOrder
   difficulty?: Prisma.SortOrder
-  whyAsked?: Prisma.SortOrderInput | Prisma.SortOrder
-  practiced?: Prisma.SortOrder
+  expectedAnswer?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
   _count?: Prisma.InterviewQuestionCountOrderByAggregateInput
   _avg?: Prisma.InterviewQuestionAvgOrderByAggregateInput
   _max?: Prisma.InterviewQuestionMaxOrderByAggregateInput
@@ -365,124 +307,94 @@ export type InterviewQuestionScalarWhereWithAggregatesInput = {
   OR?: Prisma.InterviewQuestionScalarWhereWithAggregatesInput[]
   NOT?: Prisma.InterviewQuestionScalarWhereWithAggregatesInput | Prisma.InterviewQuestionScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"InterviewQuestion"> | number
-  userId?: Prisma.IntWithAggregatesFilter<"InterviewQuestion"> | number
-  companyId?: Prisma.IntNullableWithAggregatesFilter<"InterviewQuestion"> | number | null
-  jdId?: Prisma.IntNullableWithAggregatesFilter<"InterviewQuestion"> | number | null
-  source?: Prisma.EnumInterviewQuestionSourceWithAggregatesFilter<"InterviewQuestion"> | $Enums.InterviewQuestionSource
+  prepId?: Prisma.IntWithAggregatesFilter<"InterviewQuestion"> | number
+  order?: Prisma.IntWithAggregatesFilter<"InterviewQuestion"> | number
+  questionText?: Prisma.StringWithAggregatesFilter<"InterviewQuestion"> | string
   category?: Prisma.EnumInterviewQuestionCategoryWithAggregatesFilter<"InterviewQuestion"> | $Enums.InterviewQuestionCategory
-  question?: Prisma.StringWithAggregatesFilter<"InterviewQuestion"> | string
-  answer?: Prisma.StringNullableWithAggregatesFilter<"InterviewQuestion"> | string | null
   difficulty?: Prisma.EnumDifficultyWithAggregatesFilter<"InterviewQuestion"> | $Enums.Difficulty
-  whyAsked?: Prisma.StringNullableWithAggregatesFilter<"InterviewQuestion"> | string | null
-  practiced?: Prisma.BoolWithAggregatesFilter<"InterviewQuestion"> | boolean
+  expectedAnswer?: Prisma.StringNullableWithAggregatesFilter<"InterviewQuestion"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"InterviewQuestion"> | Date | string
-  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"InterviewQuestion"> | Date | string
 }
 
 export type InterviewQuestionCreateInput = {
-  source?: $Enums.InterviewQuestionSource
+  order: number
+  questionText: string
   category?: $Enums.InterviewQuestionCategory
-  question: string
-  answer?: string | null
-  difficulty: $Enums.Difficulty
-  whyAsked?: string | null
-  practiced?: boolean
+  difficulty?: $Enums.Difficulty
+  expectedAnswer?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutInterviewQuestionsInput
-  company?: Prisma.InterviewCompanyCreateNestedOneWithoutQuestionsInput
-  jd?: Prisma.JobDescriptionCreateNestedOneWithoutQuestionsInput
+  prep: Prisma.InterviewPrepCreateNestedOneWithoutQuestionsInput
+  answers?: Prisma.InterviewAnswerCreateNestedManyWithoutQuestionInput
+  sessionQuestions?: Prisma.InterviewSessionQuestionCreateNestedManyWithoutQuestionInput
 }
 
 export type InterviewQuestionUncheckedCreateInput = {
   id?: number
-  userId: number
-  companyId?: number | null
-  jdId?: number | null
-  source?: $Enums.InterviewQuestionSource
+  prepId: number
+  order: number
+  questionText: string
   category?: $Enums.InterviewQuestionCategory
-  question: string
-  answer?: string | null
-  difficulty: $Enums.Difficulty
-  whyAsked?: string | null
-  practiced?: boolean
+  difficulty?: $Enums.Difficulty
+  expectedAnswer?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
+  answers?: Prisma.InterviewAnswerUncheckedCreateNestedManyWithoutQuestionInput
+  sessionQuestions?: Prisma.InterviewSessionQuestionUncheckedCreateNestedManyWithoutQuestionInput
 }
 
 export type InterviewQuestionUpdateInput = {
-  source?: Prisma.EnumInterviewQuestionSourceFieldUpdateOperationsInput | $Enums.InterviewQuestionSource
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.EnumInterviewQuestionCategoryFieldUpdateOperationsInput | $Enums.InterviewQuestionCategory
-  question?: Prisma.StringFieldUpdateOperationsInput | string
-  answer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
-  whyAsked?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  practiced?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  expectedAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutInterviewQuestionsNestedInput
-  company?: Prisma.InterviewCompanyUpdateOneWithoutQuestionsNestedInput
-  jd?: Prisma.JobDescriptionUpdateOneWithoutQuestionsNestedInput
+  prep?: Prisma.InterviewPrepUpdateOneRequiredWithoutQuestionsNestedInput
+  answers?: Prisma.InterviewAnswerUpdateManyWithoutQuestionNestedInput
+  sessionQuestions?: Prisma.InterviewSessionQuestionUpdateManyWithoutQuestionNestedInput
 }
 
 export type InterviewQuestionUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
-  companyId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  jdId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.EnumInterviewQuestionSourceFieldUpdateOperationsInput | $Enums.InterviewQuestionSource
+  prepId?: Prisma.IntFieldUpdateOperationsInput | number
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.EnumInterviewQuestionCategoryFieldUpdateOperationsInput | $Enums.InterviewQuestionCategory
-  question?: Prisma.StringFieldUpdateOperationsInput | string
-  answer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
-  whyAsked?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  practiced?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  expectedAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  answers?: Prisma.InterviewAnswerUncheckedUpdateManyWithoutQuestionNestedInput
+  sessionQuestions?: Prisma.InterviewSessionQuestionUncheckedUpdateManyWithoutQuestionNestedInput
 }
 
 export type InterviewQuestionCreateManyInput = {
   id?: number
-  userId: number
-  companyId?: number | null
-  jdId?: number | null
-  source?: $Enums.InterviewQuestionSource
+  prepId: number
+  order: number
+  questionText: string
   category?: $Enums.InterviewQuestionCategory
-  question: string
-  answer?: string | null
-  difficulty: $Enums.Difficulty
-  whyAsked?: string | null
-  practiced?: boolean
+  difficulty?: $Enums.Difficulty
+  expectedAnswer?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
 }
 
 export type InterviewQuestionUpdateManyMutationInput = {
-  source?: Prisma.EnumInterviewQuestionSourceFieldUpdateOperationsInput | $Enums.InterviewQuestionSource
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.EnumInterviewQuestionCategoryFieldUpdateOperationsInput | $Enums.InterviewQuestionCategory
-  question?: Prisma.StringFieldUpdateOperationsInput | string
-  answer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
-  whyAsked?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  practiced?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  expectedAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type InterviewQuestionUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
-  companyId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  jdId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.EnumInterviewQuestionSourceFieldUpdateOperationsInput | $Enums.InterviewQuestionSource
+  prepId?: Prisma.IntFieldUpdateOperationsInput | number
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.EnumInterviewQuestionCategoryFieldUpdateOperationsInput | $Enums.InterviewQuestionCategory
-  question?: Prisma.StringFieldUpdateOperationsInput | string
-  answer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
-  whyAsked?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  practiced?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  expectedAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type InterviewQuestionListRelationFilter = {
@@ -501,255 +413,182 @@ export type InterviewQuestionOrderByRelevanceInput = {
   search: string
 }
 
+export type InterviewQuestionPrepIdOrderCompoundUniqueInput = {
+  prepId: number
+  order: number
+}
+
 export type InterviewQuestionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  companyId?: Prisma.SortOrder
-  jdId?: Prisma.SortOrder
-  source?: Prisma.SortOrder
+  prepId?: Prisma.SortOrder
+  order?: Prisma.SortOrder
+  questionText?: Prisma.SortOrder
   category?: Prisma.SortOrder
-  question?: Prisma.SortOrder
-  answer?: Prisma.SortOrder
   difficulty?: Prisma.SortOrder
-  whyAsked?: Prisma.SortOrder
-  practiced?: Prisma.SortOrder
+  expectedAnswer?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
 }
 
 export type InterviewQuestionAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  companyId?: Prisma.SortOrder
-  jdId?: Prisma.SortOrder
+  prepId?: Prisma.SortOrder
+  order?: Prisma.SortOrder
 }
 
 export type InterviewQuestionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  companyId?: Prisma.SortOrder
-  jdId?: Prisma.SortOrder
-  source?: Prisma.SortOrder
+  prepId?: Prisma.SortOrder
+  order?: Prisma.SortOrder
+  questionText?: Prisma.SortOrder
   category?: Prisma.SortOrder
-  question?: Prisma.SortOrder
-  answer?: Prisma.SortOrder
   difficulty?: Prisma.SortOrder
-  whyAsked?: Prisma.SortOrder
-  practiced?: Prisma.SortOrder
+  expectedAnswer?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
 }
 
 export type InterviewQuestionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  companyId?: Prisma.SortOrder
-  jdId?: Prisma.SortOrder
-  source?: Prisma.SortOrder
+  prepId?: Prisma.SortOrder
+  order?: Prisma.SortOrder
+  questionText?: Prisma.SortOrder
   category?: Prisma.SortOrder
-  question?: Prisma.SortOrder
-  answer?: Prisma.SortOrder
   difficulty?: Prisma.SortOrder
-  whyAsked?: Prisma.SortOrder
-  practiced?: Prisma.SortOrder
+  expectedAnswer?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
 }
 
 export type InterviewQuestionSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  companyId?: Prisma.SortOrder
-  jdId?: Prisma.SortOrder
+  prepId?: Prisma.SortOrder
+  order?: Prisma.SortOrder
 }
 
-export type InterviewQuestionCreateNestedManyWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.InterviewQuestionCreateWithoutUserInput, Prisma.InterviewQuestionUncheckedCreateWithoutUserInput> | Prisma.InterviewQuestionCreateWithoutUserInput[] | Prisma.InterviewQuestionUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.InterviewQuestionCreateOrConnectWithoutUserInput | Prisma.InterviewQuestionCreateOrConnectWithoutUserInput[]
-  createMany?: Prisma.InterviewQuestionCreateManyUserInputEnvelope
+export type InterviewQuestionScalarRelationFilter = {
+  is?: Prisma.InterviewQuestionWhereInput
+  isNot?: Prisma.InterviewQuestionWhereInput
+}
+
+export type InterviewQuestionCreateNestedManyWithoutPrepInput = {
+  create?: Prisma.XOR<Prisma.InterviewQuestionCreateWithoutPrepInput, Prisma.InterviewQuestionUncheckedCreateWithoutPrepInput> | Prisma.InterviewQuestionCreateWithoutPrepInput[] | Prisma.InterviewQuestionUncheckedCreateWithoutPrepInput[]
+  connectOrCreate?: Prisma.InterviewQuestionCreateOrConnectWithoutPrepInput | Prisma.InterviewQuestionCreateOrConnectWithoutPrepInput[]
+  createMany?: Prisma.InterviewQuestionCreateManyPrepInputEnvelope
   connect?: Prisma.InterviewQuestionWhereUniqueInput | Prisma.InterviewQuestionWhereUniqueInput[]
 }
 
-export type InterviewQuestionUncheckedCreateNestedManyWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.InterviewQuestionCreateWithoutUserInput, Prisma.InterviewQuestionUncheckedCreateWithoutUserInput> | Prisma.InterviewQuestionCreateWithoutUserInput[] | Prisma.InterviewQuestionUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.InterviewQuestionCreateOrConnectWithoutUserInput | Prisma.InterviewQuestionCreateOrConnectWithoutUserInput[]
-  createMany?: Prisma.InterviewQuestionCreateManyUserInputEnvelope
+export type InterviewQuestionUncheckedCreateNestedManyWithoutPrepInput = {
+  create?: Prisma.XOR<Prisma.InterviewQuestionCreateWithoutPrepInput, Prisma.InterviewQuestionUncheckedCreateWithoutPrepInput> | Prisma.InterviewQuestionCreateWithoutPrepInput[] | Prisma.InterviewQuestionUncheckedCreateWithoutPrepInput[]
+  connectOrCreate?: Prisma.InterviewQuestionCreateOrConnectWithoutPrepInput | Prisma.InterviewQuestionCreateOrConnectWithoutPrepInput[]
+  createMany?: Prisma.InterviewQuestionCreateManyPrepInputEnvelope
   connect?: Prisma.InterviewQuestionWhereUniqueInput | Prisma.InterviewQuestionWhereUniqueInput[]
 }
 
-export type InterviewQuestionUpdateManyWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.InterviewQuestionCreateWithoutUserInput, Prisma.InterviewQuestionUncheckedCreateWithoutUserInput> | Prisma.InterviewQuestionCreateWithoutUserInput[] | Prisma.InterviewQuestionUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.InterviewQuestionCreateOrConnectWithoutUserInput | Prisma.InterviewQuestionCreateOrConnectWithoutUserInput[]
-  upsert?: Prisma.InterviewQuestionUpsertWithWhereUniqueWithoutUserInput | Prisma.InterviewQuestionUpsertWithWhereUniqueWithoutUserInput[]
-  createMany?: Prisma.InterviewQuestionCreateManyUserInputEnvelope
+export type InterviewQuestionUpdateManyWithoutPrepNestedInput = {
+  create?: Prisma.XOR<Prisma.InterviewQuestionCreateWithoutPrepInput, Prisma.InterviewQuestionUncheckedCreateWithoutPrepInput> | Prisma.InterviewQuestionCreateWithoutPrepInput[] | Prisma.InterviewQuestionUncheckedCreateWithoutPrepInput[]
+  connectOrCreate?: Prisma.InterviewQuestionCreateOrConnectWithoutPrepInput | Prisma.InterviewQuestionCreateOrConnectWithoutPrepInput[]
+  upsert?: Prisma.InterviewQuestionUpsertWithWhereUniqueWithoutPrepInput | Prisma.InterviewQuestionUpsertWithWhereUniqueWithoutPrepInput[]
+  createMany?: Prisma.InterviewQuestionCreateManyPrepInputEnvelope
   set?: Prisma.InterviewQuestionWhereUniqueInput | Prisma.InterviewQuestionWhereUniqueInput[]
   disconnect?: Prisma.InterviewQuestionWhereUniqueInput | Prisma.InterviewQuestionWhereUniqueInput[]
   delete?: Prisma.InterviewQuestionWhereUniqueInput | Prisma.InterviewQuestionWhereUniqueInput[]
   connect?: Prisma.InterviewQuestionWhereUniqueInput | Prisma.InterviewQuestionWhereUniqueInput[]
-  update?: Prisma.InterviewQuestionUpdateWithWhereUniqueWithoutUserInput | Prisma.InterviewQuestionUpdateWithWhereUniqueWithoutUserInput[]
-  updateMany?: Prisma.InterviewQuestionUpdateManyWithWhereWithoutUserInput | Prisma.InterviewQuestionUpdateManyWithWhereWithoutUserInput[]
+  update?: Prisma.InterviewQuestionUpdateWithWhereUniqueWithoutPrepInput | Prisma.InterviewQuestionUpdateWithWhereUniqueWithoutPrepInput[]
+  updateMany?: Prisma.InterviewQuestionUpdateManyWithWhereWithoutPrepInput | Prisma.InterviewQuestionUpdateManyWithWhereWithoutPrepInput[]
   deleteMany?: Prisma.InterviewQuestionScalarWhereInput | Prisma.InterviewQuestionScalarWhereInput[]
 }
 
-export type InterviewQuestionUncheckedUpdateManyWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.InterviewQuestionCreateWithoutUserInput, Prisma.InterviewQuestionUncheckedCreateWithoutUserInput> | Prisma.InterviewQuestionCreateWithoutUserInput[] | Prisma.InterviewQuestionUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.InterviewQuestionCreateOrConnectWithoutUserInput | Prisma.InterviewQuestionCreateOrConnectWithoutUserInput[]
-  upsert?: Prisma.InterviewQuestionUpsertWithWhereUniqueWithoutUserInput | Prisma.InterviewQuestionUpsertWithWhereUniqueWithoutUserInput[]
-  createMany?: Prisma.InterviewQuestionCreateManyUserInputEnvelope
+export type InterviewQuestionUncheckedUpdateManyWithoutPrepNestedInput = {
+  create?: Prisma.XOR<Prisma.InterviewQuestionCreateWithoutPrepInput, Prisma.InterviewQuestionUncheckedCreateWithoutPrepInput> | Prisma.InterviewQuestionCreateWithoutPrepInput[] | Prisma.InterviewQuestionUncheckedCreateWithoutPrepInput[]
+  connectOrCreate?: Prisma.InterviewQuestionCreateOrConnectWithoutPrepInput | Prisma.InterviewQuestionCreateOrConnectWithoutPrepInput[]
+  upsert?: Prisma.InterviewQuestionUpsertWithWhereUniqueWithoutPrepInput | Prisma.InterviewQuestionUpsertWithWhereUniqueWithoutPrepInput[]
+  createMany?: Prisma.InterviewQuestionCreateManyPrepInputEnvelope
   set?: Prisma.InterviewQuestionWhereUniqueInput | Prisma.InterviewQuestionWhereUniqueInput[]
   disconnect?: Prisma.InterviewQuestionWhereUniqueInput | Prisma.InterviewQuestionWhereUniqueInput[]
   delete?: Prisma.InterviewQuestionWhereUniqueInput | Prisma.InterviewQuestionWhereUniqueInput[]
   connect?: Prisma.InterviewQuestionWhereUniqueInput | Prisma.InterviewQuestionWhereUniqueInput[]
-  update?: Prisma.InterviewQuestionUpdateWithWhereUniqueWithoutUserInput | Prisma.InterviewQuestionUpdateWithWhereUniqueWithoutUserInput[]
-  updateMany?: Prisma.InterviewQuestionUpdateManyWithWhereWithoutUserInput | Prisma.InterviewQuestionUpdateManyWithWhereWithoutUserInput[]
+  update?: Prisma.InterviewQuestionUpdateWithWhereUniqueWithoutPrepInput | Prisma.InterviewQuestionUpdateWithWhereUniqueWithoutPrepInput[]
+  updateMany?: Prisma.InterviewQuestionUpdateManyWithWhereWithoutPrepInput | Prisma.InterviewQuestionUpdateManyWithWhereWithoutPrepInput[]
   deleteMany?: Prisma.InterviewQuestionScalarWhereInput | Prisma.InterviewQuestionScalarWhereInput[]
-}
-
-export type InterviewQuestionCreateNestedManyWithoutCompanyInput = {
-  create?: Prisma.XOR<Prisma.InterviewQuestionCreateWithoutCompanyInput, Prisma.InterviewQuestionUncheckedCreateWithoutCompanyInput> | Prisma.InterviewQuestionCreateWithoutCompanyInput[] | Prisma.InterviewQuestionUncheckedCreateWithoutCompanyInput[]
-  connectOrCreate?: Prisma.InterviewQuestionCreateOrConnectWithoutCompanyInput | Prisma.InterviewQuestionCreateOrConnectWithoutCompanyInput[]
-  createMany?: Prisma.InterviewQuestionCreateManyCompanyInputEnvelope
-  connect?: Prisma.InterviewQuestionWhereUniqueInput | Prisma.InterviewQuestionWhereUniqueInput[]
-}
-
-export type InterviewQuestionUncheckedCreateNestedManyWithoutCompanyInput = {
-  create?: Prisma.XOR<Prisma.InterviewQuestionCreateWithoutCompanyInput, Prisma.InterviewQuestionUncheckedCreateWithoutCompanyInput> | Prisma.InterviewQuestionCreateWithoutCompanyInput[] | Prisma.InterviewQuestionUncheckedCreateWithoutCompanyInput[]
-  connectOrCreate?: Prisma.InterviewQuestionCreateOrConnectWithoutCompanyInput | Prisma.InterviewQuestionCreateOrConnectWithoutCompanyInput[]
-  createMany?: Prisma.InterviewQuestionCreateManyCompanyInputEnvelope
-  connect?: Prisma.InterviewQuestionWhereUniqueInput | Prisma.InterviewQuestionWhereUniqueInput[]
-}
-
-export type InterviewQuestionUpdateManyWithoutCompanyNestedInput = {
-  create?: Prisma.XOR<Prisma.InterviewQuestionCreateWithoutCompanyInput, Prisma.InterviewQuestionUncheckedCreateWithoutCompanyInput> | Prisma.InterviewQuestionCreateWithoutCompanyInput[] | Prisma.InterviewQuestionUncheckedCreateWithoutCompanyInput[]
-  connectOrCreate?: Prisma.InterviewQuestionCreateOrConnectWithoutCompanyInput | Prisma.InterviewQuestionCreateOrConnectWithoutCompanyInput[]
-  upsert?: Prisma.InterviewQuestionUpsertWithWhereUniqueWithoutCompanyInput | Prisma.InterviewQuestionUpsertWithWhereUniqueWithoutCompanyInput[]
-  createMany?: Prisma.InterviewQuestionCreateManyCompanyInputEnvelope
-  set?: Prisma.InterviewQuestionWhereUniqueInput | Prisma.InterviewQuestionWhereUniqueInput[]
-  disconnect?: Prisma.InterviewQuestionWhereUniqueInput | Prisma.InterviewQuestionWhereUniqueInput[]
-  delete?: Prisma.InterviewQuestionWhereUniqueInput | Prisma.InterviewQuestionWhereUniqueInput[]
-  connect?: Prisma.InterviewQuestionWhereUniqueInput | Prisma.InterviewQuestionWhereUniqueInput[]
-  update?: Prisma.InterviewQuestionUpdateWithWhereUniqueWithoutCompanyInput | Prisma.InterviewQuestionUpdateWithWhereUniqueWithoutCompanyInput[]
-  updateMany?: Prisma.InterviewQuestionUpdateManyWithWhereWithoutCompanyInput | Prisma.InterviewQuestionUpdateManyWithWhereWithoutCompanyInput[]
-  deleteMany?: Prisma.InterviewQuestionScalarWhereInput | Prisma.InterviewQuestionScalarWhereInput[]
-}
-
-export type InterviewQuestionUncheckedUpdateManyWithoutCompanyNestedInput = {
-  create?: Prisma.XOR<Prisma.InterviewQuestionCreateWithoutCompanyInput, Prisma.InterviewQuestionUncheckedCreateWithoutCompanyInput> | Prisma.InterviewQuestionCreateWithoutCompanyInput[] | Prisma.InterviewQuestionUncheckedCreateWithoutCompanyInput[]
-  connectOrCreate?: Prisma.InterviewQuestionCreateOrConnectWithoutCompanyInput | Prisma.InterviewQuestionCreateOrConnectWithoutCompanyInput[]
-  upsert?: Prisma.InterviewQuestionUpsertWithWhereUniqueWithoutCompanyInput | Prisma.InterviewQuestionUpsertWithWhereUniqueWithoutCompanyInput[]
-  createMany?: Prisma.InterviewQuestionCreateManyCompanyInputEnvelope
-  set?: Prisma.InterviewQuestionWhereUniqueInput | Prisma.InterviewQuestionWhereUniqueInput[]
-  disconnect?: Prisma.InterviewQuestionWhereUniqueInput | Prisma.InterviewQuestionWhereUniqueInput[]
-  delete?: Prisma.InterviewQuestionWhereUniqueInput | Prisma.InterviewQuestionWhereUniqueInput[]
-  connect?: Prisma.InterviewQuestionWhereUniqueInput | Prisma.InterviewQuestionWhereUniqueInput[]
-  update?: Prisma.InterviewQuestionUpdateWithWhereUniqueWithoutCompanyInput | Prisma.InterviewQuestionUpdateWithWhereUniqueWithoutCompanyInput[]
-  updateMany?: Prisma.InterviewQuestionUpdateManyWithWhereWithoutCompanyInput | Prisma.InterviewQuestionUpdateManyWithWhereWithoutCompanyInput[]
-  deleteMany?: Prisma.InterviewQuestionScalarWhereInput | Prisma.InterviewQuestionScalarWhereInput[]
-}
-
-export type InterviewQuestionCreateNestedManyWithoutJdInput = {
-  create?: Prisma.XOR<Prisma.InterviewQuestionCreateWithoutJdInput, Prisma.InterviewQuestionUncheckedCreateWithoutJdInput> | Prisma.InterviewQuestionCreateWithoutJdInput[] | Prisma.InterviewQuestionUncheckedCreateWithoutJdInput[]
-  connectOrCreate?: Prisma.InterviewQuestionCreateOrConnectWithoutJdInput | Prisma.InterviewQuestionCreateOrConnectWithoutJdInput[]
-  createMany?: Prisma.InterviewQuestionCreateManyJdInputEnvelope
-  connect?: Prisma.InterviewQuestionWhereUniqueInput | Prisma.InterviewQuestionWhereUniqueInput[]
-}
-
-export type InterviewQuestionUncheckedCreateNestedManyWithoutJdInput = {
-  create?: Prisma.XOR<Prisma.InterviewQuestionCreateWithoutJdInput, Prisma.InterviewQuestionUncheckedCreateWithoutJdInput> | Prisma.InterviewQuestionCreateWithoutJdInput[] | Prisma.InterviewQuestionUncheckedCreateWithoutJdInput[]
-  connectOrCreate?: Prisma.InterviewQuestionCreateOrConnectWithoutJdInput | Prisma.InterviewQuestionCreateOrConnectWithoutJdInput[]
-  createMany?: Prisma.InterviewQuestionCreateManyJdInputEnvelope
-  connect?: Prisma.InterviewQuestionWhereUniqueInput | Prisma.InterviewQuestionWhereUniqueInput[]
-}
-
-export type InterviewQuestionUpdateManyWithoutJdNestedInput = {
-  create?: Prisma.XOR<Prisma.InterviewQuestionCreateWithoutJdInput, Prisma.InterviewQuestionUncheckedCreateWithoutJdInput> | Prisma.InterviewQuestionCreateWithoutJdInput[] | Prisma.InterviewQuestionUncheckedCreateWithoutJdInput[]
-  connectOrCreate?: Prisma.InterviewQuestionCreateOrConnectWithoutJdInput | Prisma.InterviewQuestionCreateOrConnectWithoutJdInput[]
-  upsert?: Prisma.InterviewQuestionUpsertWithWhereUniqueWithoutJdInput | Prisma.InterviewQuestionUpsertWithWhereUniqueWithoutJdInput[]
-  createMany?: Prisma.InterviewQuestionCreateManyJdInputEnvelope
-  set?: Prisma.InterviewQuestionWhereUniqueInput | Prisma.InterviewQuestionWhereUniqueInput[]
-  disconnect?: Prisma.InterviewQuestionWhereUniqueInput | Prisma.InterviewQuestionWhereUniqueInput[]
-  delete?: Prisma.InterviewQuestionWhereUniqueInput | Prisma.InterviewQuestionWhereUniqueInput[]
-  connect?: Prisma.InterviewQuestionWhereUniqueInput | Prisma.InterviewQuestionWhereUniqueInput[]
-  update?: Prisma.InterviewQuestionUpdateWithWhereUniqueWithoutJdInput | Prisma.InterviewQuestionUpdateWithWhereUniqueWithoutJdInput[]
-  updateMany?: Prisma.InterviewQuestionUpdateManyWithWhereWithoutJdInput | Prisma.InterviewQuestionUpdateManyWithWhereWithoutJdInput[]
-  deleteMany?: Prisma.InterviewQuestionScalarWhereInput | Prisma.InterviewQuestionScalarWhereInput[]
-}
-
-export type InterviewQuestionUncheckedUpdateManyWithoutJdNestedInput = {
-  create?: Prisma.XOR<Prisma.InterviewQuestionCreateWithoutJdInput, Prisma.InterviewQuestionUncheckedCreateWithoutJdInput> | Prisma.InterviewQuestionCreateWithoutJdInput[] | Prisma.InterviewQuestionUncheckedCreateWithoutJdInput[]
-  connectOrCreate?: Prisma.InterviewQuestionCreateOrConnectWithoutJdInput | Prisma.InterviewQuestionCreateOrConnectWithoutJdInput[]
-  upsert?: Prisma.InterviewQuestionUpsertWithWhereUniqueWithoutJdInput | Prisma.InterviewQuestionUpsertWithWhereUniqueWithoutJdInput[]
-  createMany?: Prisma.InterviewQuestionCreateManyJdInputEnvelope
-  set?: Prisma.InterviewQuestionWhereUniqueInput | Prisma.InterviewQuestionWhereUniqueInput[]
-  disconnect?: Prisma.InterviewQuestionWhereUniqueInput | Prisma.InterviewQuestionWhereUniqueInput[]
-  delete?: Prisma.InterviewQuestionWhereUniqueInput | Prisma.InterviewQuestionWhereUniqueInput[]
-  connect?: Prisma.InterviewQuestionWhereUniqueInput | Prisma.InterviewQuestionWhereUniqueInput[]
-  update?: Prisma.InterviewQuestionUpdateWithWhereUniqueWithoutJdInput | Prisma.InterviewQuestionUpdateWithWhereUniqueWithoutJdInput[]
-  updateMany?: Prisma.InterviewQuestionUpdateManyWithWhereWithoutJdInput | Prisma.InterviewQuestionUpdateManyWithWhereWithoutJdInput[]
-  deleteMany?: Prisma.InterviewQuestionScalarWhereInput | Prisma.InterviewQuestionScalarWhereInput[]
-}
-
-export type EnumInterviewQuestionSourceFieldUpdateOperationsInput = {
-  set?: $Enums.InterviewQuestionSource
 }
 
 export type EnumInterviewQuestionCategoryFieldUpdateOperationsInput = {
   set?: $Enums.InterviewQuestionCategory
 }
 
-export type InterviewQuestionCreateWithoutUserInput = {
-  source?: $Enums.InterviewQuestionSource
-  category?: $Enums.InterviewQuestionCategory
-  question: string
-  answer?: string | null
-  difficulty: $Enums.Difficulty
-  whyAsked?: string | null
-  practiced?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  company?: Prisma.InterviewCompanyCreateNestedOneWithoutQuestionsInput
-  jd?: Prisma.JobDescriptionCreateNestedOneWithoutQuestionsInput
+export type InterviewQuestionCreateNestedOneWithoutSessionQuestionsInput = {
+  create?: Prisma.XOR<Prisma.InterviewQuestionCreateWithoutSessionQuestionsInput, Prisma.InterviewQuestionUncheckedCreateWithoutSessionQuestionsInput>
+  connectOrCreate?: Prisma.InterviewQuestionCreateOrConnectWithoutSessionQuestionsInput
+  connect?: Prisma.InterviewQuestionWhereUniqueInput
 }
 
-export type InterviewQuestionUncheckedCreateWithoutUserInput = {
+export type InterviewQuestionUpdateOneRequiredWithoutSessionQuestionsNestedInput = {
+  create?: Prisma.XOR<Prisma.InterviewQuestionCreateWithoutSessionQuestionsInput, Prisma.InterviewQuestionUncheckedCreateWithoutSessionQuestionsInput>
+  connectOrCreate?: Prisma.InterviewQuestionCreateOrConnectWithoutSessionQuestionsInput
+  upsert?: Prisma.InterviewQuestionUpsertWithoutSessionQuestionsInput
+  connect?: Prisma.InterviewQuestionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.InterviewQuestionUpdateToOneWithWhereWithoutSessionQuestionsInput, Prisma.InterviewQuestionUpdateWithoutSessionQuestionsInput>, Prisma.InterviewQuestionUncheckedUpdateWithoutSessionQuestionsInput>
+}
+
+export type InterviewQuestionCreateNestedOneWithoutAnswersInput = {
+  create?: Prisma.XOR<Prisma.InterviewQuestionCreateWithoutAnswersInput, Prisma.InterviewQuestionUncheckedCreateWithoutAnswersInput>
+  connectOrCreate?: Prisma.InterviewQuestionCreateOrConnectWithoutAnswersInput
+  connect?: Prisma.InterviewQuestionWhereUniqueInput
+}
+
+export type InterviewQuestionUpdateOneRequiredWithoutAnswersNestedInput = {
+  create?: Prisma.XOR<Prisma.InterviewQuestionCreateWithoutAnswersInput, Prisma.InterviewQuestionUncheckedCreateWithoutAnswersInput>
+  connectOrCreate?: Prisma.InterviewQuestionCreateOrConnectWithoutAnswersInput
+  upsert?: Prisma.InterviewQuestionUpsertWithoutAnswersInput
+  connect?: Prisma.InterviewQuestionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.InterviewQuestionUpdateToOneWithWhereWithoutAnswersInput, Prisma.InterviewQuestionUpdateWithoutAnswersInput>, Prisma.InterviewQuestionUncheckedUpdateWithoutAnswersInput>
+}
+
+export type InterviewQuestionCreateWithoutPrepInput = {
+  order: number
+  questionText: string
+  category?: $Enums.InterviewQuestionCategory
+  difficulty?: $Enums.Difficulty
+  expectedAnswer?: string | null
+  createdAt?: Date | string
+  answers?: Prisma.InterviewAnswerCreateNestedManyWithoutQuestionInput
+  sessionQuestions?: Prisma.InterviewSessionQuestionCreateNestedManyWithoutQuestionInput
+}
+
+export type InterviewQuestionUncheckedCreateWithoutPrepInput = {
   id?: number
-  companyId?: number | null
-  jdId?: number | null
-  source?: $Enums.InterviewQuestionSource
+  order: number
+  questionText: string
   category?: $Enums.InterviewQuestionCategory
-  question: string
-  answer?: string | null
-  difficulty: $Enums.Difficulty
-  whyAsked?: string | null
-  practiced?: boolean
+  difficulty?: $Enums.Difficulty
+  expectedAnswer?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
+  answers?: Prisma.InterviewAnswerUncheckedCreateNestedManyWithoutQuestionInput
+  sessionQuestions?: Prisma.InterviewSessionQuestionUncheckedCreateNestedManyWithoutQuestionInput
 }
 
-export type InterviewQuestionCreateOrConnectWithoutUserInput = {
+export type InterviewQuestionCreateOrConnectWithoutPrepInput = {
   where: Prisma.InterviewQuestionWhereUniqueInput
-  create: Prisma.XOR<Prisma.InterviewQuestionCreateWithoutUserInput, Prisma.InterviewQuestionUncheckedCreateWithoutUserInput>
+  create: Prisma.XOR<Prisma.InterviewQuestionCreateWithoutPrepInput, Prisma.InterviewQuestionUncheckedCreateWithoutPrepInput>
 }
 
-export type InterviewQuestionCreateManyUserInputEnvelope = {
-  data: Prisma.InterviewQuestionCreateManyUserInput | Prisma.InterviewQuestionCreateManyUserInput[]
+export type InterviewQuestionCreateManyPrepInputEnvelope = {
+  data: Prisma.InterviewQuestionCreateManyPrepInput | Prisma.InterviewQuestionCreateManyPrepInput[]
   skipDuplicates?: boolean
 }
 
-export type InterviewQuestionUpsertWithWhereUniqueWithoutUserInput = {
+export type InterviewQuestionUpsertWithWhereUniqueWithoutPrepInput = {
   where: Prisma.InterviewQuestionWhereUniqueInput
-  update: Prisma.XOR<Prisma.InterviewQuestionUpdateWithoutUserInput, Prisma.InterviewQuestionUncheckedUpdateWithoutUserInput>
-  create: Prisma.XOR<Prisma.InterviewQuestionCreateWithoutUserInput, Prisma.InterviewQuestionUncheckedCreateWithoutUserInput>
+  update: Prisma.XOR<Prisma.InterviewQuestionUpdateWithoutPrepInput, Prisma.InterviewQuestionUncheckedUpdateWithoutPrepInput>
+  create: Prisma.XOR<Prisma.InterviewQuestionCreateWithoutPrepInput, Prisma.InterviewQuestionUncheckedCreateWithoutPrepInput>
 }
 
-export type InterviewQuestionUpdateWithWhereUniqueWithoutUserInput = {
+export type InterviewQuestionUpdateWithWhereUniqueWithoutPrepInput = {
   where: Prisma.InterviewQuestionWhereUniqueInput
-  data: Prisma.XOR<Prisma.InterviewQuestionUpdateWithoutUserInput, Prisma.InterviewQuestionUncheckedUpdateWithoutUserInput>
+  data: Prisma.XOR<Prisma.InterviewQuestionUpdateWithoutPrepInput, Prisma.InterviewQuestionUncheckedUpdateWithoutPrepInput>
 }
 
-export type InterviewQuestionUpdateManyWithWhereWithoutUserInput = {
+export type InterviewQuestionUpdateManyWithWhereWithoutPrepInput = {
   where: Prisma.InterviewQuestionScalarWhereInput
-  data: Prisma.XOR<Prisma.InterviewQuestionUpdateManyMutationInput, Prisma.InterviewQuestionUncheckedUpdateManyWithoutUserInput>
+  data: Prisma.XOR<Prisma.InterviewQuestionUpdateManyMutationInput, Prisma.InterviewQuestionUncheckedUpdateManyWithoutPrepInput>
 }
 
 export type InterviewQuestionScalarWhereInput = {
@@ -757,374 +596,274 @@ export type InterviewQuestionScalarWhereInput = {
   OR?: Prisma.InterviewQuestionScalarWhereInput[]
   NOT?: Prisma.InterviewQuestionScalarWhereInput | Prisma.InterviewQuestionScalarWhereInput[]
   id?: Prisma.IntFilter<"InterviewQuestion"> | number
-  userId?: Prisma.IntFilter<"InterviewQuestion"> | number
-  companyId?: Prisma.IntNullableFilter<"InterviewQuestion"> | number | null
-  jdId?: Prisma.IntNullableFilter<"InterviewQuestion"> | number | null
-  source?: Prisma.EnumInterviewQuestionSourceFilter<"InterviewQuestion"> | $Enums.InterviewQuestionSource
+  prepId?: Prisma.IntFilter<"InterviewQuestion"> | number
+  order?: Prisma.IntFilter<"InterviewQuestion"> | number
+  questionText?: Prisma.StringFilter<"InterviewQuestion"> | string
   category?: Prisma.EnumInterviewQuestionCategoryFilter<"InterviewQuestion"> | $Enums.InterviewQuestionCategory
-  question?: Prisma.StringFilter<"InterviewQuestion"> | string
-  answer?: Prisma.StringNullableFilter<"InterviewQuestion"> | string | null
   difficulty?: Prisma.EnumDifficultyFilter<"InterviewQuestion"> | $Enums.Difficulty
-  whyAsked?: Prisma.StringNullableFilter<"InterviewQuestion"> | string | null
-  practiced?: Prisma.BoolFilter<"InterviewQuestion"> | boolean
+  expectedAnswer?: Prisma.StringNullableFilter<"InterviewQuestion"> | string | null
   createdAt?: Prisma.DateTimeFilter<"InterviewQuestion"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"InterviewQuestion"> | Date | string
 }
 
-export type InterviewQuestionCreateWithoutCompanyInput = {
-  source?: $Enums.InterviewQuestionSource
+export type InterviewQuestionCreateWithoutSessionQuestionsInput = {
+  order: number
+  questionText: string
   category?: $Enums.InterviewQuestionCategory
-  question: string
-  answer?: string | null
-  difficulty: $Enums.Difficulty
-  whyAsked?: string | null
-  practiced?: boolean
+  difficulty?: $Enums.Difficulty
+  expectedAnswer?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutInterviewQuestionsInput
-  jd?: Prisma.JobDescriptionCreateNestedOneWithoutQuestionsInput
+  prep: Prisma.InterviewPrepCreateNestedOneWithoutQuestionsInput
+  answers?: Prisma.InterviewAnswerCreateNestedManyWithoutQuestionInput
 }
 
-export type InterviewQuestionUncheckedCreateWithoutCompanyInput = {
+export type InterviewQuestionUncheckedCreateWithoutSessionQuestionsInput = {
   id?: number
-  userId: number
-  jdId?: number | null
-  source?: $Enums.InterviewQuestionSource
+  prepId: number
+  order: number
+  questionText: string
   category?: $Enums.InterviewQuestionCategory
-  question: string
-  answer?: string | null
-  difficulty: $Enums.Difficulty
-  whyAsked?: string | null
-  practiced?: boolean
+  difficulty?: $Enums.Difficulty
+  expectedAnswer?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
+  answers?: Prisma.InterviewAnswerUncheckedCreateNestedManyWithoutQuestionInput
 }
 
-export type InterviewQuestionCreateOrConnectWithoutCompanyInput = {
+export type InterviewQuestionCreateOrConnectWithoutSessionQuestionsInput = {
   where: Prisma.InterviewQuestionWhereUniqueInput
-  create: Prisma.XOR<Prisma.InterviewQuestionCreateWithoutCompanyInput, Prisma.InterviewQuestionUncheckedCreateWithoutCompanyInput>
+  create: Prisma.XOR<Prisma.InterviewQuestionCreateWithoutSessionQuestionsInput, Prisma.InterviewQuestionUncheckedCreateWithoutSessionQuestionsInput>
 }
 
-export type InterviewQuestionCreateManyCompanyInputEnvelope = {
-  data: Prisma.InterviewQuestionCreateManyCompanyInput | Prisma.InterviewQuestionCreateManyCompanyInput[]
-  skipDuplicates?: boolean
+export type InterviewQuestionUpsertWithoutSessionQuestionsInput = {
+  update: Prisma.XOR<Prisma.InterviewQuestionUpdateWithoutSessionQuestionsInput, Prisma.InterviewQuestionUncheckedUpdateWithoutSessionQuestionsInput>
+  create: Prisma.XOR<Prisma.InterviewQuestionCreateWithoutSessionQuestionsInput, Prisma.InterviewQuestionUncheckedCreateWithoutSessionQuestionsInput>
+  where?: Prisma.InterviewQuestionWhereInput
 }
 
-export type InterviewQuestionUpsertWithWhereUniqueWithoutCompanyInput = {
-  where: Prisma.InterviewQuestionWhereUniqueInput
-  update: Prisma.XOR<Prisma.InterviewQuestionUpdateWithoutCompanyInput, Prisma.InterviewQuestionUncheckedUpdateWithoutCompanyInput>
-  create: Prisma.XOR<Prisma.InterviewQuestionCreateWithoutCompanyInput, Prisma.InterviewQuestionUncheckedCreateWithoutCompanyInput>
+export type InterviewQuestionUpdateToOneWithWhereWithoutSessionQuestionsInput = {
+  where?: Prisma.InterviewQuestionWhereInput
+  data: Prisma.XOR<Prisma.InterviewQuestionUpdateWithoutSessionQuestionsInput, Prisma.InterviewQuestionUncheckedUpdateWithoutSessionQuestionsInput>
 }
 
-export type InterviewQuestionUpdateWithWhereUniqueWithoutCompanyInput = {
-  where: Prisma.InterviewQuestionWhereUniqueInput
-  data: Prisma.XOR<Prisma.InterviewQuestionUpdateWithoutCompanyInput, Prisma.InterviewQuestionUncheckedUpdateWithoutCompanyInput>
+export type InterviewQuestionUpdateWithoutSessionQuestionsInput = {
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.EnumInterviewQuestionCategoryFieldUpdateOperationsInput | $Enums.InterviewQuestionCategory
+  difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  expectedAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  prep?: Prisma.InterviewPrepUpdateOneRequiredWithoutQuestionsNestedInput
+  answers?: Prisma.InterviewAnswerUpdateManyWithoutQuestionNestedInput
 }
 
-export type InterviewQuestionUpdateManyWithWhereWithoutCompanyInput = {
-  where: Prisma.InterviewQuestionScalarWhereInput
-  data: Prisma.XOR<Prisma.InterviewQuestionUpdateManyMutationInput, Prisma.InterviewQuestionUncheckedUpdateManyWithoutCompanyInput>
+export type InterviewQuestionUncheckedUpdateWithoutSessionQuestionsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  prepId?: Prisma.IntFieldUpdateOperationsInput | number
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.EnumInterviewQuestionCategoryFieldUpdateOperationsInput | $Enums.InterviewQuestionCategory
+  difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  expectedAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  answers?: Prisma.InterviewAnswerUncheckedUpdateManyWithoutQuestionNestedInput
 }
 
-export type InterviewQuestionCreateWithoutJdInput = {
-  source?: $Enums.InterviewQuestionSource
+export type InterviewQuestionCreateWithoutAnswersInput = {
+  order: number
+  questionText: string
   category?: $Enums.InterviewQuestionCategory
-  question: string
-  answer?: string | null
-  difficulty: $Enums.Difficulty
-  whyAsked?: string | null
-  practiced?: boolean
+  difficulty?: $Enums.Difficulty
+  expectedAnswer?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutInterviewQuestionsInput
-  company?: Prisma.InterviewCompanyCreateNestedOneWithoutQuestionsInput
+  prep: Prisma.InterviewPrepCreateNestedOneWithoutQuestionsInput
+  sessionQuestions?: Prisma.InterviewSessionQuestionCreateNestedManyWithoutQuestionInput
 }
 
-export type InterviewQuestionUncheckedCreateWithoutJdInput = {
+export type InterviewQuestionUncheckedCreateWithoutAnswersInput = {
   id?: number
-  userId: number
-  companyId?: number | null
-  source?: $Enums.InterviewQuestionSource
+  prepId: number
+  order: number
+  questionText: string
   category?: $Enums.InterviewQuestionCategory
-  question: string
-  answer?: string | null
-  difficulty: $Enums.Difficulty
-  whyAsked?: string | null
-  practiced?: boolean
+  difficulty?: $Enums.Difficulty
+  expectedAnswer?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
+  sessionQuestions?: Prisma.InterviewSessionQuestionUncheckedCreateNestedManyWithoutQuestionInput
 }
 
-export type InterviewQuestionCreateOrConnectWithoutJdInput = {
+export type InterviewQuestionCreateOrConnectWithoutAnswersInput = {
   where: Prisma.InterviewQuestionWhereUniqueInput
-  create: Prisma.XOR<Prisma.InterviewQuestionCreateWithoutJdInput, Prisma.InterviewQuestionUncheckedCreateWithoutJdInput>
+  create: Prisma.XOR<Prisma.InterviewQuestionCreateWithoutAnswersInput, Prisma.InterviewQuestionUncheckedCreateWithoutAnswersInput>
 }
 
-export type InterviewQuestionCreateManyJdInputEnvelope = {
-  data: Prisma.InterviewQuestionCreateManyJdInput | Prisma.InterviewQuestionCreateManyJdInput[]
-  skipDuplicates?: boolean
+export type InterviewQuestionUpsertWithoutAnswersInput = {
+  update: Prisma.XOR<Prisma.InterviewQuestionUpdateWithoutAnswersInput, Prisma.InterviewQuestionUncheckedUpdateWithoutAnswersInput>
+  create: Prisma.XOR<Prisma.InterviewQuestionCreateWithoutAnswersInput, Prisma.InterviewQuestionUncheckedCreateWithoutAnswersInput>
+  where?: Prisma.InterviewQuestionWhereInput
 }
 
-export type InterviewQuestionUpsertWithWhereUniqueWithoutJdInput = {
-  where: Prisma.InterviewQuestionWhereUniqueInput
-  update: Prisma.XOR<Prisma.InterviewQuestionUpdateWithoutJdInput, Prisma.InterviewQuestionUncheckedUpdateWithoutJdInput>
-  create: Prisma.XOR<Prisma.InterviewQuestionCreateWithoutJdInput, Prisma.InterviewQuestionUncheckedCreateWithoutJdInput>
+export type InterviewQuestionUpdateToOneWithWhereWithoutAnswersInput = {
+  where?: Prisma.InterviewQuestionWhereInput
+  data: Prisma.XOR<Prisma.InterviewQuestionUpdateWithoutAnswersInput, Prisma.InterviewQuestionUncheckedUpdateWithoutAnswersInput>
 }
 
-export type InterviewQuestionUpdateWithWhereUniqueWithoutJdInput = {
-  where: Prisma.InterviewQuestionWhereUniqueInput
-  data: Prisma.XOR<Prisma.InterviewQuestionUpdateWithoutJdInput, Prisma.InterviewQuestionUncheckedUpdateWithoutJdInput>
+export type InterviewQuestionUpdateWithoutAnswersInput = {
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.EnumInterviewQuestionCategoryFieldUpdateOperationsInput | $Enums.InterviewQuestionCategory
+  difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  expectedAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  prep?: Prisma.InterviewPrepUpdateOneRequiredWithoutQuestionsNestedInput
+  sessionQuestions?: Prisma.InterviewSessionQuestionUpdateManyWithoutQuestionNestedInput
 }
 
-export type InterviewQuestionUpdateManyWithWhereWithoutJdInput = {
-  where: Prisma.InterviewQuestionScalarWhereInput
-  data: Prisma.XOR<Prisma.InterviewQuestionUpdateManyMutationInput, Prisma.InterviewQuestionUncheckedUpdateManyWithoutJdInput>
+export type InterviewQuestionUncheckedUpdateWithoutAnswersInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  prepId?: Prisma.IntFieldUpdateOperationsInput | number
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.EnumInterviewQuestionCategoryFieldUpdateOperationsInput | $Enums.InterviewQuestionCategory
+  difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+  expectedAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessionQuestions?: Prisma.InterviewSessionQuestionUncheckedUpdateManyWithoutQuestionNestedInput
 }
 
-export type InterviewQuestionCreateManyUserInput = {
+export type InterviewQuestionCreateManyPrepInput = {
   id?: number
-  companyId?: number | null
-  jdId?: number | null
-  source?: $Enums.InterviewQuestionSource
+  order: number
+  questionText: string
   category?: $Enums.InterviewQuestionCategory
-  question: string
-  answer?: string | null
-  difficulty: $Enums.Difficulty
-  whyAsked?: string | null
-  practiced?: boolean
+  difficulty?: $Enums.Difficulty
+  expectedAnswer?: string | null
   createdAt?: Date | string
-  updatedAt?: Date | string
 }
 
-export type InterviewQuestionUpdateWithoutUserInput = {
-  source?: Prisma.EnumInterviewQuestionSourceFieldUpdateOperationsInput | $Enums.InterviewQuestionSource
+export type InterviewQuestionUpdateWithoutPrepInput = {
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.EnumInterviewQuestionCategoryFieldUpdateOperationsInput | $Enums.InterviewQuestionCategory
-  question?: Prisma.StringFieldUpdateOperationsInput | string
-  answer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
-  whyAsked?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  practiced?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  expectedAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  company?: Prisma.InterviewCompanyUpdateOneWithoutQuestionsNestedInput
-  jd?: Prisma.JobDescriptionUpdateOneWithoutQuestionsNestedInput
+  answers?: Prisma.InterviewAnswerUpdateManyWithoutQuestionNestedInput
+  sessionQuestions?: Prisma.InterviewSessionQuestionUpdateManyWithoutQuestionNestedInput
 }
 
-export type InterviewQuestionUncheckedUpdateWithoutUserInput = {
+export type InterviewQuestionUncheckedUpdateWithoutPrepInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  companyId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  jdId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.EnumInterviewQuestionSourceFieldUpdateOperationsInput | $Enums.InterviewQuestionSource
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.EnumInterviewQuestionCategoryFieldUpdateOperationsInput | $Enums.InterviewQuestionCategory
-  question?: Prisma.StringFieldUpdateOperationsInput | string
-  answer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
-  whyAsked?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  practiced?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  expectedAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  answers?: Prisma.InterviewAnswerUncheckedUpdateManyWithoutQuestionNestedInput
+  sessionQuestions?: Prisma.InterviewSessionQuestionUncheckedUpdateManyWithoutQuestionNestedInput
 }
 
-export type InterviewQuestionUncheckedUpdateManyWithoutUserInput = {
+export type InterviewQuestionUncheckedUpdateManyWithoutPrepInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  companyId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  jdId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.EnumInterviewQuestionSourceFieldUpdateOperationsInput | $Enums.InterviewQuestionSource
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  questionText?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.EnumInterviewQuestionCategoryFieldUpdateOperationsInput | $Enums.InterviewQuestionCategory
-  question?: Prisma.StringFieldUpdateOperationsInput | string
-  answer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
-  whyAsked?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  practiced?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  expectedAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type InterviewQuestionCreateManyCompanyInput = {
-  id?: number
-  userId: number
-  jdId?: number | null
-  source?: $Enums.InterviewQuestionSource
-  category?: $Enums.InterviewQuestionCategory
-  question: string
-  answer?: string | null
-  difficulty: $Enums.Difficulty
-  whyAsked?: string | null
-  practiced?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
+
+/**
+ * Count Type InterviewQuestionCountOutputType
+ */
+
+export type InterviewQuestionCountOutputType = {
+  answers: number
+  sessionQuestions: number
 }
 
-export type InterviewQuestionUpdateWithoutCompanyInput = {
-  source?: Prisma.EnumInterviewQuestionSourceFieldUpdateOperationsInput | $Enums.InterviewQuestionSource
-  category?: Prisma.EnumInterviewQuestionCategoryFieldUpdateOperationsInput | $Enums.InterviewQuestionCategory
-  question?: Prisma.StringFieldUpdateOperationsInput | string
-  answer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
-  whyAsked?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  practiced?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutInterviewQuestionsNestedInput
-  jd?: Prisma.JobDescriptionUpdateOneWithoutQuestionsNestedInput
+export type InterviewQuestionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  answers?: boolean | InterviewQuestionCountOutputTypeCountAnswersArgs
+  sessionQuestions?: boolean | InterviewQuestionCountOutputTypeCountSessionQuestionsArgs
 }
 
-export type InterviewQuestionUncheckedUpdateWithoutCompanyInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
-  jdId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.EnumInterviewQuestionSourceFieldUpdateOperationsInput | $Enums.InterviewQuestionSource
-  category?: Prisma.EnumInterviewQuestionCategoryFieldUpdateOperationsInput | $Enums.InterviewQuestionCategory
-  question?: Prisma.StringFieldUpdateOperationsInput | string
-  answer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
-  whyAsked?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  practiced?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+/**
+ * InterviewQuestionCountOutputType without action
+ */
+export type InterviewQuestionCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the InterviewQuestionCountOutputType
+   */
+  select?: Prisma.InterviewQuestionCountOutputTypeSelect<ExtArgs> | null
 }
 
-export type InterviewQuestionUncheckedUpdateManyWithoutCompanyInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
-  jdId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.EnumInterviewQuestionSourceFieldUpdateOperationsInput | $Enums.InterviewQuestionSource
-  category?: Prisma.EnumInterviewQuestionCategoryFieldUpdateOperationsInput | $Enums.InterviewQuestionCategory
-  question?: Prisma.StringFieldUpdateOperationsInput | string
-  answer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
-  whyAsked?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  practiced?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+/**
+ * InterviewQuestionCountOutputType without action
+ */
+export type InterviewQuestionCountOutputTypeCountAnswersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.InterviewAnswerWhereInput
 }
 
-export type InterviewQuestionCreateManyJdInput = {
-  id?: number
-  userId: number
-  companyId?: number | null
-  source?: $Enums.InterviewQuestionSource
-  category?: $Enums.InterviewQuestionCategory
-  question: string
-  answer?: string | null
-  difficulty: $Enums.Difficulty
-  whyAsked?: string | null
-  practiced?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
+/**
+ * InterviewQuestionCountOutputType without action
+ */
+export type InterviewQuestionCountOutputTypeCountSessionQuestionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.InterviewSessionQuestionWhereInput
 }
-
-export type InterviewQuestionUpdateWithoutJdInput = {
-  source?: Prisma.EnumInterviewQuestionSourceFieldUpdateOperationsInput | $Enums.InterviewQuestionSource
-  category?: Prisma.EnumInterviewQuestionCategoryFieldUpdateOperationsInput | $Enums.InterviewQuestionCategory
-  question?: Prisma.StringFieldUpdateOperationsInput | string
-  answer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
-  whyAsked?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  practiced?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutInterviewQuestionsNestedInput
-  company?: Prisma.InterviewCompanyUpdateOneWithoutQuestionsNestedInput
-}
-
-export type InterviewQuestionUncheckedUpdateWithoutJdInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
-  companyId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.EnumInterviewQuestionSourceFieldUpdateOperationsInput | $Enums.InterviewQuestionSource
-  category?: Prisma.EnumInterviewQuestionCategoryFieldUpdateOperationsInput | $Enums.InterviewQuestionCategory
-  question?: Prisma.StringFieldUpdateOperationsInput | string
-  answer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
-  whyAsked?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  practiced?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type InterviewQuestionUncheckedUpdateManyWithoutJdInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
-  companyId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  source?: Prisma.EnumInterviewQuestionSourceFieldUpdateOperationsInput | $Enums.InterviewQuestionSource
-  category?: Prisma.EnumInterviewQuestionCategoryFieldUpdateOperationsInput | $Enums.InterviewQuestionCategory
-  question?: Prisma.StringFieldUpdateOperationsInput | string
-  answer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  difficulty?: Prisma.EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
-  whyAsked?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  practiced?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
 
 
 export type InterviewQuestionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
-  companyId?: boolean
-  jdId?: boolean
-  source?: boolean
+  prepId?: boolean
+  order?: boolean
+  questionText?: boolean
   category?: boolean
-  question?: boolean
-  answer?: boolean
   difficulty?: boolean
-  whyAsked?: boolean
-  practiced?: boolean
+  expectedAnswer?: boolean
   createdAt?: boolean
-  updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  company?: boolean | Prisma.InterviewQuestion$companyArgs<ExtArgs>
-  jd?: boolean | Prisma.InterviewQuestion$jdArgs<ExtArgs>
+  prep?: boolean | Prisma.InterviewPrepDefaultArgs<ExtArgs>
+  answers?: boolean | Prisma.InterviewQuestion$answersArgs<ExtArgs>
+  sessionQuestions?: boolean | Prisma.InterviewQuestion$sessionQuestionsArgs<ExtArgs>
+  _count?: boolean | Prisma.InterviewQuestionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["interviewQuestion"]>
 
 
 
 export type InterviewQuestionSelectScalar = {
   id?: boolean
-  userId?: boolean
-  companyId?: boolean
-  jdId?: boolean
-  source?: boolean
+  prepId?: boolean
+  order?: boolean
+  questionText?: boolean
   category?: boolean
-  question?: boolean
-  answer?: boolean
   difficulty?: boolean
-  whyAsked?: boolean
-  practiced?: boolean
+  expectedAnswer?: boolean
   createdAt?: boolean
-  updatedAt?: boolean
 }
 
-export type InterviewQuestionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "companyId" | "jdId" | "source" | "category" | "question" | "answer" | "difficulty" | "whyAsked" | "practiced" | "createdAt" | "updatedAt", ExtArgs["result"]["interviewQuestion"]>
+export type InterviewQuestionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "prepId" | "order" | "questionText" | "category" | "difficulty" | "expectedAnswer" | "createdAt", ExtArgs["result"]["interviewQuestion"]>
 export type InterviewQuestionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  company?: boolean | Prisma.InterviewQuestion$companyArgs<ExtArgs>
-  jd?: boolean | Prisma.InterviewQuestion$jdArgs<ExtArgs>
+  prep?: boolean | Prisma.InterviewPrepDefaultArgs<ExtArgs>
+  answers?: boolean | Prisma.InterviewQuestion$answersArgs<ExtArgs>
+  sessionQuestions?: boolean | Prisma.InterviewQuestion$sessionQuestionsArgs<ExtArgs>
+  _count?: boolean | Prisma.InterviewQuestionCountOutputTypeDefaultArgs<ExtArgs>
 }
 
 export type $InterviewQuestionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "InterviewQuestion"
   objects: {
-    user: Prisma.$UserPayload<ExtArgs>
-    company: Prisma.$InterviewCompanyPayload<ExtArgs> | null
-    jd: Prisma.$JobDescriptionPayload<ExtArgs> | null
+    prep: Prisma.$InterviewPrepPayload<ExtArgs>
+    answers: Prisma.$InterviewAnswerPayload<ExtArgs>[]
+    sessionQuestions: Prisma.$InterviewSessionQuestionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    userId: number
-    companyId: number | null
-    jdId: number | null
-    source: $Enums.InterviewQuestionSource
+    prepId: number
+    order: number
+    questionText: string
     category: $Enums.InterviewQuestionCategory
-    question: string
-    answer: string | null
     difficulty: $Enums.Difficulty
-    whyAsked: string | null
-    practiced: boolean
+    expectedAnswer: string | null
     createdAt: Date
-    updatedAt: Date
   }, ExtArgs["result"]["interviewQuestion"]>
   composites: {}
 }
@@ -1465,9 +1204,9 @@ readonly fields: InterviewQuestionFieldRefs;
  */
 export interface Prisma__InterviewQuestionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  company<T extends Prisma.InterviewQuestion$companyArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InterviewQuestion$companyArgs<ExtArgs>>): Prisma.Prisma__InterviewCompanyClient<runtime.Types.Result.GetResult<Prisma.$InterviewCompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  jd<T extends Prisma.InterviewQuestion$jdArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InterviewQuestion$jdArgs<ExtArgs>>): Prisma.Prisma__JobDescriptionClient<runtime.Types.Result.GetResult<Prisma.$JobDescriptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  prep<T extends Prisma.InterviewPrepDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InterviewPrepDefaultArgs<ExtArgs>>): Prisma.Prisma__InterviewPrepClient<runtime.Types.Result.GetResult<Prisma.$InterviewPrepPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  answers<T extends Prisma.InterviewQuestion$answersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InterviewQuestion$answersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InterviewAnswerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  sessionQuestions<T extends Prisma.InterviewQuestion$sessionQuestionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InterviewQuestion$sessionQuestionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InterviewSessionQuestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1498,18 +1237,13 @@ export interface Prisma__InterviewQuestionClient<T, Null = never, ExtArgs extend
  */
 export interface InterviewQuestionFieldRefs {
   readonly id: Prisma.FieldRef<"InterviewQuestion", 'Int'>
-  readonly userId: Prisma.FieldRef<"InterviewQuestion", 'Int'>
-  readonly companyId: Prisma.FieldRef<"InterviewQuestion", 'Int'>
-  readonly jdId: Prisma.FieldRef<"InterviewQuestion", 'Int'>
-  readonly source: Prisma.FieldRef<"InterviewQuestion", 'InterviewQuestionSource'>
+  readonly prepId: Prisma.FieldRef<"InterviewQuestion", 'Int'>
+  readonly order: Prisma.FieldRef<"InterviewQuestion", 'Int'>
+  readonly questionText: Prisma.FieldRef<"InterviewQuestion", 'String'>
   readonly category: Prisma.FieldRef<"InterviewQuestion", 'InterviewQuestionCategory'>
-  readonly question: Prisma.FieldRef<"InterviewQuestion", 'String'>
-  readonly answer: Prisma.FieldRef<"InterviewQuestion", 'String'>
   readonly difficulty: Prisma.FieldRef<"InterviewQuestion", 'Difficulty'>
-  readonly whyAsked: Prisma.FieldRef<"InterviewQuestion", 'String'>
-  readonly practiced: Prisma.FieldRef<"InterviewQuestion", 'Boolean'>
+  readonly expectedAnswer: Prisma.FieldRef<"InterviewQuestion", 'String'>
   readonly createdAt: Prisma.FieldRef<"InterviewQuestion", 'DateTime'>
-  readonly updatedAt: Prisma.FieldRef<"InterviewQuestion", 'DateTime'>
 }
     
 
@@ -1858,41 +1592,51 @@ export type InterviewQuestionDeleteManyArgs<ExtArgs extends runtime.Types.Extens
 }
 
 /**
- * InterviewQuestion.company
+ * InterviewQuestion.answers
  */
-export type InterviewQuestion$companyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type InterviewQuestion$answersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the InterviewCompany
+   * Select specific fields to fetch from the InterviewAnswer
    */
-  select?: Prisma.InterviewCompanySelect<ExtArgs> | null
+  select?: Prisma.InterviewAnswerSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the InterviewCompany
+   * Omit specific fields from the InterviewAnswer
    */
-  omit?: Prisma.InterviewCompanyOmit<ExtArgs> | null
+  omit?: Prisma.InterviewAnswerOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.InterviewCompanyInclude<ExtArgs> | null
-  where?: Prisma.InterviewCompanyWhereInput
+  include?: Prisma.InterviewAnswerInclude<ExtArgs> | null
+  where?: Prisma.InterviewAnswerWhereInput
+  orderBy?: Prisma.InterviewAnswerOrderByWithRelationInput | Prisma.InterviewAnswerOrderByWithRelationInput[]
+  cursor?: Prisma.InterviewAnswerWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.InterviewAnswerScalarFieldEnum | Prisma.InterviewAnswerScalarFieldEnum[]
 }
 
 /**
- * InterviewQuestion.jd
+ * InterviewQuestion.sessionQuestions
  */
-export type InterviewQuestion$jdArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type InterviewQuestion$sessionQuestionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the JobDescription
+   * Select specific fields to fetch from the InterviewSessionQuestion
    */
-  select?: Prisma.JobDescriptionSelect<ExtArgs> | null
+  select?: Prisma.InterviewSessionQuestionSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the JobDescription
+   * Omit specific fields from the InterviewSessionQuestion
    */
-  omit?: Prisma.JobDescriptionOmit<ExtArgs> | null
+  omit?: Prisma.InterviewSessionQuestionOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.JobDescriptionInclude<ExtArgs> | null
-  where?: Prisma.JobDescriptionWhereInput
+  include?: Prisma.InterviewSessionQuestionInclude<ExtArgs> | null
+  where?: Prisma.InterviewSessionQuestionWhereInput
+  orderBy?: Prisma.InterviewSessionQuestionOrderByWithRelationInput | Prisma.InterviewSessionQuestionOrderByWithRelationInput[]
+  cursor?: Prisma.InterviewSessionQuestionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.InterviewSessionQuestionScalarFieldEnum | Prisma.InterviewSessionQuestionScalarFieldEnum[]
 }
 
 /**

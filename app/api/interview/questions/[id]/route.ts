@@ -13,7 +13,7 @@ export async function PUT(
   const id = parseInt(params.id, 10)
   if (isNaN(id)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
 
-  const existing = await prisma.interviewQuestion.findFirst({ where: { id, userId: user.userId } })
+  const existing = await prisma.interviewBankQuestion.findFirst({ where: { id, userId: user.userId } })
   if (!existing) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
   let body: unknown
@@ -24,7 +24,7 @@ export async function PUT(
   const result = updateQuestionSchema.safeParse(body)
   if (!result.success) return NextResponse.json({ error: 'Validation failed' }, { status: 400 })
 
-  const question = await prisma.interviewQuestion.update({ where: { id }, data: result.data })
+  const question = await prisma.interviewBankQuestion.update({ where: { id }, data: result.data })
   return NextResponse.json({ question })
 }
 
@@ -36,9 +36,9 @@ export async function DELETE(
   const id = parseInt(params.id, 10)
   if (isNaN(id)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
 
-  const existing = await prisma.interviewQuestion.findFirst({ where: { id, userId: user.userId } })
+  const existing = await prisma.interviewBankQuestion.findFirst({ where: { id, userId: user.userId } })
   if (!existing) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
-  await prisma.interviewQuestion.delete({ where: { id } })
+  await prisma.interviewBankQuestion.delete({ where: { id } })
   return NextResponse.json({ success: true })
 }

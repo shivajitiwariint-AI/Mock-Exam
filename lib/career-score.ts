@@ -3,14 +3,14 @@ import { prisma } from '@/lib/prisma'
 export async function calculateCareerScore(userId: number): Promise<number> {
   const [experienceCount, questionStats] = await Promise.all([
     prisma.interviewExperience.count({ where: { userId } }),
-    prisma.interviewQuestion.aggregate({
+    prisma.interviewBankQuestion.aggregate({
       where: { userId },
       _count: { id: true },
     }),
   ])
 
   const totalQuestions = questionStats._count.id
-  const practicedCount = await prisma.interviewQuestion.count({
+  const practicedCount = await prisma.interviewBankQuestion.count({
     where: { userId, practiced: true },
   })
 

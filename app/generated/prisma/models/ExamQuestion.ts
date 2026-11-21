@@ -30,30 +30,35 @@ export type ExamQuestionAvgAggregateOutputType = {
   examId: number | null
   questionId: number | null
   order: number | null
+  marks: number | null
 }
 
 export type ExamQuestionSumAggregateOutputType = {
   examId: number | null
   questionId: number | null
   order: number | null
+  marks: number | null
 }
 
 export type ExamQuestionMinAggregateOutputType = {
   examId: number | null
   questionId: number | null
   order: number | null
+  marks: number | null
 }
 
 export type ExamQuestionMaxAggregateOutputType = {
   examId: number | null
   questionId: number | null
   order: number | null
+  marks: number | null
 }
 
 export type ExamQuestionCountAggregateOutputType = {
   examId: number
   questionId: number
   order: number
+  marks: number
   _all: number
 }
 
@@ -62,30 +67,35 @@ export type ExamQuestionAvgAggregateInputType = {
   examId?: true
   questionId?: true
   order?: true
+  marks?: true
 }
 
 export type ExamQuestionSumAggregateInputType = {
   examId?: true
   questionId?: true
   order?: true
+  marks?: true
 }
 
 export type ExamQuestionMinAggregateInputType = {
   examId?: true
   questionId?: true
   order?: true
+  marks?: true
 }
 
 export type ExamQuestionMaxAggregateInputType = {
   examId?: true
   questionId?: true
   order?: true
+  marks?: true
 }
 
 export type ExamQuestionCountAggregateInputType = {
   examId?: true
   questionId?: true
   order?: true
+  marks?: true
   _all?: true
 }
 
@@ -179,6 +189,7 @@ export type ExamQuestionGroupByOutputType = {
   examId: number
   questionId: number
   order: number
+  marks: number
   _count: ExamQuestionCountAggregateOutputType | null
   _avg: ExamQuestionAvgAggregateOutputType | null
   _sum: ExamQuestionSumAggregateOutputType | null
@@ -208,6 +219,7 @@ export type ExamQuestionWhereInput = {
   examId?: Prisma.IntFilter<"ExamQuestion"> | number
   questionId?: Prisma.IntFilter<"ExamQuestion"> | number
   order?: Prisma.IntFilter<"ExamQuestion"> | number
+  marks?: Prisma.IntFilter<"ExamQuestion"> | number
   exam?: Prisma.XOR<Prisma.ExamScalarRelationFilter, Prisma.ExamWhereInput>
   question?: Prisma.XOR<Prisma.QuestionScalarRelationFilter, Prisma.QuestionWhereInput>
 }
@@ -216,11 +228,13 @@ export type ExamQuestionOrderByWithRelationInput = {
   examId?: Prisma.SortOrder
   questionId?: Prisma.SortOrder
   order?: Prisma.SortOrder
+  marks?: Prisma.SortOrder
   exam?: Prisma.ExamOrderByWithRelationInput
   question?: Prisma.QuestionOrderByWithRelationInput
 }
 
 export type ExamQuestionWhereUniqueInput = Prisma.AtLeast<{
+  examId_order?: Prisma.ExamQuestionExamIdOrderCompoundUniqueInput
   examId_questionId?: Prisma.ExamQuestionExamIdQuestionIdCompoundUniqueInput
   AND?: Prisma.ExamQuestionWhereInput | Prisma.ExamQuestionWhereInput[]
   OR?: Prisma.ExamQuestionWhereInput[]
@@ -228,14 +242,16 @@ export type ExamQuestionWhereUniqueInput = Prisma.AtLeast<{
   examId?: Prisma.IntFilter<"ExamQuestion"> | number
   questionId?: Prisma.IntFilter<"ExamQuestion"> | number
   order?: Prisma.IntFilter<"ExamQuestion"> | number
+  marks?: Prisma.IntFilter<"ExamQuestion"> | number
   exam?: Prisma.XOR<Prisma.ExamScalarRelationFilter, Prisma.ExamWhereInput>
   question?: Prisma.XOR<Prisma.QuestionScalarRelationFilter, Prisma.QuestionWhereInput>
-}, "examId_questionId">
+}, "examId_questionId" | "examId_order">
 
 export type ExamQuestionOrderByWithAggregationInput = {
   examId?: Prisma.SortOrder
   questionId?: Prisma.SortOrder
   order?: Prisma.SortOrder
+  marks?: Prisma.SortOrder
   _count?: Prisma.ExamQuestionCountOrderByAggregateInput
   _avg?: Prisma.ExamQuestionAvgOrderByAggregateInput
   _max?: Prisma.ExamQuestionMaxOrderByAggregateInput
@@ -250,10 +266,12 @@ export type ExamQuestionScalarWhereWithAggregatesInput = {
   examId?: Prisma.IntWithAggregatesFilter<"ExamQuestion"> | number
   questionId?: Prisma.IntWithAggregatesFilter<"ExamQuestion"> | number
   order?: Prisma.IntWithAggregatesFilter<"ExamQuestion"> | number
+  marks?: Prisma.IntWithAggregatesFilter<"ExamQuestion"> | number
 }
 
 export type ExamQuestionCreateInput = {
   order?: number
+  marks?: number
   exam: Prisma.ExamCreateNestedOneWithoutQuestionsInput
   question: Prisma.QuestionCreateNestedOneWithoutExamQuestionsInput
 }
@@ -262,10 +280,12 @@ export type ExamQuestionUncheckedCreateInput = {
   examId: number
   questionId: number
   order?: number
+  marks?: number
 }
 
 export type ExamQuestionUpdateInput = {
   order?: Prisma.IntFieldUpdateOperationsInput | number
+  marks?: Prisma.IntFieldUpdateOperationsInput | number
   exam?: Prisma.ExamUpdateOneRequiredWithoutQuestionsNestedInput
   question?: Prisma.QuestionUpdateOneRequiredWithoutExamQuestionsNestedInput
 }
@@ -274,22 +294,26 @@ export type ExamQuestionUncheckedUpdateInput = {
   examId?: Prisma.IntFieldUpdateOperationsInput | number
   questionId?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
+  marks?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ExamQuestionCreateManyInput = {
   examId: number
   questionId: number
   order?: number
+  marks?: number
 }
 
 export type ExamQuestionUpdateManyMutationInput = {
   order?: Prisma.IntFieldUpdateOperationsInput | number
+  marks?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ExamQuestionUncheckedUpdateManyInput = {
   examId?: Prisma.IntFieldUpdateOperationsInput | number
   questionId?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
+  marks?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ExamQuestionListRelationFilter = {
@@ -302,6 +326,11 @@ export type ExamQuestionOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type ExamQuestionExamIdOrderCompoundUniqueInput = {
+  examId: number
+  order: number
+}
+
 export type ExamQuestionExamIdQuestionIdCompoundUniqueInput = {
   examId: number
   questionId: number
@@ -311,30 +340,35 @@ export type ExamQuestionCountOrderByAggregateInput = {
   examId?: Prisma.SortOrder
   questionId?: Prisma.SortOrder
   order?: Prisma.SortOrder
+  marks?: Prisma.SortOrder
 }
 
 export type ExamQuestionAvgOrderByAggregateInput = {
   examId?: Prisma.SortOrder
   questionId?: Prisma.SortOrder
   order?: Prisma.SortOrder
+  marks?: Prisma.SortOrder
 }
 
 export type ExamQuestionMaxOrderByAggregateInput = {
   examId?: Prisma.SortOrder
   questionId?: Prisma.SortOrder
   order?: Prisma.SortOrder
+  marks?: Prisma.SortOrder
 }
 
 export type ExamQuestionMinOrderByAggregateInput = {
   examId?: Prisma.SortOrder
   questionId?: Prisma.SortOrder
   order?: Prisma.SortOrder
+  marks?: Prisma.SortOrder
 }
 
 export type ExamQuestionSumOrderByAggregateInput = {
   examId?: Prisma.SortOrder
   questionId?: Prisma.SortOrder
   order?: Prisma.SortOrder
+  marks?: Prisma.SortOrder
 }
 
 export type ExamQuestionCreateNestedManyWithoutQuestionInput = {
@@ -423,12 +457,14 @@ export type ExamQuestionUncheckedUpdateManyWithoutExamNestedInput = {
 
 export type ExamQuestionCreateWithoutQuestionInput = {
   order?: number
+  marks?: number
   exam: Prisma.ExamCreateNestedOneWithoutQuestionsInput
 }
 
 export type ExamQuestionUncheckedCreateWithoutQuestionInput = {
   examId: number
   order?: number
+  marks?: number
 }
 
 export type ExamQuestionCreateOrConnectWithoutQuestionInput = {
@@ -464,16 +500,19 @@ export type ExamQuestionScalarWhereInput = {
   examId?: Prisma.IntFilter<"ExamQuestion"> | number
   questionId?: Prisma.IntFilter<"ExamQuestion"> | number
   order?: Prisma.IntFilter<"ExamQuestion"> | number
+  marks?: Prisma.IntFilter<"ExamQuestion"> | number
 }
 
 export type ExamQuestionCreateWithoutExamInput = {
   order?: number
+  marks?: number
   question: Prisma.QuestionCreateNestedOneWithoutExamQuestionsInput
 }
 
 export type ExamQuestionUncheckedCreateWithoutExamInput = {
   questionId: number
   order?: number
+  marks?: number
 }
 
 export type ExamQuestionCreateOrConnectWithoutExamInput = {
@@ -505,41 +544,49 @@ export type ExamQuestionUpdateManyWithWhereWithoutExamInput = {
 export type ExamQuestionCreateManyQuestionInput = {
   examId: number
   order?: number
+  marks?: number
 }
 
 export type ExamQuestionUpdateWithoutQuestionInput = {
   order?: Prisma.IntFieldUpdateOperationsInput | number
+  marks?: Prisma.IntFieldUpdateOperationsInput | number
   exam?: Prisma.ExamUpdateOneRequiredWithoutQuestionsNestedInput
 }
 
 export type ExamQuestionUncheckedUpdateWithoutQuestionInput = {
   examId?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
+  marks?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ExamQuestionUncheckedUpdateManyWithoutQuestionInput = {
   examId?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
+  marks?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ExamQuestionCreateManyExamInput = {
   questionId: number
   order?: number
+  marks?: number
 }
 
 export type ExamQuestionUpdateWithoutExamInput = {
   order?: Prisma.IntFieldUpdateOperationsInput | number
+  marks?: Prisma.IntFieldUpdateOperationsInput | number
   question?: Prisma.QuestionUpdateOneRequiredWithoutExamQuestionsNestedInput
 }
 
 export type ExamQuestionUncheckedUpdateWithoutExamInput = {
   questionId?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
+  marks?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ExamQuestionUncheckedUpdateManyWithoutExamInput = {
   questionId?: Prisma.IntFieldUpdateOperationsInput | number
   order?: Prisma.IntFieldUpdateOperationsInput | number
+  marks?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 
@@ -548,6 +595,7 @@ export type ExamQuestionSelect<ExtArgs extends runtime.Types.Extensions.Internal
   examId?: boolean
   questionId?: boolean
   order?: boolean
+  marks?: boolean
   exam?: boolean | Prisma.ExamDefaultArgs<ExtArgs>
   question?: boolean | Prisma.QuestionDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["examQuestion"]>
@@ -558,9 +606,10 @@ export type ExamQuestionSelectScalar = {
   examId?: boolean
   questionId?: boolean
   order?: boolean
+  marks?: boolean
 }
 
-export type ExamQuestionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"examId" | "questionId" | "order", ExtArgs["result"]["examQuestion"]>
+export type ExamQuestionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"examId" | "questionId" | "order" | "marks", ExtArgs["result"]["examQuestion"]>
 export type ExamQuestionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   exam?: boolean | Prisma.ExamDefaultArgs<ExtArgs>
   question?: boolean | Prisma.QuestionDefaultArgs<ExtArgs>
@@ -576,6 +625,7 @@ export type $ExamQuestionPayload<ExtArgs extends runtime.Types.Extensions.Intern
     examId: number
     questionId: number
     order: number
+    marks: number
   }, ExtArgs["result"]["examQuestion"]>
   composites: {}
 }
@@ -950,6 +1000,7 @@ export interface ExamQuestionFieldRefs {
   readonly examId: Prisma.FieldRef<"ExamQuestion", 'Int'>
   readonly questionId: Prisma.FieldRef<"ExamQuestion", 'Int'>
   readonly order: Prisma.FieldRef<"ExamQuestion", 'Int'>
+  readonly marks: Prisma.FieldRef<"ExamQuestion", 'Int'>
 }
     
 
