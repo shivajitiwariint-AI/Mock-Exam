@@ -107,30 +107,54 @@ export default function QuestionItem({
 
           {expanded ? (
             <div className="mt-3 rounded-lg border border-indigo-100 bg-indigo-50/50 p-3">
-              <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
-                <p className="text-xs font-semibold uppercase tracking-wide text-indigo-700">
-                  Interview answer
+              <p className="text-xs font-semibold uppercase tracking-wide text-indigo-700">
+                Interview answer
+              </p>
+
+              {question.answer ? (
+                <div className={`mt-2 break-words rounded-lg bg-white p-2 shadow-sm ring-1 ring-inset ring-slate-200 sm:p-3 ${FONT_CLASS[answerFontSize]}`}>
+                  <FormattedText text={question.answer} />
+                </div>
+              ) : (
+                <p className="mt-2 text-sm text-slate-500">
+                  No answer yet. Use “Generate answer” below to create an interview-friendly explanation.
                 </p>
+              )}
+
+              <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-indigo-100 pt-3">
+                <span className="mr-1 text-[11px] font-semibold uppercase tracking-wide text-indigo-500">
+                  Actions
+                </span>
                 <button
                   type="button"
                   onClick={() => onRegenerate(question)}
                   disabled={regenerating}
-                  className="inline-flex w-full items-center justify-center gap-1.5 rounded-md bg-white px-2.5 py-2 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-200 transition hover:bg-indigo-50 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+                  className="inline-flex items-center justify-center gap-1.5 rounded-md bg-white px-2.5 py-1.5 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-200 transition hover:bg-indigo-50 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   <span>{regenerating ? '⏳' : '🔄'}</span>
                   {regenerating ? 'Generating…' : question.answer ? 'Regenerate answer' : 'Generate answer'}
                 </button>
+                {isReadOnly ? (
+                  <span className="text-[11px] text-slate-500">Shared question — editing disabled</span>
+                ) : (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => onEdit(question)}
+                      className="inline-flex items-center justify-center gap-1.5 rounded-md bg-white px-2.5 py-1.5 text-xs font-medium text-slate-700 ring-1 ring-inset ring-slate-200 transition hover:bg-slate-50"
+                    >
+                      <span>✏️</span> Edit question
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => onDelete(question.id)}
+                      className="inline-flex items-center justify-center gap-1.5 rounded-md bg-white px-2.5 py-1.5 text-xs font-medium text-red-600 ring-1 ring-inset ring-red-200 transition hover:bg-red-50"
+                    >
+                      <span>🗑️</span> Delete
+                    </button>
+                  </>
+                )}
               </div>
-
-              {question.answer ? (
-                <div className={`mt-3 break-words rounded-lg bg-white p-2 shadow-sm ring-1 ring-inset ring-slate-200 sm:p-3 ${FONT_CLASS[answerFontSize]}`}>
-                  <FormattedText text={question.answer} />
-                </div>
-              ) : (
-                <p className="mt-3 text-sm text-slate-500">
-                  No answer yet. Use “Generate answer” to create an interview-friendly explanation.
-                </p>
-              )}
             </div>
           ) : null}
 

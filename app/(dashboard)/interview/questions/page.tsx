@@ -79,6 +79,7 @@ function QuestionsContent() {
   const [answerFontSize, setAnswerFontSize] = useState<'sm' | 'md' | 'lg'>('md')
   const [regeneratingId, setRegeneratingId] = useState<number | null>(null)
   const [notice, setNotice] = useState('')
+  const [noticeType, setNoticeType] = useState<'success' | 'error'>('error')
   const [facets, setFacets] = useState<InterviewQuestionFacets | null>(null)
   const [groupBy, setGroupBy] = useState<GroupBy>('subject')
   const [collapsedGroups, setCollapsedGroups] = useState<Record<string, boolean>>({})
@@ -146,13 +147,22 @@ function QuestionsContent() {
 
   const handleDelete = async (id: number) => {
     if (id < 0) return
-    if (!confirm('Delete this question?')) return
-    await fetch(`/api/interview/questions/${id}`, { method: 'DELETE' })
-    setQuestions((prev) => prev.filter((q) => q.id !== id))
+    if (!confirm('Delete this question? This cannot be undone.')) return
+    try {
+      const res = await fetch(`/api/interview/questions/${id}`, { method: 'DELETE' })
+      if (!res.ok) throw new Error('The question could not be deleted.')
+      setQuestions((prev) => prev.filter((q) => q.id !== id))
+      setNoticeType('success')
+      setNotice('Question deleted.')
+    } catch (error) {
+      setNoticeType('error')
+      setNotice(error instanceof Error ? error.message : 'The question could not be deleted.')
+    }
   }
 
   const handleRegenerate = async (question: InterviewQuestionData) => {
     setNotice('')
+    setNoticeType('error')
     setRegeneratingId(question.id)
     try {
       const res = await fetch(`/api/interview/questions/${question.id}/regenerate-answer`, {
@@ -163,7 +173,10 @@ function QuestionsContent() {
         throw new Error(data.error ?? 'The answer could not be regenerated.')
       }
       setQuestions((prev) => prev.map((q) => q.id === question.id ? { ...q, answer: data.answer!, explanation: data.answer! } : q))
+      setNoticeType('success')
+      setNotice('Answer regenerated. Review it below and edit if needed.')
     } catch (error) {
+      setNoticeType('error')
       setNotice(error instanceof Error ? error.message : 'The answer could not be regenerated.')
     } finally {
       setRegeneratingId(null)
@@ -184,6 +197,7 @@ function QuestionsContent() {
   const handleSaveEdit = async () => {
     if (!editingQuestion || !qText.trim()) return
     setSaving(true)
+    setNotice('')
     const body: Record<string, unknown> = {
       question: qText.trim(),
       category: qCategory,
@@ -192,17 +206,24 @@ function QuestionsContent() {
       whyAsked: qWhyAsked.trim() || null,
       companyId: qCompanyId ? parseInt(qCompanyId, 10) : null,
     }
-    const res = await fetch(`/api/interview/questions/${editingQuestion.id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    })
-    if (res.ok) {
+    try {
+      const res = await fetch(`/api/interview/questions/${editingQuestion.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      })
+      if (!res.ok) throw new Error('The question could not be saved.')
       const data = await res.json() as { question: InterviewQuestionData }
       setQuestions((prev) => prev.map((q) => q.id === editingQuestion.id ? data.question : q))
       setEditingQuestion(null)
+      setNoticeType('success')
+      setNotice('Question updated.')
+    } catch (error) {
+      setNoticeType('error')
+      setNotice(error instanceof Error ? error.message : 'The question could not be saved.')
+    } finally {
+      setSaving(false)
     }
-    setSaving(false)
   }
 
   const handleAddCategory = async () => {
@@ -231,6 +252,7 @@ function QuestionsContent() {
   const handleAddQuestion = async () => {
     if (!qText.trim()) return
     setSaving(true)
+    setNotice('')
     const body: Record<string, unknown> = {
       question: qText.trim(),
       category: qCategory,
@@ -239,18 +261,25 @@ function QuestionsContent() {
     if (qAnswer.trim()) body.answer = qAnswer.trim()
     if (qCompanyId) body.companyId = parseInt(qCompanyId, 10)
 
-    const res = await fetch('/api/interview/questions', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    })
-    if (res.ok) {
+    try {
+      const res = await fetch('/api/interview/questions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      })
+      if (!res.ok) throw new Error('The question could not be added.')
       setQText(''); setQAnswer(''); setQCompanyId('')
       setShowAddModal(false)
       setPage(1)
       await load()
+      setNoticeType('success')
+      setNotice('Question added.')
+    } catch (error) {
+      setNoticeType('error')
+      setNotice(error instanceof Error ? error.message : 'The question could not be added.')
+    } finally {
+      setSaving(false)
     }
-    setSaving(false)
   }
 
   const groups = useMemo(() => buildGroups(questions, groupBy), [questions, groupBy])
@@ -369,8 +398,13 @@ function QuestionsContent() {
       </div>
 
       {notice ? (
-        <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-          {notice}
+        <div className={`flex items-center justify-between gap-3 rounded-lg border px-4 py-3 text-sm ${
+          noticeType === 'success'
+            ? 'border-green-200 bg-green-50 text-green-800'
+            : 'border-amber-200 bg-amber-50 text-amber-800'
+        }`}>
+          <span>{notice}</span>
+          <button type="button" onClick={() => setNotice('')} className="flex-shrink-0 text-lg leading-none opacity-60 hover:opacity-100" aria-label="Dismiss message">×</button>
         </div>
       ) : null}
 
