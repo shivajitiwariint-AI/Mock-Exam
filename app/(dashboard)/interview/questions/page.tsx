@@ -15,6 +15,7 @@ import Skeleton from '@/components/ui/Skeleton'
 import Modal from '@/components/ui/Modal'
 
 type GroupBy = 'none' | 'subject' | 'topic' | 'company' | 'category'
+type SortBy = 'default' | 'hard-first' | 'easy-first' | 'az'
 
 type QuestionGroup = {
   key: string
@@ -77,6 +78,7 @@ function QuestionsContent() {
   const [searchInput, setSearchInput] = useState('')
   const [search, setSearch] = useState('')
   const [answerFontSize, setAnswerFontSize] = useState<'sm' | 'md' | 'lg'>('md')
+  const [sortBy, setSortBy] = useState<SortBy>('default')
   const [regeneratingId, setRegeneratingId] = useState<number | null>(null)
   const [notice, setNotice] = useState('')
   const [noticeType, setNoticeType] = useState<'success' | 'error'>('error')
@@ -117,6 +119,7 @@ function QuestionsContent() {
     if (subjectFilter) params.set('subjectId', subjectFilter)
     if (topicFilter) params.set('topicId', topicFilter)
     if (search) params.set('search', search)
+    if (sortBy !== 'default') params.set('sort', sortBy)
     if (groupBy !== 'none') params.set('all', 'true')
     const [qRes, cRes] = await Promise.all([
       fetch(`/api/interview/questions?${params.toString()}`),
@@ -130,7 +133,7 @@ function QuestionsContent() {
     setTotalPracticed(qData.practicedCount ?? 0)
     setCompanies(cData.companies ?? [])
     setIsLoading(false)
-  }, [jdId, practicedFilter, typeFilter, companyFilter, sourceFilter, categoryFilter, subjectFilter, topicFilter, page, search, groupBy])
+  }, [jdId, practicedFilter, typeFilter, companyFilter, sourceFilter, categoryFilter, subjectFilter, topicFilter, page, search, sortBy, groupBy])
 
   useEffect(() => { void load() }, [load])
   useEffect(() => { void loadCategories() }, [loadCategories])
@@ -378,6 +381,19 @@ function QuestionsContent() {
                 className={`whitespace-nowrap rounded-md px-2 py-1 text-xs font-medium transition ${answerFontSize === size ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500'}`}
               >
                 {size === 'sm' ? 'Small' : size === 'md' ? 'Medium' : 'Large'}
+              </button>
+            ))}
+          </div>
+          <span className="text-xs font-medium text-slate-500 sm:ml-2">Sort by</span>
+          <div className="flex max-w-full gap-1 overflow-x-auto rounded-lg bg-slate-100 p-1">
+            {([['default', 'Newest'], ['hard-first', 'Hard first'], ['easy-first', 'Easy first'], ['az', 'A–Z']] as const).map(([value, label]) => (
+              <button
+                key={value}
+                type="button"
+                onClick={() => { setSortBy(value); setPage(1) }}
+                className={`whitespace-nowrap rounded-md px-2 py-1 text-xs font-medium transition ${sortBy === value ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500'}`}
+              >
+                {label}
               </button>
             ))}
           </div>

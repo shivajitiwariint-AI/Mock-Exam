@@ -8,6 +8,37 @@ import { createQuestionSchema } from '@/lib/validations/interview.schema';
 
 type MockQuestionOption = { key: string; text: string };
 type SourceFilter = 'all' | 'interview' | 'guide' | 'mock' | null;
+type SortOption = 'default' | 'hard-first' | 'easy-first' | 'az';
+
+const DIFFICULTY_RANK: Record<string, number> = { EASY: 1, MEDIUM: 2, HARD: 3 };
+
+function byNewest(a: { createdAt: string }, b: { createdAt: string }): number {
+  return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+}
+
+function sortQuestions<T extends { createdAt: string; difficulty: string; question: string }>(
+  items: T[],
+  sort: SortOption,
+): T[] {
+  if (sort === 'hard-first') {
+    return items.sort(
+      (a, b) =>
+        (DIFFICULTY_RANK[b.difficulty] ?? 0) - (DIFFICULTY_RANK[a.difficulty] ?? 0) ||
+        byNewest(a, b),
+    );
+  }
+  if (sort === 'easy-first') {
+    return items.sort(
+      (a, b) =>
+        (DIFFICULTY_RANK[a.difficulty] ?? 4) - (DIFFICULTY_RANK[b.difficulty] ?? 4) ||
+        byNewest(a, b),
+    );
+  }
+  if (sort === 'az') {
+    return items.sort((a, b) => a.question.localeCompare(b.question) || byNewest(a, b));
+  }
+  return items.sort(byNewest);
+}
 
 function asOptions(value: unknown): MockQuestionOption[] {
   if (!Array.isArray(value)) return [];
@@ -72,6 +103,11 @@ export async function GET(request: NextRequest) {
   const source = searchParams.get('source') as SourceFilter;
   const companyScope = searchParams.get('companyScope') as 'general' | 'company' | null;
   const all = searchParams.get('all') === 'true';
+  const rawSort = searchParams.get('sort');
+  const sort: SortOption =
+    rawSort === 'hard-first' || rawSort === 'easy-first' || rawSort === 'az'
+      ? rawSort
+      : 'default';
 
   const isAdmin = user.isAdmin === true || user.role === 'SUPER_ADMIN';
   const subjectWhere: Prisma.SubjectWhereInput = isAdmin
@@ -246,10 +282,11 @@ export async function GET(request: NextRequest) {
     return true;
   });
 
-  const total = filteredQuestions.length;
+  const sortedQuestions = sortQuestions(filteredQuestions, sort);
+  const total = sortedQuestions.length;
   const totalPages = all ? 1 : Math.max(1, Math.ceil(total / pageSize));
   const start = all ? 0 : (page - 1) * pageSize;
-  const questions = all ? filteredQuestions : filteredQuestions.slice(start, start + pageSize);
+  const questions = all ? sortedQuestions : sortedQuestions.slice(start, start + pageSize);
   const practicedCount = interviewMapped.filter((question) => question.practiced).length;
 
   return NextResponse.json({
