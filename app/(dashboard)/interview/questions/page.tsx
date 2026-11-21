@@ -16,6 +16,7 @@ import Modal from '@/components/ui/Modal'
 
 type GroupBy = 'none' | 'subject' | 'topic' | 'company' | 'category'
 type SortBy = 'default' | 'hard-first' | 'easy-first' | 'az'
+type DifficultyFilter = 'all' | 'EASY' | 'MEDIUM' | 'HARD'
 
 type QuestionGroup = {
   key: string
@@ -79,6 +80,7 @@ function QuestionsContent() {
   const [search, setSearch] = useState('')
   const [answerFontSize, setAnswerFontSize] = useState<'sm' | 'md' | 'lg'>('md')
   const [sortBy, setSortBy] = useState<SortBy>('default')
+  const [difficultyFilter, setDifficultyFilter] = useState<DifficultyFilter>('all')
   const [regeneratingId, setRegeneratingId] = useState<number | null>(null)
   const [notice, setNotice] = useState('')
   const [noticeType, setNoticeType] = useState<'success' | 'error'>('error')
@@ -119,6 +121,7 @@ function QuestionsContent() {
     if (subjectFilter) params.set('subjectId', subjectFilter)
     if (topicFilter) params.set('topicId', topicFilter)
     if (search) params.set('search', search)
+    if (difficultyFilter !== 'all') params.set('difficulty', difficultyFilter)
     if (sortBy !== 'default') params.set('sort', sortBy)
     if (groupBy !== 'none') params.set('all', 'true')
     const [qRes, cRes] = await Promise.all([
@@ -133,7 +136,7 @@ function QuestionsContent() {
     setTotalPracticed(qData.practicedCount ?? 0)
     setCompanies(cData.companies ?? [])
     setIsLoading(false)
-  }, [jdId, practicedFilter, typeFilter, companyFilter, sourceFilter, categoryFilter, subjectFilter, topicFilter, page, search, sortBy, groupBy])
+  }, [jdId, practicedFilter, typeFilter, companyFilter, sourceFilter, categoryFilter, subjectFilter, topicFilter, page, search, difficultyFilter, sortBy, groupBy])
 
   useEffect(() => { void load() }, [load])
   useEffect(() => { void loadCategories() }, [loadCategories])
@@ -149,14 +152,20 @@ function QuestionsContent() {
   }
 
   const handleDelete = async (id: number) => {
-    if (id < 0) return
-    if (!confirm('Delete this question? This cannot be undone.')) return
+    const isShared = id < 0
+    const message = isShared
+      ? 'Remove this shared question from the bank? It will no longer appear for anyone. This cannot be undone.'
+      : 'Delete this question? This cannot be undone.'
+    if (!confirm(message)) return
     try {
       const res = await fetch(`/api/interview/questions/${id}`, { method: 'DELETE' })
-      if (!res.ok) throw new Error('The question could not be deleted.')
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({})) as { error?: string }
+        throw new Error(data.error ?? 'The question could not be deleted.')
+      }
       setQuestions((prev) => prev.filter((q) => q.id !== id))
       setNoticeType('success')
-      setNotice('Question deleted.')
+      setNotice(isShared ? 'Shared question removed from the bank.' : 'Question deleted.')
     } catch (error) {
       setNoticeType('error')
       setNotice(error instanceof Error ? error.message : 'The question could not be deleted.')
@@ -304,6 +313,7 @@ function QuestionsContent() {
     (subjectFilter ? 1 : 0) +
     (topicFilter ? 1 : 0) +
     (companyFilter ? 1 : 0) +
+    (difficultyFilter !== 'all' ? 1 : 0) +
     (typeFilter !== 'all' ? 1 : 0)
 
   const clearFilters = () => {
@@ -312,6 +322,7 @@ function QuestionsContent() {
     setSubjectFilter('')
     setTopicFilter('')
     setCompanyFilter('')
+    setDifficultyFilter('all')
     setTypeFilter('all')
     setPage(1)
   }
@@ -381,6 +392,19 @@ function QuestionsContent() {
                 className={`whitespace-nowrap rounded-md px-2 py-1 text-xs font-medium transition ${answerFontSize === size ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500'}`}
               >
                 {size === 'sm' ? 'Small' : size === 'md' ? 'Medium' : 'Large'}
+              </button>
+            ))}
+          </div>
+          <span className="text-xs font-medium text-slate-500 sm:ml-2">Difficulty</span>
+          <div className="flex max-w-full gap-1 overflow-x-auto rounded-lg bg-slate-100 p-1">
+            {([['all', 'All'], ['HARD', 'Hard'], ['MEDIUM', 'Medium'], ['EASY', 'Easy']] as const).map(([value, label]) => (
+              <button
+                key={value}
+                type="button"
+                onClick={() => { setDifficultyFilter(value); setPage(1) }}
+                className={`whitespace-nowrap rounded-md px-2 py-1 text-xs font-medium transition ${difficultyFilter === value ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500'}`}
+              >
+                {label}
               </button>
             ))}
           </div>

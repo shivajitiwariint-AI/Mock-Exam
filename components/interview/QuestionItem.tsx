@@ -134,26 +134,25 @@ export default function QuestionItem({
                   <span>{regenerating ? '⏳' : '🔄'}</span>
                   {regenerating ? 'Generating…' : question.answer ? 'Regenerate answer' : 'Generate answer'}
                 </button>
+                {!isReadOnly ? (
+                  <button
+                    type="button"
+                    onClick={() => onEdit(question)}
+                    className="inline-flex items-center justify-center gap-1.5 rounded-md bg-white px-2.5 py-1.5 text-xs font-medium text-slate-700 ring-1 ring-inset ring-slate-200 transition hover:bg-slate-50"
+                  >
+                    <span>✏️</span> Edit question
+                  </button>
+                ) : null}
+                <button
+                  type="button"
+                  onClick={() => onDelete(question.id)}
+                  className="inline-flex items-center justify-center gap-1.5 rounded-md bg-white px-2.5 py-1.5 text-xs font-medium text-red-600 ring-1 ring-inset ring-red-200 transition hover:bg-red-50"
+                >
+                  <span>🗑️</span> {isReadOnly ? 'Delete shared question' : 'Delete'}
+                </button>
                 {isReadOnly ? (
-                  <span className="text-[11px] text-slate-500">Shared question — editing disabled</span>
-                ) : (
-                  <>
-                    <button
-                      type="button"
-                      onClick={() => onEdit(question)}
-                      className="inline-flex items-center justify-center gap-1.5 rounded-md bg-white px-2.5 py-1.5 text-xs font-medium text-slate-700 ring-1 ring-inset ring-slate-200 transition hover:bg-slate-50"
-                    >
-                      <span>✏️</span> Edit question
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => onDelete(question.id)}
-                      className="inline-flex items-center justify-center gap-1.5 rounded-md bg-white px-2.5 py-1.5 text-xs font-medium text-red-600 ring-1 ring-inset ring-red-200 transition hover:bg-red-50"
-                    >
-                      <span>🗑️</span> Delete
-                    </button>
-                  </>
-                )}
+                  <span className="text-[11px] text-slate-400">Shared — editing disabled</span>
+                ) : null}
               </div>
             </div>
           ) : null}

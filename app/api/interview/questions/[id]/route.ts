@@ -36,6 +36,24 @@ export async function DELETE(
   const id = parseInt(params.id, 10)
   if (isNaN(id)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
 
+  // Shared question-bank rows are exposed with negative IDs. Archive them
+  // instead of hard-deleting so exam and attempt history keeps its references.
+  if (id < 0) {
+    const isAdmin = user.isAdmin === true || user.role === 'SUPER_ADMIN'
+    if (!isAdmin) {
+      return NextResponse.json({ error: 'Only an admin can remove shared questions.' }, { status: 403 })
+    }
+
+    const bankQuestion = await prisma.question.findUnique({ where: { id: -id } })
+    if (!bankQuestion) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+
+    await prisma.question.update({
+      where: { id: bankQuestion.id },
+      data: { status: 'ARCHIVED' },
+    })
+    return NextResponse.json({ success: true })
+  }
+
   const existing = await prisma.interviewBankQuestion.findFirst({ where: { id, userId: user.userId } })
   if (!existing) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 

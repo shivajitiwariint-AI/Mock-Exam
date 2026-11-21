@@ -98,6 +98,11 @@ export async function GET(request: NextRequest) {
   const subjectId = intParam(searchParams, 'subjectId');
   const topicId = intParam(searchParams, 'topicId');
   const category = searchParams.get('category') || null;
+  const rawDifficulty = searchParams.get('difficulty');
+  const difficulty =
+    rawDifficulty === 'EASY' || rawDifficulty === 'MEDIUM' || rawDifficulty === 'HARD'
+      ? rawDifficulty
+      : null;
   const practiced = searchParams.get('practiced');
   const search = searchParams.get('search')?.trim() || '';
   const source = searchParams.get('source') as SourceFilter;
@@ -269,6 +274,7 @@ export async function GET(request: NextRequest) {
     if (!companyId && companyScope === 'company' && question.companyId == null) return false;
     if (jdId && !question.isReadOnly && question.jdId !== jdId) return false;
     if (category && question.category !== category) return false;
+    if (difficulty && question.difficulty !== difficulty) return false;
     if (practiced === 'true' && !question.isReadOnly && !question.practiced) return false;
     if (practiced === 'false' && !question.isReadOnly && question.practiced) return false;
 
