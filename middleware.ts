@@ -33,6 +33,7 @@ const publicApiPrefixes = [
   '/api/auth/logout',
   '/api/health',
   '/api/cron',
+  '/api/admin/bulk-add',
 ]
 
 function unauthorized(): NextResponse {
