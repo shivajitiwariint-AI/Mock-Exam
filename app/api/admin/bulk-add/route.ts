@@ -43,6 +43,10 @@ export async function POST(request: Request) {
       for (const q of questions) {
         const text = String(q ?? "").trim();
         if (!text) continue;
+        const existing = await prisma.question.findFirst({
+          where: { subjectId: subject.id, questionText: text },
+        });
+        if (existing) continue;
         await prisma.question.create({
           data: {
             userId: null,
