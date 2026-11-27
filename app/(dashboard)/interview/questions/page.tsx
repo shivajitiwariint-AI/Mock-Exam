@@ -13,6 +13,8 @@ import QuestionItem from '@/components/interview/QuestionItem'
 import Button from '@/components/ui/Button'
 import Skeleton from '@/components/ui/Skeleton'
 import Modal from '@/components/ui/Modal'
+import jsPDF from 'jspdf'
+import autoTable from 'jspdf-autotable'
 
 type GroupBy = 'none' | 'subject' | 'topic' | 'company' | 'category'
 type SortBy = 'default' | 'hard-first' | 'easy-first' | 'az'
@@ -67,6 +69,7 @@ function QuestionsContent() {
   const [totalPracticed, setTotalPracticed] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
   const [showAddModal, setShowAddModal] = useState(false)
+  const [downloadingPdf, setDownloadingPdf] = useState(false)
   const [showCategoryModal, setShowCategoryModal] = useState(false)
   const [editingQuestion, setEditingQuestion] = useState<InterviewQuestionData | null>(null)
   const [typeFilter, setTypeFilter] = useState<'all' | 'general' | 'company'>('all')
@@ -293,6 +296,111 @@ function QuestionsContent() {
     }
   }
 
+  const handleDownloadPdf = async () => {
+    setDownloadingPdf(true)
+    try {
+      const params = new URLSearchParams({ page: '1', pageSize: '20', all: 'true' })
+      if (jdId) params.set('jdId', jdId)
+      if (practicedFilter) params.set('practiced', practicedFilter)
+      if (typeFilter !== 'all') params.set('companyScope', typeFilter)
+      if (companyFilter) params.set('companyId', companyFilter)
+      if (search) params.set('search', search)
+      if (difficultyFilter !== 'all') params.set('difficulty', difficultyFilter)
+      if (sortBy !== 'default') params.set('sort', sortBy)
+      if (subjectFilter) params.set('subjectId', subjectFilter)
+      const res = await fetch(`/api/interview/questions?${params.toString()}`)
+      const data = await res.json() as InterviewQuestionsResponse
+      const qs = data.questions ?? []
+      if (qs.length === 0) {
+        setNoticeType('error')
+        setNotice('No questions to download.')
+        return
+      }
+
+      const doc = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'a4' })
+      const pageWidth = doc.internal.pageSize.getWidth()
+      doc.setFontSize(16)
+      doc.text('Question Bank — Questions & Answers', 40, 40)
+      doc.setFontSize(10)
+      doc.setTextColor(100)
+      doc.text(`Generated ${new Date().toLocaleString()} · ${qs.length} questions`, 40, 58)
+      doc.setTextColor(0)
+
+      let y = 76
+      qs.forEach((q, index) => {
+        if (y > 720) {
+          doc.addPage()
+          y = 40
+        }
+        doc.setFontSize(12)
+        doc.setFont('helvetica', 'bold')
+        const qLines = doc.splitTextToSize(`${index + 1}. ${q.question}`, pageWidth - 80)
+        doc.text(qLines, 40, y)
+        y += qLines.length * 15 + 4
+
+        doc.setFontSize(9)
+        doc.setFont('helvetica', 'normal')
+        doc.setTextColor(90)
+        const meta = [q.category?.replace(/_/g, ' '), q.difficulty, q.subjectName, q.topicName].filter(Boolean).join(' · ')
+        if (meta) {
+          doc.text(meta, 40, y)
+          y += 12
+        }
+        doc.setTextColor(0)
+
+        if (q.answer) {
+          doc.setFontSize(11)
+          doc.setFont('helvetica', 'normal')
+          const aLines = doc.splitTextToSize(`Answer: ${q.answer}`, pageWidth - 80)
+          // page break handling for long answers
+          for (const line of aLines) {
+            if (y > 760) {
+              doc.addPage()
+              y = 40
+            }
+            doc.text(line, 40, y)
+            y += 14
+          }
+          y += 6
+        } else {
+          doc.setFontSize(10)
+          doc.setTextColor(150)
+          doc.text('No answer yet.', 40, y)
+          doc.setTextColor(0)
+          y += 14
+        }
+
+        if (q.whyAsked) {
+          doc.setFontSize(9)
+          doc.setTextColor(120)
+          const wLines = doc.splitTextToSize(`Why asked: ${q.whyAsked}`, pageWidth - 80)
+          for (const line of wLines) {
+            if (y > 760) { doc.addPage(); y = 40 }
+            doc.text(line, 40, y)
+            y += 12
+          }
+          doc.setTextColor(0)
+        }
+
+        y += 8
+        if (y < 780) {
+          doc.setDrawColor(220)
+          doc.line(40, y, pageWidth - 40, y)
+          y += 10
+        }
+      })
+
+      doc.save('question-bank.pdf')
+      setNoticeType('success')
+      setNotice(`Downloaded ${qs.length} questions as PDF.`)
+    } catch (error) {
+      setNoticeType('error')
+      setNotice(error instanceof Error ? error.message : 'Could not generate the PDF.')
+    } finally {
+      setDownloadingPdf(false)
+    }
+  }
+
   const groups = useMemo(() => buildGroups(questions, groupBy), [questions, groupBy])
 
   const activeFilterCount =
@@ -326,6 +434,9 @@ function QuestionsContent() {
         </div>
         <div className="flex flex-col gap-2 sm:flex-row">
           <Button variant="secondary" onClick={() => setShowCategoryModal(true)} className="w-full sm:w-auto">⚙ Categories</Button>
+          <Button variant="secondary" onClick={handleDownloadPdf} disabled={downloadingPdf} className="w-full sm:w-auto">
+            {downloadingPdf ? '⏳ Generating…' : '⬇ Download PDF'}
+          </Button>
           <Button onClick={() => setShowAddModal(true)} className="w-full sm:w-auto">+ Add Question</Button>
         </div>
       </div>
