@@ -14,7 +14,6 @@ import Button from '@/components/ui/Button'
 import Skeleton from '@/components/ui/Skeleton'
 import Modal from '@/components/ui/Modal'
 import jsPDF from 'jspdf'
-import autoTable from 'jspdf-autotable'
 
 type GroupBy = 'none' | 'subject' | 'topic' | 'company' | 'category'
 type SortBy = 'default' | 'hard-first' | 'easy-first' | 'az'
