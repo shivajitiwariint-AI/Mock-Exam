@@ -299,7 +299,6 @@ function QuestionsContent() {
     (sourceFilter !== 'all' ? 1 : 0) +
     (categoryFilter ? 1 : 0) +
     (subjectFilter ? 1 : 0) +
-    (topicFilter ? 1 : 0) +
     (companyFilter ? 1 : 0) +
     (difficultyFilter !== 'all' ? 1 : 0) +
     (typeFilter !== 'all' ? 1 : 0)
@@ -396,7 +395,7 @@ function QuestionsContent() {
           </div>
           <span className="text-xs font-medium text-slate-500 sm:ml-2">Group by</span>
           <div className="flex max-w-full gap-1 overflow-x-auto rounded-lg bg-slate-100 p-1">
-            {([['subject', 'Subject'], ['topic', 'Topic']] as const).map(([value, label]) => (
+            {([['subject', 'Subject']] as const).map(([value, label]) => (
               <button
                 key={value}
                 type="button"
@@ -422,21 +421,6 @@ function QuestionsContent() {
               {(facets?.subjects ?? []).map((facet) => (
                 <option key={facet.id} value={String(facet.id)}>{facet.name} ({facet.count})</option>
               ))}
-            </select>
-          </label>
-          <label className="flex flex-1 items-center gap-2">
-            <span className="whitespace-nowrap text-xs font-medium text-slate-500">Topic</span>
-            <select
-              value={topicFilter}
-              onChange={(event) => { setTopicFilter(event.target.value); setPage(1) }}
-              className="w-full rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            >
-              <option value="">All topics</option>
-              {(facets?.topics ?? [])
-                .filter((facet) => !subjectFilter || String(facet.subjectId) === subjectFilter)
-                .map((facet) => (
-                  <option key={facet.id} value={String(facet.id)}>{facet.name} ({facet.count})</option>
-                ))}
             </select>
           </label>
           {activeFilterCount > 0 ? (
