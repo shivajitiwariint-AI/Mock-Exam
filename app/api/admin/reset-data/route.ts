@@ -29,7 +29,7 @@ export async function POST(request: Request) {
       try {
         await prisma.$executeRawUnsafe(`TRUNCATE TABLE \`${table}\``);
         deleted.push(table);
-      } catch (error) {
+      } catch {
         // Fall back to DELETE if TRUNCATE is blocked (e.g. FK constraints).
         await prisma.$executeRawUnsafe(`DELETE FROM \`${table}\``);
         deleted.push(table);

@@ -87,7 +87,6 @@ function QuestionsContent() {
   const [facets, setFacets] = useState<InterviewQuestionFacets | null>(null)
   const [groupBy, setGroupBy] = useState<GroupBy>('subject')
   const [collapsedGroups, setCollapsedGroups] = useState<Record<string, boolean>>({})
-  const [showMobileFilters, setShowMobileFilters] = useState(false)
 
   // Category management state
   const [newCatName, setNewCatName] = useState('')
@@ -296,17 +295,6 @@ function QuestionsContent() {
 
   const groups = useMemo(() => buildGroups(questions, groupBy), [questions, groupBy])
 
-  const globalTotal = (facets?.sources ?? []).reduce((sum, source) => sum + source.count, 0)
-
-  const sourceCounts = {
-    all: globalTotal,
-    interview: (facets?.sources ?? [])
-      .filter((source) => ['MANUAL', 'AI_JD', 'EXPERIENCE'].includes(source.value))
-      .reduce((sum, source) => sum + source.count, 0),
-    guide: facets?.sources.find((source) => source.value === 'AI_GUIDE')?.count ?? 0,
-    mock: facets?.sources.find((source) => source.value === 'MOCK_EXAM')?.count ?? 0,
-  }
-
   const activeFilterCount =
     (sourceFilter !== 'all' ? 1 : 0) +
     (categoryFilter ? 1 : 0) +
@@ -326,21 +314,6 @@ function QuestionsContent() {
     setTypeFilter('all')
     setPage(1)
   }
-
-  const filterRow = (active: boolean, label: string, count: number, onClick: () => void) => (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`flex w-full items-center justify-between gap-2 rounded-md px-2 py-1.5 text-left text-xs transition-colors ${
-        active ? 'bg-indigo-50 font-semibold text-indigo-700' : 'text-slate-600 hover:bg-slate-50'
-      }`}
-    >
-      <span className="truncate" title={label}>{label}</span>
-      <span className={`ml-auto flex-shrink-0 rounded-full px-1.5 py-0.5 text-[10px] ${active ? 'bg-indigo-100 text-indigo-700' : 'bg-slate-100 text-slate-500'}`}>
-        {count}
-      </span>
-    </button>
-  )
 
   return (
     <div className="space-y-4 sm:space-y-6">
