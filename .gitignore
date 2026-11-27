@@ -50,3 +50,6 @@ next-env.d.ts
 /prisma-push*.txt
 /smoke-results.txt
 /tsc-errors.txt
+
+.vercel
+.env*

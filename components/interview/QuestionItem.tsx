@@ -65,8 +65,8 @@ export default function QuestionItem({
 
   return (
     <div
-      className={`rounded-lg border bg-white p-3 transition-colors sm:p-4 ${
-        question.practiced ? 'border-green-200 bg-green-50/30' : 'border-slate-200'
+      className={`rounded-xl border bg-white p-4 shadow-sm transition-all duration-150 hover:shadow-md sm:p-5 ${
+        question.practiced ? 'border-green-200 bg-green-50/40' : 'border-slate-200'
       }`}
     >
       <div className="flex items-start gap-2 sm:gap-3">
@@ -84,13 +84,13 @@ export default function QuestionItem({
 
         <div className="min-w-0 flex-1">
           <p
-            className="cursor-pointer break-words py-0.5 text-sm font-medium leading-relaxed text-slate-800 hover:text-indigo-700"
+            className="cursor-pointer break-words py-1 text-base font-medium leading-relaxed text-slate-800 hover:text-indigo-700 sm:text-[17px]"
             onClick={() => setExpanded((value) => !value)}
           >
             {question.question}
           </p>
 
-          <div className="mt-2 flex flex-wrap gap-1 sm:gap-1.5">
+          <div className="mt-3 flex flex-wrap gap-1.5 sm:gap-2">
             <Badge label={question.category.replace(/_/g, ' ')} color={categoryColor(question.category)} />
             {question.subjectName ? <Badge label={question.subjectName} color="blue" /> : null}
             {question.topicName ? <Badge label={question.topicName} color="green" /> : null}
@@ -129,7 +129,7 @@ export default function QuestionItem({
                   type="button"
                   onClick={() => onRegenerate(question)}
                   disabled={regenerating}
-                  className="inline-flex items-center justify-center gap-1.5 rounded-md bg-white px-2.5 py-1.5 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-200 transition hover:bg-indigo-50 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="inline-flex items-center justify-center gap-1.5 rounded-md bg-white px-3 py-2 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-200 transition hover:bg-indigo-50 disabled:cursor-not-allowed disabled:opacity-60 sm:text-sm"
                 >
                   <span>{regenerating ? '⏳' : '🔄'}</span>
                   {regenerating ? 'Generating…' : question.answer ? 'Regenerate answer' : 'Generate answer'}
@@ -138,7 +138,7 @@ export default function QuestionItem({
                   <button
                     type="button"
                     onClick={() => onEdit(question)}
-                    className="inline-flex items-center justify-center gap-1.5 rounded-md bg-white px-2.5 py-1.5 text-xs font-medium text-slate-700 ring-1 ring-inset ring-slate-200 transition hover:bg-slate-50"
+                    className="inline-flex items-center justify-center gap-1.5 rounded-md bg-white px-3 py-2 text-xs font-medium text-slate-700 ring-1 ring-inset ring-slate-200 transition hover:bg-slate-50 sm:text-sm"
                   >
                     <span>✏️</span> Edit question
                   </button>
@@ -146,7 +146,7 @@ export default function QuestionItem({
                 <button
                   type="button"
                   onClick={() => onDelete(question.id)}
-                  className="inline-flex items-center justify-center gap-1.5 rounded-md bg-white px-2.5 py-1.5 text-xs font-medium text-red-600 ring-1 ring-inset ring-red-200 transition hover:bg-red-50"
+                  className="inline-flex items-center justify-center gap-1.5 rounded-md bg-white px-3 py-2 text-xs font-medium text-red-600 ring-1 ring-inset ring-red-200 transition hover:bg-red-50 sm:text-sm"
                 >
                   <span>🗑️</span> {isReadOnly ? 'Delete shared question' : 'Delete'}
                 </button>
