@@ -396,7 +396,7 @@ function QuestionsContent() {
           </div>
           <span className="text-xs font-medium text-slate-500 sm:ml-2">Group by</span>
           <div className="flex max-w-full gap-1 overflow-x-auto rounded-lg bg-slate-100 p-1">
-            {([['none', 'None'], ['subject', 'Subject'], ['topic', 'Topic'], ['company', 'Company'], ['category', 'Category']] as const).map(([value, label]) => (
+            {([['subject', 'Subject'], ['topic', 'Topic']] as const).map(([value, label]) => (
               <button
                 key={value}
                 type="button"
