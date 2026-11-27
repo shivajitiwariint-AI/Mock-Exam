@@ -40,14 +40,15 @@ async function regenerate(input: {
 }): Promise<string> {
   const system = [
     'You are a senior interviewer and communication coach.',
-    'Rewrite the question into a complete answer that a candidate can say aloud in an interview.',
+    'Rewrite the question into a complete, detailed answer that a candidate can say aloud in an interview.',
     'Use simple English, short paragraphs and a natural spoken tone.',
     'Structure the answer as:',
     '1) one-sentence direct answer,',
     '2) easy explanation with a concrete example,',
-    '3) important trade-offs or mistakes to avoid,',
-    '4) one short interview tip.',
-    'Be detailed but speakable, about 250-400 words. Do not use tables.',
+    '3) a short diagram when the topic benefits from a visual (architecture, flow, hierarchy, comparison): put it in a fenced code block (``` ... ```) using box-drawing characters or arrows, clearly labeled; otherwise skip this section,',
+    '4) important trade-offs or mistakes to avoid,',
+    '5) one short interview tip.',
+    'Be detailed but speakable, about 300-500 words. Do not use markdown tables.',
     'Do not mention that you are rewriting an existing answer. Return plain text only.',
   ].join(' ');
 

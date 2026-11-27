@@ -318,77 +318,159 @@ function QuestionsContent() {
 
       const doc = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'a4' })
       const pageWidth = doc.internal.pageSize.getWidth()
-      doc.setFontSize(16)
-      doc.text('Question Bank — Questions & Answers', 40, 40)
-      doc.setFontSize(10)
-      doc.setTextColor(100)
-      doc.text(`Generated ${new Date().toLocaleString()} · ${qs.length} questions`, 40, 58)
-      doc.setTextColor(0)
+      const pageHeight = doc.internal.pageSize.getHeight()
+      const margin = 48
+      const contentWidth = pageWidth - margin * 2
 
-      let y = 76
-      qs.forEach((q, index) => {
-        if (y > 720) {
+      // ---------- Cover / title block ----------
+      doc.setFillColor(79, 70, 229)
+      doc.rect(0, 0, pageWidth, 96, 'F')
+      doc.setTextColor(255, 255, 255)
+      doc.setFont('helvetica', 'bold')
+      doc.setFontSize(22)
+      doc.text('Question Bank', margin, 46)
+      doc.setFontSize(11)
+      doc.setFont('helvetica', 'normal')
+      doc.text('Questions & Answers', margin, 66)
+      doc.setFontSize(9)
+      doc.text(`Generated ${new Date().toLocaleString()}  ·  ${qs.length} questions`, margin, 84)
+
+      // filter summary
+      const filters: string[] = []
+      if (search) filters.push(`Search: "${search}"`)
+      if (subjectFilter) {
+        const s = (facets?.subjects ?? []).find((x) => String(x.id) === subjectFilter)
+        if (s) filters.push(`Subject: ${s.name}`)
+      }
+      if (difficultyFilter !== 'all') filters.push(`Difficulty: ${difficultyFilter}`)
+      if (filters.length > 0) {
+        doc.text(`Filters: ${filters.join('  |  ')}`, margin, 108)
+      }
+
+      let y = filters.length > 0 ? 128 : 112
+      doc.setTextColor(0, 0, 0)
+
+      const ensureSpace = (needed: number) => {
+        if (y + needed > pageHeight - 60) {
           doc.addPage()
           y = 40
         }
-        doc.setFontSize(12)
-        doc.setFont('helvetica', 'bold')
-        const qLines = doc.splitTextToSize(`${index + 1}. ${q.question}`, pageWidth - 80)
-        doc.text(qLines, 40, y)
-        y += qLines.length * 15 + 4
+      }
 
-        doc.setFontSize(9)
-        doc.setFont('helvetica', 'normal')
-        doc.setTextColor(90)
-        const meta = [q.category?.replace(/_/g, ' '), q.difficulty, q.subjectName, q.topicName].filter(Boolean).join(' · ')
-        if (meta) {
-          doc.text(meta, 40, y)
-          y += 12
+      const drawFooter = () => {
+        const pages = doc.getNumberOfPages()
+        for (let p = 1; p <= pages; p++) {
+          doc.setPage(p)
+          doc.setFontSize(8)
+          doc.setTextColor(150)
+          doc.text(`Page ${p} of ${pages}`, pageWidth / 2, pageHeight - 24, { align: 'center' })
+          doc.text('PGCIP — Question Bank', margin, pageHeight - 24)
+          doc.setTextColor(0, 0, 0)
         }
-        doc.setTextColor(0)
+      }
 
-        if (q.answer) {
-          doc.setFontSize(11)
+      qs.forEach((q, index) => {
+        ensureSpace(60)
+
+        // Question header bar
+        doc.setFillColor(241, 245, 249)
+        doc.rect(margin, y - 2, contentWidth, 22, 'F')
+        doc.setFont('helvetica', 'bold')
+        doc.setFontSize(11)
+        doc.setTextColor(30, 41, 59)
+        const qTitle = `${index + 1}. ${q.question}`
+        const qLines = doc.splitTextToSize(qTitle, contentWidth - 12)
+        doc.text(qLines, margin + 6, y + 12)
+        y += qLines.length * 14 + 10
+
+        // Metadata row
+        doc.setFont('helvetica', 'normal')
+        doc.setFontSize(8.5)
+        doc.setTextColor(100, 116, 139)
+        const meta = [q.category?.replace(/_/g, ' '), q.difficulty, q.subjectName, q.topicName].filter(Boolean).join('   ·   ')
+        if (meta) {
+          doc.text(meta, margin + 6, y)
+          y += 14
+        }
+        doc.setTextColor(0, 0, 0)
+
+        // Options (if any)
+        if (q.options && q.options.length > 0) {
+          doc.setFontSize(10)
+          doc.setTextColor(51, 65, 85)
+          for (const opt of q.options) {
+            ensureSpace(13)
+            const isCorrect = opt.key === q.correctOption
+            const prefix = isCorrect ? '✓ ' : '   '
+            const optLine = `${prefix}${opt.key}. ${opt.text}`
+            const optLines = doc.splitTextToSize(optLine, contentWidth - 16)
+            if (isCorrect) doc.setFont('helvetica', 'bold')
+            else doc.setFont('helvetica', 'normal')
+            doc.text(optLines, margin + 10, y)
+            y += optLines.length * 13 + 2
+          }
           doc.setFont('helvetica', 'normal')
-          const aLines = doc.splitTextToSize(`Answer: ${q.answer}`, pageWidth - 80)
-          // page break handling for long answers
+          doc.setTextColor(0, 0, 0)
+          y += 4
+        }
+
+        // Answer block
+        if (q.answer) {
+          ensureSpace(24)
+          doc.setFillColor(238, 242, 255)
+          doc.rect(margin, y, contentWidth, 16, 'F')
+          doc.setFont('helvetica', 'bold')
+          doc.setFontSize(9.5)
+          doc.setTextColor(67, 56, 202)
+          doc.text('ANSWER', margin + 8, y + 11)
+          doc.setTextColor(0, 0, 0)
+          y += 22
+
+          doc.setFont('helvetica', 'normal')
+          doc.setFontSize(10.5)
+          doc.setTextColor(30, 41, 59)
+          const aLines = doc.splitTextToSize(q.answer, contentWidth - 12)
           for (const line of aLines) {
-            if (y > 760) {
-              doc.addPage()
-              y = 40
-            }
-            doc.text(line, 40, y)
+            ensureSpace(14)
+            doc.text(line, margin + 6, y)
             y += 14
           }
           y += 6
         } else {
+          ensureSpace(16)
+          doc.setFont('helvetica', 'italic')
           doc.setFontSize(10)
-          doc.setTextColor(150)
-          doc.text('No answer yet.', 40, y)
-          doc.setTextColor(0)
-          y += 14
+          doc.setTextColor(148, 163, 184)
+          doc.text('No answer yet.', margin + 6, y)
+          doc.setTextColor(0, 0, 0)
+          y += 16
         }
 
+        // Why asked
         if (q.whyAsked) {
+          ensureSpace(14)
+          doc.setFont('helvetica', 'italic')
           doc.setFontSize(9)
-          doc.setTextColor(120)
-          const wLines = doc.splitTextToSize(`Why asked: ${q.whyAsked}`, pageWidth - 80)
+          doc.setTextColor(100, 116, 139)
+          const wLines = doc.splitTextToSize(`Why asked: ${q.whyAsked}`, contentWidth - 12)
           for (const line of wLines) {
-            if (y > 760) { doc.addPage(); y = 40 }
-            doc.text(line, 40, y)
+            ensureSpace(12)
+            doc.text(line, margin + 6, y)
             y += 12
           }
-          doc.setTextColor(0)
+          doc.setTextColor(0, 0, 0)
+          y += 4
         }
 
         y += 8
-        if (y < 780) {
-          doc.setDrawColor(220)
-          doc.line(40, y, pageWidth - 40, y)
-          y += 10
+        if (y < pageHeight - 60) {
+          doc.setDrawColor(226, 232, 240)
+          doc.line(margin, y, pageWidth - margin, y)
+          y += 12
         }
       })
 
+      drawFooter()
       doc.save('question-bank.pdf')
       setNoticeType('success')
       setNotice(`Downloaded ${qs.length} questions as PDF.`)

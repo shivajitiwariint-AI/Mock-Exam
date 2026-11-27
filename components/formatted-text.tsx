@@ -6,8 +6,7 @@ type FormattedTextProps = {
 };
 
 function renderInline(text: string) {
-  // Bold common lead-in labels for scannability.
-  const parts = text.split(/(Interview tip:|Example:|Key point:|Rule:|Benefit:|Note:|Trade-off:)/g);
+  const parts = text.split(/(Interview tip:|Example:|Key point:|Rule:|Benefit:|Note:|Trade-off:|Diagram:)/g);
   return parts.map((part, index) => {
     if (
       part === "Interview tip:" ||
@@ -16,7 +15,8 @@ function renderInline(text: string) {
       part === "Rule:" ||
       part === "Benefit:" ||
       part === "Note:" ||
-      part === "Trade-off:"
+      part === "Trade-off:" ||
+      part === "Diagram:"
     ) {
       return (
         <strong key={index} className="font-semibold text-slate-900">
@@ -33,6 +33,8 @@ export function FormattedText({ text, className }: FormattedTextProps) {
   const blocks: React.ReactNode[] = [];
   let paragraph: string[] = [];
   let bullets: string[] = [];
+  let codeLines: string[] = [];
+  let inCode = false;
 
   const flushParagraph = () => {
     if (paragraph.length > 0) {
@@ -61,8 +63,39 @@ export function FormattedText({ text, className }: FormattedTextProps) {
     }
   };
 
+  const flushCode = () => {
+    if (codeLines.length > 0) {
+      blocks.push(
+        <pre
+          key={blocks.length}
+          className="overflow-x-auto rounded-lg bg-slate-900 p-3 text-xs leading-5 text-slate-100"
+        >
+          <code>{codeLines.join("\n")}</code>
+        </pre>,
+      );
+      codeLines = [];
+    }
+  };
+
   for (const rawLine of lines) {
     const line = rawLine.trim();
+    if (line.startsWith("```")) {
+      flushParagraph();
+      flushBullets();
+      if (inCode) {
+        flushCode();
+        inCode = false;
+      } else {
+        inCode = true;
+      }
+      continue;
+    }
+
+    if (inCode) {
+      codeLines.push(rawLine);
+      continue;
+    }
+
     if (!line) {
       flushParagraph();
       flushBullets();
@@ -80,6 +113,7 @@ export function FormattedText({ text, className }: FormattedTextProps) {
 
   flushParagraph();
   flushBullets();
+  if (inCode) flushCode();
 
   return (
     <div className={className ?? "space-y-3 text-sm text-slate-700"}>

@@ -22,6 +22,7 @@
     "bcryptjs": "^3.0.3",
     "jose": "^6.2.8",
     "jspdf": "^4.2.1",
+    "jspdf-autotable": "^5.0.9",
     "mammoth": "^1.13.0",
     "mariadb": "^3.5.3",
     "next": "14.2.35",
