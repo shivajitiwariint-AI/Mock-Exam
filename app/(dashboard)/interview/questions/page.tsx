@@ -435,6 +435,43 @@ function QuestionsContent() {
             ))}
           </div>
         </div>
+
+        {/* Subject & Topic filters */}
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+          <label className="flex flex-1 items-center gap-2">
+            <span className="whitespace-nowrap text-xs font-medium text-slate-500">Subject</span>
+            <select
+              value={subjectFilter}
+              onChange={(event) => { setSubjectFilter(event.target.value); setTopicFilter(''); setPage(1) }}
+              className="w-full rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              <option value="">All subjects</option>
+              {(facets?.subjects ?? []).map((facet) => (
+                <option key={facet.id} value={String(facet.id)}>{facet.name} ({facet.count})</option>
+              ))}
+            </select>
+          </label>
+          <label className="flex flex-1 items-center gap-2">
+            <span className="whitespace-nowrap text-xs font-medium text-slate-500">Topic</span>
+            <select
+              value={topicFilter}
+              onChange={(event) => { setTopicFilter(event.target.value); setPage(1) }}
+              className="w-full rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              <option value="">All topics</option>
+              {(facets?.topics ?? [])
+                .filter((facet) => !subjectFilter || String(facet.subjectId) === subjectFilter)
+                .map((facet) => (
+                  <option key={facet.id} value={String(facet.id)}>{facet.name} ({facet.count})</option>
+                ))}
+            </select>
+          </label>
+          {activeFilterCount > 0 ? (
+            <button type="button" onClick={clearFilters} className="whitespace-nowrap text-xs font-medium text-indigo-600 underline">
+              Clear filters
+            </button>
+          ) : null}
+        </div>
       </div>
 
       {notice ? (
@@ -448,78 +485,8 @@ function QuestionsContent() {
         </div>
       ) : null}
 
-      {/* Left filter panel + grouped results */}
-      <div className="mb-2 flex items-center justify-between gap-2 lg:hidden">
-        <button
-          type="button"
-          onClick={() => setShowMobileFilters((value) => !value)}
-          className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700"
-        >
-          🔎 Filters{activeFilterCount > 0 ? ` (${activeFilterCount})` : ''}
-          <span className="text-xs text-slate-400">{showMobileFilters ? '▲' : '▼'}</span>
-        </button>
-        {activeFilterCount > 0 ? (
-          <button type="button" onClick={clearFilters} className="text-xs font-medium text-indigo-600 underline">
-            Clear all
-          </button>
-        ) : null}
-      </div>
-
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:gap-6">
-        <aside className={`${showMobileFilters ? 'block' : 'hidden'} w-full flex-shrink-0 space-y-4 rounded-xl border border-slate-200 bg-white p-3 lg:sticky lg:top-4 lg:block lg:w-64`}>
-          <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-slate-800">🔎 Filters</h2>
-            {activeFilterCount > 0 ? (
-              <button type="button" onClick={clearFilters} className="text-[11px] font-medium text-indigo-600 underline">
-                Clear all ({activeFilterCount})
-              </button>
-            ) : null}
-          </div>
-
-          <section>
-            <h3 className="mb-1 px-2 text-[11px] font-semibold uppercase tracking-wide text-slate-400">Source</h3>
-            {filterRow(sourceFilter === 'all', 'All questions', sourceCounts.all, () => { setSourceFilter('all'); setPage(1) })}
-            {filterRow(sourceFilter === 'interview', 'My interview questions', sourceCounts.interview, () => { setSourceFilter('interview'); setPage(1) })}
-            {filterRow(sourceFilter === 'guide', 'Interview guides', sourceCounts.guide, () => { setSourceFilter('guide'); setPage(1) })}
-            {filterRow(sourceFilter === 'mock', 'Mock Exam', sourceCounts.mock, () => { setSourceFilter('mock'); setPage(1) })}
-          </section>
-
-          <section>
-            <h3 className="mb-1 px-2 text-[11px] font-semibold uppercase tracking-wide text-slate-400">Category</h3>
-            {filterRow(!categoryFilter, 'All categories', globalTotal, () => { setCategoryFilter(''); setPage(1) })}
-            {(facets?.categories ?? []).map((facet) => filterRow(
-              categoryFilter === facet.name,
-              facet.name.replace(/_/g, ' '),
-              facet.count,
-              () => { setCategoryFilter(categoryFilter === facet.name ? '' : facet.name); setPage(1) },
-            ))}
-          </section>
-
-          <section>
-            <h3 className="mb-1 px-2 text-[11px] font-semibold uppercase tracking-wide text-slate-400">Subject</h3>
-            {filterRow(!subjectFilter, 'All subjects', globalTotal, () => { setSubjectFilter(''); setTopicFilter(''); setPage(1) })}
-            {(facets?.subjects ?? []).map((facet) => filterRow(
-              subjectFilter === String(facet.id),
-              facet.name,
-              facet.count,
-              () => { setSubjectFilter(subjectFilter === String(facet.id) ? '' : String(facet.id)); setTopicFilter(''); setPage(1) },
-            ))}
-          </section>
-
-          <section>
-            <h3 className="mb-1 px-2 text-[11px] font-semibold uppercase tracking-wide text-slate-400">Company</h3>
-            {filterRow(companyFilter === '' && typeFilter === 'all', 'All companies', globalTotal, () => { setCompanyFilter(''); setTypeFilter('all'); setPage(1) })}
-            {filterRow(typeFilter === 'general', '🌐 General (no company)', sourceCounts.interview, () => { setCompanyFilter(''); setTypeFilter('general'); setPage(1) })}
-            {(facets?.companies ?? []).map((facet) => filterRow(
-              companyFilter === String(facet.id),
-              facet.name,
-              facet.count,
-              () => { setCompanyFilter(companyFilter === String(facet.id) ? '' : String(facet.id)); setTypeFilter('company'); setPage(1) },
-            ))}
-          </section>
-        </aside>
-
-        <div className="min-w-0 flex-1 space-y-3">
+      {/* Results */}
+      <div className="min-w-0 space-y-3">
           <div className="flex flex-wrap items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
             <span className="text-xs font-semibold text-slate-600">View:</span>
             <span className="text-xs text-slate-500">
@@ -606,7 +573,6 @@ function QuestionsContent() {
           })}
         </div>
       )}
-        </div>
       </div>
 
       {showAddModal && (
