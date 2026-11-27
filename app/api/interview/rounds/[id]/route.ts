@@ -3,11 +3,13 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getUserFromRequest } from '@/lib/auth'
+import { withApi } from "@/lib/errors";
 
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const id = parseInt(params.id, 10)
   if (isNaN(id)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
@@ -19,4 +21,6 @@ export async function DELETE(
 
   await prisma.interviewRound.delete({ where: { id } })
   return NextResponse.json({ success: true })
+
+  });
 }

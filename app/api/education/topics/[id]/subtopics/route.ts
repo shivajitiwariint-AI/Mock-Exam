@@ -4,11 +4,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getUserFromRequest } from '@/lib/auth'
 import { createSubtopicSchema } from '@/lib/validations/education.schema'
+import { withApi } from "@/lib/errors";
 
 export async function POST(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const topicId = parseInt(params.id, 10)
   if (isNaN(topicId)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
@@ -26,4 +28,6 @@ export async function POST(
 
   const subtopic = await prisma.subtopic.create({ data: { ...result.data, topicId } })
   return NextResponse.json({ subtopic }, { status: 201 })
+
+  });
 }

@@ -1,21 +1,17 @@
 export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
+import { getClientIp } from '@/lib/api'
 import { prisma } from '@/lib/prisma'
 import { comparePassword } from '@/lib/password'
 import { signJWT, setAuthCookie } from '@/lib/auth'
-import { rateLimit } from '@/lib/rate-limit'
+import { limitOrResponse } from '@/lib/rate-limit'
 import { loginSchema } from '@/lib/validations/auth.schema'
 
 export async function POST(request: NextRequest) {
-  const ip = request.headers.get('x-forwarded-for') ?? 'unknown'
-  const { success } = rateLimit(ip)
-  if (!success) {
-    return NextResponse.json(
-      { error: 'Too many requests. Try again later.' },
-      { status: 429 }
-    )
-  }
+  const ip = getClientIp(request)
+  const ipLimited = await limitOrResponse(`auth:login:ip:${ip}`, 30, 60_000)
+  if (ipLimited) return ipLimited
 
   let body: unknown
   try {
@@ -30,6 +26,13 @@ export async function POST(request: NextRequest) {
   }
 
   const { email, password } = result.data
+
+  const emailLimited = await limitOrResponse(
+    `auth:login:email:${email.toLowerCase()}`,
+    20,
+    15 * 60_000
+  )
+  if (emailLimited) return emailLimited
 
   let user
   try {

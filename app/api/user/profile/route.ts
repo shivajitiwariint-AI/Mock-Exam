@@ -4,14 +4,11 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getUserFromRequest } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { updateProfileSchema } from '@/lib/validations/profile.schema'
+import { withApi } from "@/lib/errors";
 
 export async function GET(request: NextRequest) {
-  let authUser
-  try {
-    authUser = await getUserFromRequest(request)
-  } catch (err) {
-    return err as Response
-  }
+  return withApi(async () => {
+  const authUser = await getUserFromRequest(request)
 
   const profile = await prisma.userProfile.findUnique({
     where: { userId: authUser.userId },
@@ -27,15 +24,13 @@ export async function GET(request: NextRequest) {
     avatar: profile.avatar,
     bio: profile.bio,
   })
+
+  });
 }
 
 export async function PUT(request: NextRequest) {
-  let authUser
-  try {
-    authUser = await getUserFromRequest(request)
-  } catch (err) {
-    return err as Response
-  }
+  return withApi(async () => {
+  const authUser = await getUserFromRequest(request)
 
   let body: unknown
   try {
@@ -64,4 +59,6 @@ export async function PUT(request: NextRequest) {
     avatar: updated.avatar,
     bio: updated.bio,
   })
+
+  });
 }

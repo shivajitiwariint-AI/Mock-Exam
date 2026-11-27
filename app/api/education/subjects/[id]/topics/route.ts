@@ -4,11 +4,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getUserFromRequest } from '@/lib/auth'
 import { createTopicSchema } from '@/lib/validations/education.schema'
+import { withApi } from "@/lib/errors";
 
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const subjectId = parseInt(params.id, 10)
   if (isNaN(subjectId)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
@@ -25,12 +27,15 @@ export async function GET(
   })
 
   return NextResponse.json({ topics })
+
+  });
 }
 
 export async function POST(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const subjectId = parseInt(params.id, 10)
   if (isNaN(subjectId)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
@@ -52,4 +57,6 @@ export async function POST(
   })
 
   return NextResponse.json({ topic }, { status: 201 })
+
+  });
 }

@@ -5,8 +5,10 @@ import { prisma } from '@/lib/prisma'
 import { getUserFromRequest } from '@/lib/auth'
 import { questionWriteData, toLegacyQuestion } from '@/lib/legacy-education'
 import { createQuestionSchema } from '@/lib/validations/education.schema'
+import { withApi } from "@/lib/errors";
 
 export async function GET(request: NextRequest) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const { searchParams } = new URL(request.url)
   const topicId = searchParams.get('topicId') ? parseInt(searchParams.get('topicId')!, 10) : undefined
@@ -25,9 +27,12 @@ export async function GET(request: NextRequest) {
   })
 
   return NextResponse.json({ questions: questions.map(toLegacyQuestion) })
+
+  });
 }
 
 export async function POST(request: NextRequest) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
 
   let body: unknown
@@ -50,4 +55,6 @@ export async function POST(request: NextRequest) {
   })
 
   return NextResponse.json({ question: toLegacyQuestion(question as unknown as Record<string, unknown>) }, { status: 201 })
+
+  });
 }

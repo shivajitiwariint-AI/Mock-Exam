@@ -4,11 +4,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getUserFromRequest } from '@/lib/auth'
 import { toLegacyQuestion } from '@/lib/legacy-education'
+import { withApi } from "@/lib/errors";
 
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const id = parseInt(params.id, 10)
   if (isNaN(id)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
@@ -35,4 +37,6 @@ export async function GET(
       })),
     },
   })
+
+  });
 }

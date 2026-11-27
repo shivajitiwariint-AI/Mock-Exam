@@ -1,21 +1,17 @@
 export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
+import { getClientIp } from '@/lib/api'
 import { prisma } from '@/lib/prisma'
 import { hashPassword } from '@/lib/password'
 import { signJWT, setAuthCookie } from '@/lib/auth'
-import { rateLimit } from '@/lib/rate-limit'
+import { limitOrResponse } from '@/lib/rate-limit'
 import { registerSchema } from '@/lib/validations/auth.schema'
 
 export async function POST(request: NextRequest) {
-  const ip = request.headers.get('x-forwarded-for') ?? 'unknown'
-  const { success } = rateLimit(ip)
-  if (!success) {
-    return NextResponse.json(
-      { error: 'Too many requests. Try again later.' },
-      { status: 429 }
-    )
-  }
+  const ip = getClientIp(request)
+  const limited = await limitOrResponse(`auth:register:ip:${ip}`, 5, 60_000)
+  if (limited) return limited
 
   let body: unknown
   try {

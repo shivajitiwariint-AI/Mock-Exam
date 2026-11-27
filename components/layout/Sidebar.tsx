@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
@@ -146,7 +145,16 @@ export default function Sidebar({ userName, userAvatar, growthScore, isAdmin, is
         <div className="flex items-center gap-3 mb-3">
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-accent/20 text-accent font-semibold text-sm">
             {userAvatar ? (
-              <Image src={userAvatar} alt={userName} width={32} height={32} className="rounded-full object-cover" />
+              // eslint-disable-next-line @next/next/no-img-element -- avatars are arbitrary user-supplied URLs
+              <img
+                src={userAvatar}
+                alt={userName}
+                width={32}
+                height={32}
+                loading="lazy"
+                referrerPolicy="no-referrer"
+                className="rounded-full object-cover"
+              />
             ) : (
               userName.charAt(0).toUpperCase()
             )}

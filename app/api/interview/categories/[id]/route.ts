@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getUserFromRequest } from '@/lib/auth'
 import { z } from 'zod'
+import { withApi } from "@/lib/errors";
 
 const updateSchema = z.object({
   name: z.string().min(1).max(50).optional(),
@@ -14,6 +15,7 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const id = parseInt(params.id, 10)
   if (isNaN(id)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
@@ -35,12 +37,15 @@ export async function PUT(
 
   const category = await prisma.interviewCategory.update({ where: { id }, data })
   return NextResponse.json({ category })
+
+  });
 }
 
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const id = parseInt(params.id, 10)
   if (isNaN(id)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
@@ -50,4 +55,6 @@ export async function DELETE(
 
   await prisma.interviewCategory.delete({ where: { id } })
   return NextResponse.json({ success: true })
+
+  });
 }

@@ -5,6 +5,7 @@ import type { Prisma } from '@/app/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 import { getUserFromRequest } from '@/lib/auth';
 import { createQuestionSchema } from '@/lib/validations/interview.schema';
+import { withApi } from "@/lib/errors";
 
 type MockQuestionOption = { key: string; text: string };
 type SourceFilter = 'all' | 'interview' | 'guide' | 'mock' | null;
@@ -88,6 +89,7 @@ function countBy<T>(items: T[], key: (item: T) => string | number | null): Map<s
 }
 
 export async function GET(request: NextRequest) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request);
   const { searchParams } = new URL(request.url);
 
@@ -302,9 +304,12 @@ export async function GET(request: NextRequest) {
     pagination: { page, pageSize, total, totalPages },
     practicedCount,
   });
+
+  });
 }
 
 export async function POST(request: NextRequest) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request);
 
   let body: unknown;
@@ -322,4 +327,6 @@ export async function POST(request: NextRequest) {
   });
 
   return NextResponse.json({ question }, { status: 201 });
+
+  });
 }

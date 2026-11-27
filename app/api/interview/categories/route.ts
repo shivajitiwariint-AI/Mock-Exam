@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getUserFromRequest } from '@/lib/auth'
 import { z } from 'zod'
+import { withApi } from "@/lib/errors";
 
 const createSchema = z.object({
   name: z.string().min(1).max(50),
@@ -11,15 +12,19 @@ const createSchema = z.object({
 })
 
 export async function GET(request: NextRequest) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const categories = await prisma.interviewCategory.findMany({
     where: { userId: user.userId },
     orderBy: { name: 'asc' },
   })
   return NextResponse.json({ categories })
+
+  });
 }
 
 export async function POST(request: NextRequest) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
 
   let body: unknown
@@ -43,4 +48,6 @@ export async function POST(request: NextRequest) {
     },
   })
   return NextResponse.json({ category }, { status: 201 })
+
+  });
 }

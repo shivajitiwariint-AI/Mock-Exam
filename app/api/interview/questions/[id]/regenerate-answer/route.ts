@@ -5,6 +5,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getUserFromRequest } from '@/lib/auth';
 import { generateChatCompletion, llmConfigured } from '@/lib/llm';
+import { limitOrResponse } from '@/lib/rate-limit';
+import { withApi } from "@/lib/errors";
 
 type Option = { key: string; text: string };
 
@@ -71,11 +73,15 @@ async function regenerate(input: {
 }
 
 export async function POST(request: NextRequest, { params }: { params: { id: string } }) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request);
   const id = Number(params.id);
   if (!Number.isFinite(id) || id === 0) {
     return NextResponse.json({ error: 'Invalid question id' }, { status: 400 });
   }
+
+  const limited = await limitOrResponse(`regen-answer:${user.userId}`, 20, 60 * 60 * 1000);
+  if (limited) return limited;
 
   if (!llmConfigured()) {
     return NextResponse.json(
@@ -151,4 +157,6 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
       error instanceof Error ? error.message : 'The answer could not be regenerated right now.';
     return NextResponse.json({ error: message }, { status: 502 });
   }
+
+  });
 }

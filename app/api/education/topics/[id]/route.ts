@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getUserFromRequest } from '@/lib/auth'
 import { updateTopicSchema } from '@/lib/validations/education.schema'
+import { withApi } from "@/lib/errors";
 
 async function getOwnedTopic(topicId: number, userId: number) {
   return prisma.topic.findFirst({
@@ -15,6 +16,7 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const id = parseInt(params.id, 10)
   if (isNaN(id)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
@@ -34,12 +36,15 @@ export async function GET(
   if (!topic) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
   return NextResponse.json({ topic })
+
+  });
 }
 
 export async function PUT(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const id = parseInt(params.id, 10)
   if (isNaN(id)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
@@ -57,12 +62,15 @@ export async function PUT(
 
   const topic = await prisma.topic.update({ where: { id }, data: result.data })
   return NextResponse.json({ topic })
+
+  });
 }
 
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const id = parseInt(params.id, 10)
   if (isNaN(id)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
@@ -72,4 +80,6 @@ export async function DELETE(
 
   await prisma.topic.delete({ where: { id } })
   return NextResponse.json({ success: true })
+
+  });
 }

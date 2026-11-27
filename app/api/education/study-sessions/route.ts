@@ -3,9 +3,11 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getUserFromRequest } from '@/lib/auth'
+import { withApi } from '@/lib/errors'
 import { createStudySessionSchema } from '@/lib/validations/education.schema'
 
-export async function GET(request: NextRequest): Promise<NextResponse> {
+export async function GET(request: NextRequest): Promise<Response> {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const { searchParams } = new URL(request.url)
   const subjectId = searchParams.get('subjectId') ? parseInt(searchParams.get('subjectId')!, 10) : undefined
@@ -32,9 +34,11 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   const totalMins = sessions.reduce((sum, s) => sum + s.durationMins, 0)
 
   return NextResponse.json({ sessions, totalMins, weeklyMins })
+  });
 }
 
-export async function POST(request: NextRequest): Promise<NextResponse> {
+export async function POST(request: NextRequest): Promise<Response> {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
 
   let body: unknown
@@ -58,4 +62,5 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   })
 
   return NextResponse.json({ session }, { status: 201 })
+  });
 }

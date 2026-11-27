@@ -4,11 +4,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getUserFromRequest } from '@/lib/auth'
 import { progressSchema } from '@/lib/validations/goal.schema'
+import { withApi } from "@/lib/errors";
 
 export async function POST(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const goalId = parseInt(params.id, 10)
   if (isNaN(goalId)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
@@ -33,4 +35,6 @@ export async function POST(
   })
 
   return NextResponse.json({ progress })
+
+  });
 }

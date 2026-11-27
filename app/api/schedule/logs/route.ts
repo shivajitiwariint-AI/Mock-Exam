@@ -3,8 +3,10 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 import { getUserFromRequest } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { withApi } from "@/lib/errors";
 
 export async function GET(request: NextRequest) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const { searchParams } = new URL(request.url)
   const dateStr = searchParams.get('date')   // YYYY-MM-DD
@@ -32,9 +34,12 @@ export async function GET(request: NextRequest) {
     include: { block: { select: { id: true, label: true, category: true, startTime: true, endTime: true } } },
   })
   return NextResponse.json({ logs })
+
+  });
 }
 
 export async function POST(request: NextRequest) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const body = await request.json() as { blockId: number; date: string; status: string; note?: string }
 
@@ -60,4 +65,6 @@ export async function POST(request: NextRequest) {
     },
   })
   return NextResponse.json({ log })
+
+  });
 }

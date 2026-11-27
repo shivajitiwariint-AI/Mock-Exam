@@ -4,11 +4,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getUserFromRequest } from '@/lib/auth'
 import { createJdSchema } from '@/lib/validations/interview.schema'
+import { withApi } from "@/lib/errors";
 
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const companyId = parseInt(params.id, 10)
   if (isNaN(companyId)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
@@ -23,12 +25,15 @@ export async function GET(
   })
 
   return NextResponse.json({ jds })
+
+  });
 }
 
 export async function POST(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const companyId = parseInt(params.id, 10)
   if (isNaN(companyId)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
@@ -50,4 +55,6 @@ export async function POST(
   })
 
   return NextResponse.json({ jd }, { status: 201 })
+
+  });
 }

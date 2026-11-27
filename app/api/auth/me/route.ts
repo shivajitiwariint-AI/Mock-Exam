@@ -3,14 +3,11 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 import { getUserFromRequest } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { withApi } from "@/lib/errors";
 
 export async function GET(request: NextRequest) {
-  let authUser
-  try {
-    authUser = await getUserFromRequest(request)
-  } catch (err) {
-    return err as Response
-  }
+  return withApi(async () => {
+  const authUser = await getUserFromRequest(request)
 
   const user = await prisma.user.findUnique({
     where: { id: authUser.userId },
@@ -39,4 +36,6 @@ export async function GET(request: NextRequest) {
         }
       : null,
   })
+
+  });
 }

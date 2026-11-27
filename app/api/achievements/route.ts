@@ -6,8 +6,10 @@ import { prisma } from '@/lib/prisma'
 import { checkAndAwardAchievements } from '@/lib/achievement-checker'
 import { ACHIEVEMENTS } from '@/lib/achievements'
 import type { AchievementData } from '@/types'
+import { withApi } from "@/lib/errors";
 
 export async function GET(request: NextRequest) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
 
   await checkAndAwardAchievements(user.userId)
@@ -34,4 +36,6 @@ export async function GET(request: NextRequest) {
       total: ACHIEVEMENTS.length,
     },
   })
+
+  });
 }

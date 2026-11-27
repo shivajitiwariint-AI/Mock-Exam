@@ -4,7 +4,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getUserFromRequest } from '@/lib/auth'
 import { getClaudeClient } from '@/lib/claude'
+import { limitOrResponse } from '@/lib/rate-limit'
 import { generateJdQuestionsSchema } from '@/lib/validations/interview.schema'
+import { withApi } from "@/lib/errors";
 
 type ClaudeQuestion = {
   question: string
@@ -14,6 +16,7 @@ type ClaudeQuestion = {
 }
 
 export async function POST(request: NextRequest) {
+  return withApi(async () => {
   if (!process.env.ANTHROPIC_API_KEY) {
     return NextResponse.json(
       { error: 'AI features require ANTHROPIC_API_KEY to be configured' },
@@ -22,6 +25,9 @@ export async function POST(request: NextRequest) {
   }
 
   const user = await getUserFromRequest(request)
+
+  const limited = await limitOrResponse(`jd-questions:${user.userId}`, 10, 60 * 60 * 1000)
+  if (limited) return limited
 
   let body: unknown
   try { body = await request.json() } catch {
@@ -111,4 +117,6 @@ Return ONLY a valid JSON array — no markdown fences, no explanation text, just
     const message = err instanceof Error ? err.message : 'Unknown error'
     return NextResponse.json({ error: `AI generation failed: ${message}` }, { status: 500 })
   }
+
+  });
 }

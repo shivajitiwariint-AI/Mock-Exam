@@ -5,11 +5,13 @@ import { prisma } from '@/lib/prisma'
 import { getUserFromRequest } from '@/lib/auth'
 import { questionWriteData, toLegacyQuestion } from '@/lib/legacy-education'
 import { updateQuestionSchema } from '@/lib/validations/education.schema'
+import { withApi } from "@/lib/errors";
 
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const id = parseInt(params.id, 10)
   if (isNaN(id)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
@@ -21,12 +23,15 @@ export async function GET(
 
   if (!question) return NextResponse.json({ error: 'Not found' }, { status: 404 })
   return NextResponse.json({ question: toLegacyQuestion(question as unknown as Record<string, unknown>) })
+
+  });
 }
 
 export async function PUT(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const id = parseInt(params.id, 10)
   if (isNaN(id)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
@@ -54,12 +59,15 @@ export async function PUT(
   })
 
   return NextResponse.json({ question: toLegacyQuestion(question as unknown as Record<string, unknown>) })
+
+  });
 }
 
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const id = parseInt(params.id, 10)
   if (isNaN(id)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
@@ -69,4 +77,6 @@ export async function DELETE(
 
   await prisma.question.delete({ where: { id } })
   return NextResponse.json({ success: true })
+
+  });
 }

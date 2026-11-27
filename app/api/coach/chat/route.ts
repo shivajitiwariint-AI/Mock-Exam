@@ -4,7 +4,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getUserFromRequest } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { calculateGrowthScore } from '@/lib/growth-score'
+import { limitOrResponse } from '@/lib/rate-limit'
 import Anthropic from '@anthropic-ai/sdk'
+import { withApi } from "@/lib/errors";
 
 type ChatMessage = { role: 'user' | 'assistant'; content: string }
 
@@ -104,7 +106,11 @@ function mockReply(
 }
 
 export async function POST(request: NextRequest) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
+
+  const limited = await limitOrResponse(`coach:${user.userId}`, 20, 60_000)
+  if (limited) return limited
 
   const body = await request.json()
   const { message, history } = body as { message: string; history: ChatMessage[] }
@@ -138,4 +144,6 @@ Be encouraging, specific, and actionable. Reference the user's actual scores whe
     mockReply(message, score, earned.length)
 
   return NextResponse.json({ reply })
+
+  });
 }

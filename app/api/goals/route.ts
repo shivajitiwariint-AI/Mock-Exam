@@ -4,8 +4,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getUserFromRequest } from '@/lib/auth'
 import { createGoalSchema } from '@/lib/validations/goal.schema'
+import { withApi } from "@/lib/errors";
 
 export async function GET(request: NextRequest) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const { searchParams } = new URL(request.url)
 
@@ -24,9 +26,12 @@ export async function GET(request: NextRequest) {
   })
 
   return NextResponse.json({ goals })
+
+  });
 }
 
 export async function POST(request: NextRequest) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
 
   let body: unknown
@@ -47,4 +52,6 @@ export async function POST(request: NextRequest) {
   })
 
   return NextResponse.json({ goal }, { status: 201 })
+
+  });
 }

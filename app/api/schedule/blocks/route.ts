@@ -3,17 +3,22 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 import { getUserFromRequest } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { withApi } from "@/lib/errors";
 
 export async function GET(request: NextRequest) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const blocks = await prisma.scheduleBlock.findMany({
     where: { userId: user.userId },
     orderBy: [{ order: 'asc' }, { startTime: 'asc' }],
   })
   return NextResponse.json({ blocks })
+
+  });
 }
 
 export async function POST(request: NextRequest) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const body = await request.json() as {
     startTime: string
@@ -45,4 +50,6 @@ export async function POST(request: NextRequest) {
     },
   })
   return NextResponse.json({ block }, { status: 201 })
+
+  });
 }

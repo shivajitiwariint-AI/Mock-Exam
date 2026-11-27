@@ -1,28 +1,5 @@
-type RateLimitEntry = { count: number; resetAt: number }
-
-const store = new Map<string, RateLimitEntry>()
-const WINDOW_MS = 60 * 1000 // 1 minute
-const MAX_REQUESTS = 10
-
-/** Lightweight in-memory limiter used by the PGOS auth routes. */
-export function rateLimit(ip: string): { success: boolean } {
-  const now = Date.now()
-  const entry = store.get(ip)
-
-  if (!entry || now > entry.resetAt) {
-    store.set(ip, { count: 1, resetAt: now + WINDOW_MS })
-    return { success: true }
-  }
-
-  if (entry.count >= MAX_REQUESTS) {
-    return { success: false }
-  }
-
-  entry.count++
-  return { success: true }
-}
-
 import { createHash } from "node:crypto";
+import { NextResponse } from "next/server";
 import { prisma } from "./db";
 import { ApiError } from "./errors";
 
@@ -71,6 +48,39 @@ export async function enforceRateLimit(
     throw new ApiError(429, "RATE_LIMITED", "Too many requests. Please try again later.", {
       retryAfterSeconds,
     });
+  }
+}
+
+/**
+ * Same as enforceRateLimit, but returns a ready-to-send Response instead of
+ * throwing. Useful for legacy routes that are not wrapped in withApi().
+ */
+export async function limitOrResponse(
+  key: string,
+  limit: number,
+  windowMs: number,
+): Promise<NextResponse | null> {
+  try {
+    await enforceRateLimit(key, limit, windowMs);
+    return null;
+  } catch (error) {
+    if (error instanceof ApiError && error.status === 429) {
+      const retryAfter = (error.details as { retryAfterSeconds?: number } | undefined)
+        ?.retryAfterSeconds;
+      return NextResponse.json(
+        { error: error.message },
+        {
+          status: 429,
+          headers: retryAfter ? { "Retry-After": String(retryAfter) } : undefined,
+        },
+      );
+    }
+
+    console.error("[rate-limit] bucket unavailable", error);
+    return NextResponse.json(
+      { error: "Rate limiting is temporarily unavailable. Please try again later." },
+      { status: 503 },
+    );
   }
 }
 

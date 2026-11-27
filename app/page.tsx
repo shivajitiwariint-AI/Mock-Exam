@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { cookies } from 'next/headers'
 import { jwtVerify } from 'jose'
+import { getJwtSecret } from '@/lib/jwt-secret'
 
 const COOKIE_NAME = 'pgcip_token'
 
@@ -11,10 +12,7 @@ async function getSession(): Promise<Session | null> {
   if (!token) return null
 
   try {
-    const secret = new TextEncoder().encode(
-      process.env.JWT_SECRET ?? 'fallback-secret-not-for-production',
-    )
-    const { payload } = await jwtVerify(token, secret)
+    const { payload } = await jwtVerify(token, getJwtSecret())
     const isAdmin =
       payload.isAdmin === true ||
       payload.role === 'SUPER_ADMIN' ||

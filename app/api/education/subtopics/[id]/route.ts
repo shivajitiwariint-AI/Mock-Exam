@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getUserFromRequest } from '@/lib/auth'
 import { updateSubtopicSchema } from '@/lib/validations/education.schema'
+import { withApi } from "@/lib/errors";
 
 async function getOwnedSubtopic(subtopicId: number, userId: number) {
   return prisma.subtopic.findFirst({
@@ -15,6 +16,7 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const id = parseInt(params.id, 10)
   if (isNaN(id)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
@@ -32,12 +34,15 @@ export async function PUT(
 
   const subtopic = await prisma.subtopic.update({ where: { id }, data: result.data })
   return NextResponse.json({ subtopic })
+
+  });
 }
 
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const id = parseInt(params.id, 10)
   if (isNaN(id)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
@@ -47,4 +52,6 @@ export async function DELETE(
 
   await prisma.subtopic.delete({ where: { id } })
   return NextResponse.json({ success: true })
+
+  });
 }

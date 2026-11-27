@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getUserFromRequest } from '@/lib/auth'
 import { updateSubjectSchema } from '@/lib/validations/education.schema'
+import { withApi } from "@/lib/errors";
 
 function parseId(params: { id: string }): number | null {
   const id = parseInt(params.id, 10)
@@ -14,6 +15,7 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const id = parseId(params)
   if (!id) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
@@ -33,12 +35,15 @@ export async function GET(
   if (!subject) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
   return NextResponse.json({ subject })
+
+  });
 }
 
 export async function PUT(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const id = parseId(params)
   if (!id) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
@@ -64,12 +69,15 @@ export async function PUT(
   })
 
   return NextResponse.json({ subject })
+
+  });
 }
 
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const id = parseId(params)
   if (!id) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
@@ -80,4 +88,6 @@ export async function DELETE(
   await prisma.subject.delete({ where: { id } })
 
   return NextResponse.json({ success: true })
+
+  });
 }

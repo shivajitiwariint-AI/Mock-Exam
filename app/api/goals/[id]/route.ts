@@ -4,11 +4,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getUserFromRequest } from '@/lib/auth'
 import { updateGoalSchema } from '@/lib/validations/goal.schema'
+import { withApi } from "@/lib/errors";
 
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const id = parseInt(params.id, 10)
   if (isNaN(id)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
@@ -23,12 +25,15 @@ export async function GET(
 
   if (!goal) return NextResponse.json({ error: 'Not found' }, { status: 404 })
   return NextResponse.json({ goal })
+
+  });
 }
 
 export async function PUT(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const id = parseInt(params.id, 10)
   if (isNaN(id)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
@@ -54,12 +59,15 @@ export async function PUT(
   })
 
   return NextResponse.json({ goal })
+
+  });
 }
 
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const id = parseInt(params.id, 10)
   if (isNaN(id)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
@@ -69,4 +77,6 @@ export async function DELETE(
 
   await prisma.goal.delete({ where: { id } })
   return NextResponse.json({ success: true })
+
+  });
 }

@@ -4,8 +4,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getUserFromRequest } from '@/lib/auth'
 import { createExamSchema } from '@/lib/validations/education.schema'
+import { withApi } from "@/lib/errors";
 
 export async function GET(request: NextRequest) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
 
   const exams = await prisma.exam.findMany({
@@ -26,9 +28,12 @@ export async function GET(request: NextRequest) {
   )
 
   return NextResponse.json({ exams: examsWithBest })
+
+  });
 }
 
 export async function POST(request: NextRequest) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
 
   let body: unknown
@@ -62,4 +67,6 @@ export async function POST(request: NextRequest) {
   })
 
   return NextResponse.json({ exam }, { status: 201 })
+
+  });
 }

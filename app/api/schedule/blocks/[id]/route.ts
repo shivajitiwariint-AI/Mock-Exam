@@ -3,8 +3,10 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 import { getUserFromRequest } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { withApi } from "@/lib/errors";
 
 export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const { id } = await params
   const blockId = parseInt(id, 10)
@@ -28,9 +30,12 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     },
   })
   return NextResponse.json({ block })
+
+  });
 }
 
 export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const { id } = await params
   const blockId = parseInt(id, 10)
@@ -40,4 +45,6 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
 
   await prisma.scheduleBlock.delete({ where: { id: blockId } })
   return NextResponse.json({ success: true })
+
+  });
 }

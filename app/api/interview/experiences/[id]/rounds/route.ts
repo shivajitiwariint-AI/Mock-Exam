@@ -4,11 +4,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getUserFromRequest } from '@/lib/auth'
 import { createRoundSchema } from '@/lib/validations/interview.schema'
+import { withApi } from "@/lib/errors";
 
 export async function POST(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const experienceId = parseInt(params.id, 10)
   if (isNaN(experienceId)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
@@ -26,4 +28,6 @@ export async function POST(
 
   const round = await prisma.interviewRound.create({ data: { ...result.data, experienceId } })
   return NextResponse.json({ round }, { status: 201 })
+
+  });
 }

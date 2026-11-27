@@ -4,11 +4,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getUserFromRequest } from '@/lib/auth'
 import { submitExamSchema } from '@/lib/validations/education.schema'
+import { withApi } from "@/lib/errors";
 
 export async function POST(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const examId = parseInt(params.id, 10)
   if (isNaN(examId)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
@@ -67,4 +69,6 @@ export async function POST(
   })
 
   return NextResponse.json({ result }, { status: 201 })
+
+  });
 }

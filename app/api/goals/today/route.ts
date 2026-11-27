@@ -3,8 +3,10 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getUserFromRequest } from '@/lib/auth'
+import { withApi } from "@/lib/errors";
 
 export async function GET(request: NextRequest) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
 
   const today = new Date()
@@ -27,4 +29,6 @@ export async function GET(request: NextRequest) {
   }))
 
   return NextResponse.json({ goals: result })
+
+  });
 }

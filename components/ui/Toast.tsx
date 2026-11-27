@@ -32,10 +32,23 @@ export default function Toast({ message, type, onDismiss, duration = 3000 }: Toa
   }, [duration])
 
   return (
-    <div className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 rounded-lg px-4 py-3 shadow-lg ${typeClasses[type]}`}>
-      <span className="text-sm font-semibold">{typeIcons[type]}</span>
+    <div
+      role="status"
+      aria-live="polite"
+      className={`fixed bottom-4 left-1/2 z-50 flex max-w-[calc(100vw-2rem)] -translate-x-1/2 items-center gap-3 rounded-lg px-4 py-3 shadow-lg sm:bottom-6 sm:right-6 sm:left-auto sm:translate-x-0 ${typeClasses[type]}`}
+    >
+      <span className="text-sm font-semibold" aria-hidden="true">
+        {typeIcons[type]}
+      </span>
       <span className="text-sm">{message}</span>
-      <button onClick={onDismiss} className="ml-2 text-sm opacity-75 hover:opacity-100">✕</button>
+      <button
+        type="button"
+        onClick={onDismiss}
+        aria-label="Dismiss notification"
+        className="ml-2 text-sm opacity-75 hover:opacity-100"
+      >
+        ✕
+      </button>
     </div>
   )
 }

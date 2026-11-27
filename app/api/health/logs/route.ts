@@ -4,8 +4,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getUserFromRequest } from '@/lib/auth'
 import { upsertHealthLogSchema } from '@/lib/validations/health.schema'
+import { withApi } from "@/lib/errors";
 
 export async function GET(request: NextRequest) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
   const { searchParams } = new URL(request.url)
   const from = searchParams.get('from')
@@ -27,9 +29,12 @@ export async function GET(request: NextRequest) {
   })
 
   return NextResponse.json({ logs })
+
+  });
 }
 
 export async function POST(request: NextRequest) {
+  return withApi(async () => {
   const user = await getUserFromRequest(request)
 
   let body: unknown
@@ -70,4 +75,6 @@ export async function POST(request: NextRequest) {
   })
 
   return NextResponse.json({ log }, { status: 201 })
+
+  });
 }
