@@ -85,7 +85,7 @@ function QuestionsContent() {
   const [notice, setNotice] = useState('')
   const [noticeType, setNoticeType] = useState<'success' | 'error'>('error')
   const [facets, setFacets] = useState<InterviewQuestionFacets | null>(null)
-  const [groupBy, setGroupBy] = useState<GroupBy>('subject')
+  const groupBy: GroupBy = 'none'
   const [collapsedGroups, setCollapsedGroups] = useState<Record<string, boolean>>({})
 
   // Category management state
@@ -388,19 +388,6 @@ function QuestionsContent() {
                 type="button"
                 onClick={() => { setSortBy(value); setPage(1) }}
                 className={`whitespace-nowrap rounded-md px-2 py-1 text-xs font-medium transition ${sortBy === value ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500'}`}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-          <span className="text-xs font-medium text-slate-500 sm:ml-2">Group by</span>
-          <div className="flex max-w-full gap-1 overflow-x-auto rounded-lg bg-slate-100 p-1">
-            {([['subject', 'Subject']] as const).map(([value, label]) => (
-              <button
-                key={value}
-                type="button"
-                onClick={() => { setGroupBy(value); setCollapsedGroups({}) }}
-                className={`whitespace-nowrap rounded-md px-2 py-1 text-xs font-medium transition ${groupBy === value ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500'}`}
               >
                 {label}
               </button>
