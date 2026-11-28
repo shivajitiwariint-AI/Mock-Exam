@@ -250,6 +250,7 @@ function QuestionsContent() {
       return;
     }
     setBulkDeleteBusy(true);
+    setIsLoading(true);
     setNotice('');
     setNoticeType('error');
     for (const question of targets) {
