@@ -253,16 +253,27 @@ function QuestionsContent() {
     setIsLoading(true);
     setNotice('');
     setNoticeType('error');
-    for (const question of targets) {
-      try {
-        await handleDelete(question.id);
-      } catch {
-        // Keep deleting the rest even if one question fails.
+    try {
+      for (const question of targets) {
+        try {
+          const res = await fetch(`/api/interview/questions/${question.id}`, { method: 'DELETE' });
+          if (!res.ok) {
+            const data = await res.json().catch(() => ({})) as { error?: string };
+            throw new Error(data.error ?? 'The question could not be deleted.');
+          }
+          setQuestions((prev) => prev.filter((q) => q.id !== question.id));
+          setNoticeType('success');
+          setNotice(question.id < 0 ? 'Shared question removed from the bank.' : 'Question deleted.');
+        } catch (error) {
+          setNoticeType('error');
+          setNotice(error instanceof Error ? error.message : 'The question could not be deleted.');
+        }
       }
+    } finally {
+      setSelectedQuestions({});
+      setBulkDeleteBusy(false);
+      await load();
     }
-    setSelectedQuestions({});
-    setBulkDeleteBusy(false);
-    await load();
   }
 
   const handleOpenEdit = (q: InterviewQuestionData) => {
