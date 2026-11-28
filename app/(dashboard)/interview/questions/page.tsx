@@ -103,6 +103,10 @@ function QuestionsContent() {
   const [qWhyAsked, setQWhyAsked] = useState('')
   const [qCompanyId, setQCompanyId] = useState('')
   const [saving, setSaving] = useState(false)
+  const [qSubjectId, setQSubjectId] = useState('')
+  const [qTopicId, setQTopicId] = useState('')
+
+  const selectedSubject = (facets?.subjects ?? []).find((s) => String(s.id) === qSubjectId) ?? null
 
   const loadCategories = useCallback(async () => {
     const res = await fetch('/api/interview/categories')
@@ -292,7 +296,7 @@ function QuestionsContent() {
     setNotice('')
     const body: Record<string, unknown> = {
       question: qText.trim(),
-      category: qCategory,
+      category: selectedSubject?.name ?? qCategory,
       difficulty: qDifficulty,
     }
     if (qAnswer.trim()) body.answer = qAnswer.trim()
@@ -752,11 +756,23 @@ function QuestionsContent() {
             </div>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Category</label>
-                <select value={qCategory} onChange={(e) => setQCategory(e.target.value)} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                  {categories.map((c) => (
-                    <option key={c.id} value={c.name}>{c.name.replace(/_/g, ' ')}</option>
+                <label className="block text-sm font-medium text-slate-700 mb-1">Subject</label>
+                <select value={qSubjectId} onChange={(e) => { setQSubjectId(e.target.value); setQTopicId(''); }} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                  <option value="">General</option>
+                  {(facets?.subjects ?? []).map((s) => (
+                    <option key={s.id} value={String(s.id)}>{s.name} ({s.count})</option>
                   ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">Topic</label>
+                <select value={qTopicId} onChange={(e) => setQTopicId(e.target.value)} disabled={!qSubjectId} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:bg-slate-50 disabled:text-slate-400">
+                  <option value="">General</option>
+                  {(facets?.topics ?? [])
+                    .filter((t) => !qSubjectId || String(t.subjectId) === qSubjectId)
+                    .map((t) => (
+                      <option key={t.id} value={String(t.id)}>{t.name} ({t.count})</option>
+                    ))}
                 </select>
               </div>
               <div>
