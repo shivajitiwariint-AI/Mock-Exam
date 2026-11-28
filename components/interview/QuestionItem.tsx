@@ -13,6 +13,7 @@ type Props = {
   onRegenerate: (question: InterviewQuestionData) => void;
   regenerating?: boolean;
   answerFontSize?: 'sm' | 'md' | 'lg';
+  onSaveAnswer: (question: InterviewQuestionData, answer: string) => void;
 };
 
 const CATEGORY_COLOR: Record<string, 'blue' | 'amber' | 'green' | 'red' | 'slate'> = {
@@ -58,8 +59,17 @@ export default function QuestionItem({
   onRegenerate,
   regenerating = false,
   answerFontSize = 'md',
+  onSaveAnswer,
 }: Props) {
   const [expanded, setExpanded] = useState(false);
+  const [editingAnswer, setEditingAnswer] = useState(false);
+  const [answerDraft, setAnswerDraft] = useState('');
+
+  const saveAnswerDraft = () => {
+    if (question.id < 0) return;
+    onSaveAnswer(question, answerDraft.trim());
+    setEditingAnswer(false);
+  };
   const isReadOnly =
     question.isReadOnly ?? (question.id < 0 || question.source === 'MOCK_EXAM' || question.source === 'AI_GUIDE');
 
@@ -111,7 +121,34 @@ export default function QuestionItem({
                 Interview answer
               </p>
 
-              {question.answer ? (
+              {editingAnswer ? (
+                <div className="mt-2">
+                  <textarea
+                    value={answerDraft}
+                    onChange={(event) => setAnswerDraft(event.target.value)}
+                    rows={8}
+                    placeholder={'Write the interview answer here. Diagrams can be added as fenced code blocks (``` ... ```).'}
+                    className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 font-mono text-sm text-slate-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  />
+                  <div className="mt-2 flex flex-wrap items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={saveAnswerDraft}
+                      disabled={!answerDraft.trim()}
+                      className="inline-flex items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-xs font-medium text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60 sm:text-sm"
+                    >
+                      Save answer
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => { setEditingAnswer(false); setAnswerDraft('') }}
+                      className="inline-flex items-center justify-center rounded-md bg-white px-3 py-2 text-xs font-medium text-slate-700 ring-1 ring-inset ring-slate-200 transition hover:bg-slate-50 sm:text-sm"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              ) : question.answer ? (
                 <div className={`mt-2 break-words rounded-lg bg-white p-2 shadow-sm ring-1 ring-inset ring-slate-200 sm:p-3 ${FONT_CLASS[answerFontSize]}`}>
                   <FormattedText text={question.answer} />
                 </div>
@@ -134,6 +171,18 @@ export default function QuestionItem({
                   <span>{regenerating ? '⏳' : '🔄'}</span>
                   {regenerating ? 'Generating…' : question.answer ? 'Regenerate answer' : 'Generate answer'}
                 </button>
+                {!isReadOnly ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setEditingAnswer(true)
+                      setAnswerDraft(question.answer ?? '')
+                    }}
+                    className="inline-flex items-center justify-center gap-1.5 rounded-md bg-white px-3 py-2 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-200 transition hover:bg-indigo-50 sm:text-sm"
+                  >
+                    Edit answer
+                  </button>
+                ) : null}
                 {!isReadOnly ? (
                   <button
                     type="button"

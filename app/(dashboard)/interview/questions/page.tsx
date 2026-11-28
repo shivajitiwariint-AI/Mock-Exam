@@ -196,6 +196,30 @@ function QuestionsContent() {
     }
   }
 
+  const handleSaveAnswer = async (question: InterviewQuestionData, answer: string) => {
+    const trimmed = answer.trim()
+    if (!trimmed || question.id < 0) return
+    try {
+      const res = await fetch(`/api/interview/questions/${question.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ answer: trimmed }),
+      })
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({})) as { error?: string }
+        throw new Error(data.error ?? 'The answer could not be saved.')
+      }
+      const data = await res.json() as { question?: InterviewQuestionData }
+      const updatedAnswer = data.question?.answer ?? trimmed
+      setQuestions((prev) => prev.map((q) => (q.id === question.id ? { ...q, answer: updatedAnswer, explanation: updatedAnswer } : q)))
+      setNoticeType('success')
+      setNotice('Answer saved.')
+    } catch (error) {
+      setNoticeType('error')
+      setNotice(error instanceof Error ? error.message : 'The answer could not be saved.')
+    }
+  }
+
   const handleOpenEdit = (q: InterviewQuestionData) => {
     if (!q || q.id < 0) return
     setEditingQuestion(q)
@@ -652,6 +676,7 @@ function QuestionsContent() {
               onDelete={handleDelete}
               onEdit={handleOpenEdit}
               onRegenerate={handleRegenerate}
+              onSaveAnswer={handleSaveAnswer}
               regenerating={regeneratingId === q.id}
               answerFontSize={answerFontSize}
             />
@@ -698,6 +723,7 @@ function QuestionsContent() {
                         onDelete={handleDelete}
                         onEdit={handleOpenEdit}
                         onRegenerate={handleRegenerate}
+                        onSaveAnswer={handleSaveAnswer}
                         regenerating={regeneratingId === q.id}
                         answerFontSize={answerFontSize}
                       />
