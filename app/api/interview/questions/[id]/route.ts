@@ -11,11 +11,12 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   return withApi(async () => {
+  const { id } = await params
+  const questionId = parseInt(id, 10)
   const user = await getUserFromRequest(request)
-  const id = parseInt(params.id, 10)
-  if (isNaN(id)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
+  if (isNaN(questionId)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
 
-  const existing = await prisma.interviewBankQuestion.findFirst({ where: { id, userId: user.userId } })
+  const existing = await prisma.interviewBankQuestion.findFirst({ where: { id: questionId, userId: user.userId } })
   if (!existing) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
   let body: unknown
@@ -26,7 +27,7 @@ export async function PUT(
   const result = updateQuestionSchema.safeParse(body)
   if (!result.success) return NextResponse.json({ error: 'Validation failed' }, { status: 400 })
 
-  const question = await prisma.interviewBankQuestion.update({ where: { id }, data: result.data })
+  const question = await prisma.interviewBankQuestion.update({ where: { id: questionId }, data: result.data })
   return NextResponse.json({ question })
 
   });
@@ -37,19 +38,20 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   return withApi(async () => {
+  const { id } = await params
+  const questionId = parseInt(id, 10)
   const user = await getUserFromRequest(request)
-  const id = parseInt(params.id, 10)
-  if (isNaN(id)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
+  if (isNaN(questionId)) return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
 
   // Shared question-bank rows are exposed with negative IDs. Archive them
   // instead of hard-deleting so exam and attempt history keeps its references.
-  if (id < 0) {
+  if (questionId < 0) {
     const isAdmin = user.isAdmin === true || user.role === 'SUPER_ADMIN'
     if (!isAdmin) {
       return NextResponse.json({ error: 'Only an admin can remove shared questions.' }, { status: 403 })
     }
 
-    const bankQuestion = await prisma.question.findUnique({ where: { id: -id } })
+    const bankQuestion = await prisma.question.findUnique({ where: { id: -questionId } })
     if (!bankQuestion) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
     await prisma.question.update({
@@ -59,10 +61,10 @@ export async function DELETE(
     return NextResponse.json({ success: true })
   }
 
-  const existing = await prisma.interviewBankQuestion.findFirst({ where: { id, userId: user.userId } })
+  const existing = await prisma.interviewBankQuestion.findFirst({ where: { id: questionId, userId: user.userId } })
   if (!existing) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
-  await prisma.interviewBankQuestion.delete({ where: { id } })
+  await prisma.interviewBankQuestion.delete({ where: { id: questionId } })
   return NextResponse.json({ success: true })
 
   });
