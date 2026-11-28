@@ -14,6 +14,9 @@ type Props = {
   regenerating?: boolean;
   answerFontSize?: 'sm' | 'md' | 'lg';
   onSaveAnswer: (question: InterviewQuestionData, answer: string) => void;
+  selectable?: boolean;
+  selected?: boolean;
+  onToggleSelect?: (id: number, checked: boolean) => void;
 };
 
 const CATEGORY_COLOR: Record<string, 'blue' | 'amber' | 'green' | 'red' | 'slate'> = {
@@ -60,6 +63,9 @@ export default function QuestionItem({
   regenerating = false,
   answerFontSize = 'md',
   onSaveAnswer,
+  selectable = false,
+  selected = false,
+  onToggleSelect,
 }: Props) {
   const [expanded, setExpanded] = useState(false);
   const [editingAnswer, setEditingAnswer] = useState(false);
@@ -80,6 +86,15 @@ export default function QuestionItem({
       }`}
     >
       <div className="flex items-start gap-2 sm:gap-3">
+        {selectable ? (
+          <input
+            type="checkbox"
+            checked={Boolean(selected)}
+            onChange={(event) => onToggleSelect?.(question.id, event.target.checked)}
+            className="mt-1 h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+            aria-label="Select question"
+          />
+        ) : null}
         {isReadOnly ? (
           <span className="mt-1 text-base" title="Shared question">📖</span>
         ) : (

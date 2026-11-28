@@ -13,6 +13,7 @@ import QuestionItem from '@/components/interview/QuestionItem'
 import Button from '@/components/ui/Button'
 import Skeleton from '@/components/ui/Skeleton'
 import Modal from '@/components/ui/Modal'
+import { useCurrentUser } from '@/lib/use-current-user'
 import jsPDF from 'jspdf'
 
 type GroupBy = 'none' | 'subject' | 'topic' | 'company' | 'category'
@@ -60,6 +61,7 @@ function QuestionsContent() {
   const searchParams = useSearchParams()
   const jdId = searchParams.get('jdId')
   const practicedFilter = searchParams.get('practiced')
+  const { isSuperAdmin } = useCurrentUser()
 
   const [questions, setQuestions] = useState<InterviewQuestionData[]>([])
   const [companies, setCompanies] = useState<CompanyData[]>([])
@@ -222,6 +224,36 @@ function QuestionsContent() {
       setNoticeType('error')
       setNotice(error instanceof Error ? error.message : 'The answer could not be saved.')
     }
+  }
+
+  const [selectedQuestions, setSelectedQuestions] = useState<Record<number, boolean>>({});
+  const [bulkDeleteBusy, setBulkDeleteBusy] = useState(false);
+
+  const selectedQuestionsList = questions.filter((q) => selectedQuestions[q.id]);
+
+  async function bulkDeleteSelected() {
+    const targets = selectedQuestionsList;
+    if (targets.length === 0) return;
+    if (
+      !window.confirm(
+        `Delete ${targets.length} question(s)? Shared questions will be archived and your own questions will be removed.`,
+      )
+    ) {
+      return;
+    }
+    setBulkDeleteBusy(true);
+    setNotice('');
+    setNoticeType('error');
+    for (const question of targets) {
+      try {
+        await handleDelete(question.id);
+      } catch {
+        // Keep deleting the rest even if one question fails.
+      }
+    }
+    setSelectedQuestions({});
+    setBulkDeleteBusy(false);
+    await load();
   }
 
   const handleOpenEdit = (q: InterviewQuestionData) => {
@@ -516,6 +548,7 @@ function QuestionsContent() {
     (sourceFilter !== 'all' ? 1 : 0) +
     (categoryFilter ? 1 : 0) +
     (subjectFilter ? 1 : 0) +
+    (topicFilter ? 1 : 0) +
     (companyFilter ? 1 : 0) +
     (difficultyFilter !== 'all' ? 1 : 0) +
     (typeFilter !== 'all' ? 1 : 0)
@@ -630,6 +663,22 @@ function QuestionsContent() {
               ))}
             </select>
           </label>
+          <label className="flex flex-1 items-center gap-2">
+            <span className="whitespace-nowrap text-xs font-medium text-slate-500">Topic</span>
+            <select
+              value={topicFilter}
+              onChange={(event) => { setTopicFilter(event.target.value); setPage(1) }}
+              disabled={!subjectFilter}
+              className="w-full rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:bg-slate-50 disabled:text-slate-400"
+            >
+              <option value="">{subjectFilter ? 'All topics' : 'Select a subject first'}</option>
+              {(facets?.topics ?? [])
+                .filter((t) => !subjectFilter || String(t.subjectId) === subjectFilter)
+                .map((t) => (
+                  <option key={t.id} value={String(t.id)}>{t.name} ({t.count})</option>
+                ))}
+            </select>
+          </label>
           {activeFilterCount > 0 ? (
             <button type="button" onClick={clearFilters} className="whitespace-nowrap text-xs font-medium text-indigo-600 underline">
               Clear filters
@@ -659,6 +708,11 @@ function QuestionsContent() {
                 : `${groups.length} ${groupBy} group${groups.length !== 1 ? 's' : ''} · ${pagination.total} questions`}
             </span>
             <span className="ml-auto hidden text-[11px] text-slate-400 sm:inline">Click a question to read its answer</span>
+          {isSuperAdmin && selectedQuestionsList.length > 0 ? (
+            <Button size="sm" variant="danger" onClick={() => void bulkDeleteSelected()} loading={bulkDeleteBusy}>
+              Delete selected ({selectedQuestionsList.length})
+            </Button>
+          ) : null}
           </div>
 
       {isLoading ? (
@@ -681,6 +735,9 @@ function QuestionsContent() {
               onEdit={handleOpenEdit}
               onRegenerate={handleRegenerate}
               onSaveAnswer={handleSaveAnswer}
+              selectable
+              selected={Boolean(selectedQuestions[q.id])}
+              onToggleSelect={(id, checked) => setSelectedQuestions((prev) => ({ ...prev, [id]: checked }))}
               regenerating={regeneratingId === q.id}
               answerFontSize={answerFontSize}
             />
@@ -728,6 +785,9 @@ function QuestionsContent() {
                         onEdit={handleOpenEdit}
                         onRegenerate={handleRegenerate}
                         onSaveAnswer={handleSaveAnswer}
+                        selectable
+                        selected={Boolean(selectedQuestions[q.id])}
+                        onToggleSelect={(id, checked) => setSelectedQuestions((prev) => ({ ...prev, [id]: checked }))}
                         regenerating={regeneratingId === q.id}
                         answerFontSize={answerFontSize}
                       />

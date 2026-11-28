@@ -44,6 +44,8 @@ export default function AdminSubjectsPage() {
   const [creating, setCreating] = useState(false);
   const [createError, setCreateError] = useState<string | null>(null);
   const [busyId, setBusyId] = useState<number | null>(null);
+  const [selectedSubjects, setSelectedSubjects] = useState<Record<number, boolean>>({});
+  const [bulkBusy, setBulkBusy] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
 
@@ -67,6 +69,35 @@ export default function AdminSubjectsPage() {
     } finally {
       setBusyId(null);
     }
+  }
+
+  const selectedSubjectsList = (data?.items ?? []).filter((subject) => selectedSubjects[subject.id]);
+
+  async function bulkDeleteSubjects() {
+    const targets = selectedSubjectsList;
+    if (targets.length === 0) return;
+    if (
+      !window.confirm(
+        `Delete ${targets.length} subject(s)? This permanently removes their topics, documents, questions, exams, attempts, and interview links.`,
+      )
+    ) {
+      return;
+    }
+    setBulkBusy(true);
+    setDeleteError(null);
+    setNotice(null);
+    for (const subject of targets) {
+      try {
+        await apiFetch(`/api/admin/subjects/${subject.id}`, { method: "DELETE" });
+      } catch (failure) {
+        setDeleteError(getErrorMessage(failure));
+        break;
+      }
+    }
+    setSelectedSubjects({});
+    setBulkBusy(false);
+    setNotice(`Deleted ${targets.length} subject(s).`);
+    await reload();
   }
 
   async function createSubject(event: React.FormEvent) {
@@ -195,6 +226,21 @@ export default function AdminSubjectsPage() {
           </select>
         </div>
 
+        {isSuperAdmin ? (
+          <div className="flex flex-col gap-2 border-b border-slate-100 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-xs text-slate-500">Tick subjects in the list to select them, then bulk delete.</p>
+            <Button
+              size="sm"
+              variant="danger"
+              onClick={() => void bulkDeleteSubjects()}
+              loading={bulkBusy}
+              disabled={selectedSubjectsList.length === 0}
+            >
+              Delete selected ({selectedSubjectsList.length})
+            </Button>
+          </div>
+        ) : null}
+
         {error ? (
           <div className="p-4">
             <Alert tone="error">
@@ -229,6 +275,23 @@ export default function AdminSubjectsPage() {
               <table className="min-w-full divide-y divide-slate-100 text-sm">
                 <thead className="bg-slate-50/60 text-left text-xs uppercase tracking-wide text-slate-500">
                   <tr>
+                    <th className="px-5 py-3 font-medium">
+                      <input
+                        type="checkbox"
+                        checked={data.items.length > 0 && data.items.every((subject) => selectedSubjects[subject.id])}
+                        onChange={(event) => {
+                          const next = { ...selectedSubjects };
+                          if (event.target.checked) {
+                            data.items.forEach((subject) => { next[subject.id] = true });
+                          } else {
+                            data.items.forEach((subject) => { next[subject.id] = false });
+                          }
+                          setSelectedSubjects(next);
+                        }}
+                        className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                        aria-label="Select all subjects"
+                      />
+                    </th>
                     <th className="px-5 py-3 font-medium">Subject</th>
                     <th className="px-5 py-3 font-medium">Status</th>
                     <th className="px-5 py-3 font-medium">Content</th>
@@ -239,6 +302,17 @@ export default function AdminSubjectsPage() {
                 <tbody className="divide-y divide-slate-100">
                   {data.items.map((subject) => (
                     <tr key={subject.id} className="hover:bg-slate-50/60">
+                      <td className="px-5 py-3">
+                        <input
+                          type="checkbox"
+                          checked={Boolean(selectedSubjects[subject.id])}
+                          onChange={(event) => {
+                            setSelectedSubjects((prev) => ({ ...prev, [subject.id]: event.target.checked }));
+                          }}
+                          className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                          aria-label={`Select subject ${subject.name}`}
+                        />
+                      </td>
                       <td className="px-5 py-3">
                         <Link
                           href={`/admin/subjects/${subject.id}`}
