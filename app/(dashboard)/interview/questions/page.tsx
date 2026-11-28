@@ -118,7 +118,7 @@ function QuestionsContent() {
 
   const load = useCallback(async () => {
     setIsLoading(true)
-    const params = new URLSearchParams({ page: String(page), pageSize: '20' })
+    const params = new URLSearchParams({ all: 'true' })
     if (jdId) params.set('jdId', jdId)
     if (practicedFilter) params.set('practiced', practicedFilter)
     if (typeFilter !== 'all') params.set('companyScope', typeFilter)
@@ -766,16 +766,8 @@ function QuestionsContent() {
 
           <div className="flex flex-col gap-3 rounded-lg border border-slate-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
             <span className="text-xs text-slate-500">
-              Page {pagination.page} of {pagination.totalPages} · {pagination.total} questions
+              {pagination.total} questions
             </span>
-            <div className="flex gap-2">
-              <Button size="sm" variant="secondary" disabled={page <= 1} onClick={() => setPage((value) => Math.max(1, value - 1))} className="flex-1 sm:flex-none">
-                Previous
-              </Button>
-              <Button size="sm" variant="secondary" disabled={page >= pagination.totalPages} onClick={() => setPage((value) => value + 1)} className="flex-1 sm:flex-none">
-                Next
-              </Button>
-            </div>
           </div>
         </div>
       ) : (
