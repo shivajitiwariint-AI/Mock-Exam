@@ -231,6 +231,14 @@ function QuestionsContent() {
 
   const selectedQuestionsList = questions.filter((q) => selectedQuestions[q.id]);
 
+  const allQuestionsSelected = questions.length > 0 && questions.every((q) => Boolean(selectedQuestions[q.id]));
+
+  const toggleSelectAll = (checked: boolean) => {
+    const next: Record<number, boolean> = {};
+    questions.forEach((q) => { next[q.id] = checked });
+    setSelectedQuestions(next);
+  };
+
   async function bulkDeleteSelected() {
     const targets = selectedQuestionsList;
     if (targets.length === 0) return;
@@ -708,6 +716,18 @@ function QuestionsContent() {
                 : `${groups.length} ${groupBy} group${groups.length !== 1 ? 's' : ''} · ${pagination.total} questions`}
             </span>
             <span className="ml-auto hidden text-[11px] text-slate-400 sm:inline">Click a question to read its answer</span>
+          {isSuperAdmin ? (
+            <label className="flex items-center gap-2 text-xs font-medium text-slate-600">
+              <input
+                type="checkbox"
+                checked={allQuestionsSelected}
+                onChange={(event) => toggleSelectAll(event.target.checked)}
+                className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                aria-label="Select all questions"
+              />
+              Select all
+            </label>
+          ) : null}
           {isSuperAdmin && selectedQuestionsList.length > 0 ? (
             <Button size="sm" variant="danger" onClick={() => void bulkDeleteSelected()} loading={bulkDeleteBusy}>
               Delete selected ({selectedQuestionsList.length})
